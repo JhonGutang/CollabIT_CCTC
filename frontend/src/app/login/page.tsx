@@ -12,7 +12,7 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white h-[92vh] flex items-center justify-center">
+    <div className="bg-white h-[100vh] flex items-center justify-center">
       <div className="border-2 border-green-600 rounded-lg w-[40vw] h-[60vh] flex flex-col items-center justify-center">
         <div className="text-black text-2xl mb-10">Login</div>
         <div className="flex flex-col items-center w-80 text-black text-sm">
