@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders', 
-    'Posts.apps.PostsConfig'
+    'Profiles.apps.ProfilesConfig',
+    'Posts.apps.PostsConfig',
+    'Conversations.apps.ConversationsConfig'
 ]
 
 MIDDLEWARE = [
