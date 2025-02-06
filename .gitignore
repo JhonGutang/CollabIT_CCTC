@@ -1,0 +1,23 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Django migration files
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+
+# Django-specific directories
+media/
+static/
+
+# IDEs or editors' settings
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
