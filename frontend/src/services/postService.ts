@@ -2,7 +2,7 @@ import axiosInstance from "@/utils/axiosInstance";
 
 export interface Post {
   id: number;
-  userId: number,
+  userId?: number;
   content: string;
   imageLink: string;
   videoLink: string;
@@ -25,16 +25,16 @@ export const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export const submitPost = async (post: Partial<Post>) => {
-    const postData = {
-        user_id: post.userId,
-        content: post.content,
-        image_link: post.imageLink,
-        video_link: post.videoLink
-    }
-    try {
-        const response = await axiosInstance.post('posts/', postData);
-        return response.data
-    } catch (error) {
-        console.error(error)
-    }
-}
+  const postData = {
+    user_id: post.userId,
+    content: post.content,
+    image_link: post.imageLink,
+    video_link: post.videoLink,
+  };
+  try {
+    const response = await axiosInstance.post("posts/", postData);
+    return response.data
+  } catch (error) {
+    console.error(error);
+  }
+};

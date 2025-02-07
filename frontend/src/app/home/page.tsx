@@ -9,6 +9,7 @@ import CreatePost from "@/components/createPost";
 
 interface Post {
   id: number;
+  userId?: number;
   content: string;
   imageLink: string;
   videoLink: string;
@@ -18,9 +19,8 @@ function HomePage({ Component, pageProps }: AppProps) {
   const [posts, setPosts] = useState<Post[]>([]);
 
 
-  const handleUpdatePosts = (updatedPosts: Post[]) => {
-    console.log(updatedPosts);
-    setPosts(updatedPosts);
+  const handleUpdatePosts = (newPost: Post) => {
+    setPosts((prevPosts) => [newPost, ...prevPosts])
   }
 
   useEffect(() => {

@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { submitPost } from '@/services/postService'
+import { submitPost } from "@/services/postService";
 
 type Post = {
-    id: number;
-    content: string;
-    imageLink: string;
-    videoLink: string;
-  }
-  
+  id: number;
+  userId?: number;
+  content: string;
+  imageLink: string;
+  videoLink: string;
+};
 
 type ChildProps = {
-    updatedPosts: (data: Post[]) => void;
-  };
+  updatedPosts: (data: Post) => void;
+};
 
-const CreatePost: React.FC<ChildProps> = ({updatedPosts}) => {
+const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const [post, setPost] = useState({
-    userId: 1,
+    userId: 3,
     content: "",
     imageLink: "",
     videoLink: "",
@@ -23,14 +23,14 @@ const CreatePost: React.FC<ChildProps> = ({updatedPosts}) => {
 
   const handlePost = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPost({ ...post, [e.target.name]: e.target.value });
-};
+  };
 
-const handleSubmission = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmission = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedPostsList = await submitPost(post)
-    updatedPosts(updatedPostsList)
-    setPost({ userId: 1, content: "", imageLink: "", videoLink: "" });
-  }
+    const newPost = await submitPost(post);
+    updatedPosts(newPost);
+    setPost({ userId: 3, content: "", imageLink: "", videoLink: "" });
+  };
 
   return (
     <div className="border border-yellow-50 w-[40vw] mb-10 p-5 rounded-xl">

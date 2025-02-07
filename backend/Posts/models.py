@@ -9,6 +9,8 @@ class Posts(models.Model):
     content = models.CharField(max_length=255, blank=True, null=True)  # Make content optional
     image_link = models.URLField(max_length=500, blank=True, null=True) 
     video_link = models.URLField(max_length=500, blank=True, null=True) 
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True) 
     
     def clean(self):
         if not self.content and not self.image_link and not self.video_link:
