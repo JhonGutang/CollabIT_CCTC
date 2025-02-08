@@ -4,12 +4,13 @@ import BaseLayout from "@/layouts/baseLayout";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "@/services/postService";
-import PostComponent from "@/components/post";
-import CreatePost from "@/components/createPost";
+import PostComponent from "@/components/Post";
+import CreatePost from "@/components/CreatePost";
+import { Container } from "@mui/material";
 
 interface Post {
   id: number;
-  userId?: number;
+  userId: number;
   content: string;
   imageLink: string;
   videoLink: string;
@@ -34,7 +35,7 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   return (
     <BaseLayout>
-      <div className="flex flex-col items-center p-5 overflow-y-auto h-[90vh]">
+      <Container maxWidth="xl" className="flex flex-col items-center py-5 h-[92vh] overflow-hidden">
         <div>
         <CreatePost updatedPosts={handleUpdatePosts} />
         </div>
@@ -43,7 +44,7 @@ function HomePage({ Component, pageProps }: AppProps) {
                 <PostComponent key={post.id} post={post} />
             </div>
         ))}
-      </div>
+      </Container>
     </BaseLayout>
   );
 }

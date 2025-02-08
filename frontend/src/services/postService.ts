@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 
 export interface Post {
   id: number;
-  userId?: number;
+  userId: number;
   content: string;
   imageLink: string;
   videoLink: string;

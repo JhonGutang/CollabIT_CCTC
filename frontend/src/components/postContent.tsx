@@ -2,7 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 
 interface Post {
   id: number;
-  userId: number;
+  userId?: number;
   content: string;
   imageLink?: string;
   videoLink?: string;
@@ -28,7 +28,7 @@ const PostContent = forwardRef(({ post }: PostProps, ref) => {
       <textarea
         value={content}
         onChange={handlePostContent}
-        className="border border-white bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl"
+        className="border border-red-600 bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl"
       />
     </div>
   );

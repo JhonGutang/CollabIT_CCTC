@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import PasswordInput from '@/components/passwordInput'; 
+import PasswordInput from '@/components/PasswordInput'; 
 import { loginUser } from '@/services/userService';
 
 export default function Login() {
