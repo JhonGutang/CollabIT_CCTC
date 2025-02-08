@@ -27,3 +27,31 @@ class PostListCreateView(generics.ListCreateAPIView):
         post = self.perform_create(serializer)  # Save the post instance
         headers = self.get_success_headers(serializer.data)
         return Response(PostsSerializer(post).data, status=status.HTTP_201_CREATED, headers=headers)
+
+class PostUpdateView(generics.UpdateAPIView):
+    queryset = Posts.objects.all()
+    serializer_class = PostsSerializer
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def perform_update(self, serializer):
+        try:
+            serializer.save()
+        except ValidationError as e:
+            raise serializers.ValidationError({"error": str(e)})
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class PostDeleteView(generics.DestroyAPIView):
+    queryset = Posts.objects.all()
+    serializer_class = PostsSerializer
+
+
