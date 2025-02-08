@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password', None)
         user = super().create(validated_data)
         if password:
-            user.set_password(password)  # Hash password automatically
+            user.set_password(password)
             user.save()
         return user
 
@@ -18,6 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password', None)
         instance = super().update(instance, validated_data)
         if password:
-            instance.set_password(password)  # Hash password automatically
+            instance.set_password(password)
             instance.save()
         return instance
