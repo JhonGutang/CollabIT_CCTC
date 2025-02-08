@@ -2,12 +2,18 @@ from rest_framework import generics, serializers
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .serializers import PostsSerializer
 from .models import Posts
 
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Posts.objects.all().order_by('-created_at')
     serializer_class = PostsSerializer
+
+  
+    authentication_classes = [TokenAuthentication]  
+    permission_classes = [IsAuthenticated] 
 
     def perform_create(self, serializer):
         try:
