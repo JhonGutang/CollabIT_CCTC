@@ -18,11 +18,10 @@ class UserLoginView(generics.GenericAPIView):
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
-            # Create or get the token for the user
             token, created = Token.objects.get_or_create(user=user)
             return Response({
                 "message": "Login successful",
-                "token": token.key  # Send the token back in the response
+                "token": token.key 
             }, status=status.HTTP_200_OK)
         else:
             return Response({
