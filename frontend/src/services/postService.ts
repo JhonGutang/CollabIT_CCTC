@@ -40,7 +40,11 @@ export const submitPost = async (post: Partial<Post>) => {
     video_link: post.videoLink,
   };
   try {
-    const response = await axiosInstance.post("posts/", postData);
+    const response = await axiosInstance.post("posts/", postData,{
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
     return response.data
   }  catch (error) {
     if (error instanceof AxiosError) {
@@ -51,3 +55,19 @@ export const submitPost = async (post: Partial<Post>) => {
     return [];
   }
 };
+
+export const updatePost = async(post: Post) => {
+  await axiosInstance.patch(`posts/${post.id}/update/`, post, {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  })
+}
+
+export const deletePost = async (postId: number) => {
+  await axiosInstance.delete(`posts/${postId}/delete/`, {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  })
+}
