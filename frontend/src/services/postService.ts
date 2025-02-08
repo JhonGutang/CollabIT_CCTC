@@ -1,4 +1,5 @@
 import axiosInstance from "@/utils/axiosInstance";
+import { AxiosError } from 'axios';
 
 export interface Post {
   id: number;
@@ -8,9 +9,16 @@ export interface Post {
   videoLink: string;
 }
 
+const token = localStorage.getItem('authToken');
+
 export const fetchPosts = async (): Promise<Post[]> => {
+  console.log(token);
   try {
-    const response = await axiosInstance.get("posts/");
+    const response = await axiosInstance.get("posts/", {
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    });
     return response.data.map((post: any) => ({
       id: post.id,
       userId: post.user_id,
@@ -34,7 +42,12 @@ export const submitPost = async (post: Partial<Post>) => {
   try {
     const response = await axiosInstance.post("posts/", postData);
     return response.data
-  } catch (error) {
-    console.error(error);
+  }  catch (error) {
+    if (error instanceof AxiosError) {
+      console.error("Error fetching posts:", error.response?.data.detail || error.message);
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
+    return [];
   }
 };

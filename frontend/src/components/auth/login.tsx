@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import PasswordInput from '@/components/passwordInput'; 
-import { createUser } from '@/services/userService';
+import { loginUser } from '@/services/userService';
 
 export default function Login() {
-  const [formData, setFormData] = useState({ username: '', email: 'sample@gmail.com', password: '' });
+  const [formData, setFormData] = useState({ username: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,7 +13,7 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUser(formData);
+    loginUser(formData);
   };
 
   return (

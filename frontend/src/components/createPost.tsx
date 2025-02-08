@@ -15,7 +15,7 @@ type ChildProps = {
 
 const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const [post, setPost] = useState({
-    userId: 3,
+    userId: 12,
     content: "",
     imageLink: "",
     videoLink: "",
@@ -29,7 +29,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     e.preventDefault();
     const newPost = await submitPost(post);
     updatedPosts(newPost);
-    setPost({ userId: 3, content: "", imageLink: "", videoLink: "" });
+    setPost({ userId: 12, content: "", imageLink: "", videoLink: "" });
   };
 
   return (
