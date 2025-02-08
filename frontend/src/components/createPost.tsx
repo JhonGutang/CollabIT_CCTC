@@ -28,6 +28,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const handleSubmission = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newPost = await submitPost(post);
+    console.log(newPost);
     updatedPosts(newPost);
     setPost({ userId: 12, content: "", imageLink: "", videoLink: "" });
   };
