@@ -54,4 +54,15 @@ class PostDeleteView(generics.DestroyAPIView):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
 
+    def perform_destroy(self, instance):
+        if instance.image_link:
+            instance.image_link.delete(save=False) 
+        if instance.video_link:
+            instance.video_link.delete(save=False)  
 
+        instance.delete()
+
+    def delete(self, request, *args, **kwargs):
+        post = self.get_object()
+        self.perform_destroy(post)
+        return Response(status=status.HTTP_204_NO_CONTENT)
