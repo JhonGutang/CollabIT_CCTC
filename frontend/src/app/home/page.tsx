@@ -35,7 +35,7 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   return (
     <BaseLayout>
-      <Container maxWidth="xl" className="flex flex-col items-center py-5">
+      <Container maxWidth="xl" className="flex flex-col items-start py-5 h-full overflow-y-scroll">
         <div>
         <CreatePost updatedPosts={handleUpdatePosts} />
         </div>

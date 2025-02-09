@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import { ReactNode } from 'react';
-
+import LeftDrawer from './components/LeftDrawer';
+import { Container } from '@mui/material';
 interface BaseLayoutProps {
   children: ReactNode; 
 }
@@ -9,9 +10,12 @@ interface BaseLayoutProps {
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
-    <div>
-      <Navbar />
-      <main>{children}</main>
+
+    <div className='flex h-[100vh]'>
+      <div>
+        <LeftDrawer/>
+      </div>
+      <main className='h-full w-full'>{children}</main>
     </div>
   );
 };
