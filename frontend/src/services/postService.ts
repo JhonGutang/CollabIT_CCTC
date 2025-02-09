@@ -5,6 +5,7 @@ export interface Post {
   id: number;
   userId: number;
   content: string;
+  image?: File;
   imageLink: string;
   videoLink: string;
 }
@@ -19,6 +20,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
         Authorization: `Token ${token}`
       }
     });
+    console.log(response.data);
     return response.data.map((post: any) => ({
       id: post.id,
       userId: post.user_id,
@@ -33,20 +35,26 @@ export const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export const submitPost = async (post: Partial<Post>) => {
-  const postData = {
-    user_id: post.userId,
-    content: post.content,
-    image_link: post.imageLink,
-    video_link: post.videoLink,
-  };
+  const formData = new FormData();
+  formData.append('user_id', String(post.userId));
+  formData.append('content', post.content || '');
+  if (post.image) {
+    formData.append('image_link', post.image);
+  } 
+  formData.append('video_link', post.videoLink || '');
+
   try {
-    const response = await axiosInstance.post("posts/", postData,{
+    const response = await axiosInstance.post("posts/", formData, {
       headers: {
-        Authorization: `Token ${token}`
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'multipart/form-data',
       }
     });
-    return response.data
-  }  catch (error) {
+    if (response.data && response.data.image_link) {
+      response.data.imageLink = `http://127.0.0.1:8000${response.data.image_link}`;
+    }
+    return response.data;
+  } catch (error) {
     if (error instanceof AxiosError) {
       console.error("Error fetching posts:", error.response?.data.detail || error.message);
     } else {
@@ -56,12 +64,15 @@ export const submitPost = async (post: Partial<Post>) => {
   }
 };
 
-export const updatePost = async(post: Post) => {
-  await axiosInstance.patch(`posts/${post.id}/update/`, post, {
+export const updatePost = async (post: Post) => {
+
+  const updatedPost = { ...post, image_link: undefined };
+
+  await axiosInstance.patch(`posts/${post.id}/update/`, updatedPost, {
     headers: {
       Authorization: `Token ${token}`
     }
-  })
+  });
 }
 
 export const deletePost = async (postId: number) => {

@@ -1,12 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faFloppyDisk, faL, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsis,
+  faFloppyDisk,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { deletePost, updatePost } from "@/services/postService";
 import { Button } from "@mui/material";
 import PostContent from "./PostContent";
-import Snackbar from "./Snackbar"
+import Snackbar from "./Snackbar";
 import DropdownMenu from "./DropdownMenu";
-
 
 type Post = {
   id: number;
@@ -24,7 +27,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
-  
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -44,12 +47,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
   };
 
   const handleDeletePost = async (postId: number) => {
-    toggleEdit()
     try {
       await deletePost(postId);
       setSnackbar({ open: true, message: "Post deleted successfully!" });
     } catch (error) {
-      setSnackbar({ open: true, message: "Failed to delete post. Please try again." });
+      setSnackbar({
+        open: true,
+        message: "Failed to delete post. Please try again.",
+      });
     }
   };
 
@@ -100,7 +105,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               <DropdownMenu
                 buttonIcon={<FontAwesomeIcon icon={faEllipsis} />}
                 menuItems={menuItems}
-                onClose={() => setIsEdit(false)}
+                onClose={() => {}}
               />
             )}
           </div>
@@ -108,15 +113,22 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
         {/* Post Content */}
         {isEdit ? (
-          <PostContent ref={postContentRef} post={{ ...post, content: editedContent }} />
+          <PostContent
+            ref={postContentRef}
+            post={post}
+          />
         ) : (
           <div>
-            <div className="w-full flex justify-center mb-7">
-              <div className="w-full">{editedContent}</div>
+            <div className="w-full flex-col items-center mb-7">
+              <div className="w-full mb-4">{editedContent}</div>
 
               {post.imageLink && (
-                <div>
-                  <img src={post.imageLink} alt="Post image" className="rounded-xl" />
+                <div className="w-full flex justify-center">
+                  <img
+                    src={post.imageLink}
+                    alt="Post image"
+                    className="rounded-xl post-images"
+                  />
                 </div>
               )}
               {post.videoLink && <video src={post.videoLink} controls />}
@@ -124,16 +136,26 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
             {/* Reaction Buttons */}
             <div className="flex text-sm w-full">
-              <Button variant="contained" className="reaction-button">Fire</Button>
-              <Button variant="contained" className="reaction-button w-[9vw]">Comment</Button>
-              <Button variant="contained" className="reaction-button w-[7vw]">Share</Button>
+              <Button variant="contained" className="reaction-button">
+                Fire
+              </Button>
+              <Button variant="contained" className="reaction-button w-[9vw]">
+                Comment
+              </Button>
+              <Button variant="contained" className="reaction-button w-[7vw]">
+                Share
+              </Button>
             </div>
           </div>
         )}
       </div>
 
       {/* Reusable Snackbar */}
-      <Snackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} />
+      <Snackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={handleCloseSnackbar}
+      />
     </div>
   );
 };

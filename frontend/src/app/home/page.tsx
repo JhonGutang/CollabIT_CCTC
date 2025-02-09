@@ -21,8 +21,8 @@ function HomePage({ Component, pageProps }: AppProps) {
 
 
   const handleUpdatePosts = (newPost: Post) => {
-    setPosts((prevPosts) => [newPost, ...prevPosts])
-  }
+      setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
 
   useEffect(() => {
     const getPosts = async () => {
@@ -35,7 +35,7 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   return (
     <BaseLayout>
-      <Container maxWidth="xl" className="flex flex-col items-center py-5 h-[92vh] overflow-hidden">
+      <Container maxWidth="xl" className="flex flex-col items-center py-5">
         <div>
         <CreatePost updatedPosts={handleUpdatePosts} />
         </div>

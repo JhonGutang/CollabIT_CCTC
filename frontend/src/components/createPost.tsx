@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { submitPost } from "@/services/postService";
-import { Button } from "@mui/material";
+import { Button, Container, IconButton } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage, faVideo, faClose } from "@fortawesome/free-solid-svg-icons";
 import CustomSnackbar from "./Snackbar";
+import {
+  handleFileChange,
+  handleImageClick,
+  setFileInputRef,
+} from "@/services/imageService";
+import ImagesWithCloseButton from "./ImagesWithCloseButton";
 
 type Post = {
   id: number;
   userId: number;
   content: string;
+  image?: File;
   imageLink: string;
   videoLink: string;
 };
@@ -16,6 +25,7 @@ type ChildProps = {
 };
 
 const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
+  const hasValue = (value?: string) => value?.trim() !== "";
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -24,16 +34,19 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const [post, setPost] = useState({
     userId: 12,
     content: "",
+    image: undefined,
     imageLink: "",
     videoLink: "",
   });
 
-  const handlePost = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
-  };
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
+  useEffect(() => {
+    setFileInputRef(fileInputRef.current);
+  }, []);
+
+  const handlePost = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPost({ ...post, [e.target.name]: e.target.value });
   };
 
   const handleSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,10 +55,21 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
       const newPost = await submitPost(post);
       setSnackbar({ open: true, message: "Post submitted successfully!" });
       updatedPosts(newPost);
-      setPost({ userId: 12, content: "", imageLink: "", videoLink: "" });
+      setPost({ userId: 12, content: "", image: undefined, imageLink: "", videoLink: "" });
     } catch (error) {
-      setSnackbar({ open: true, message: "Failed to submit post. Please try again." });
+      setSnackbar({
+        open: true,
+        message: "Failed to submit post. Please try again.",
+      });
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const handleRemoveImage = () => {
+    setPost({ ...post, imageLink: "" });
   };
 
   return (
@@ -55,8 +79,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
 
       {/* Form content */}
       <form onSubmit={handleSubmission} className="relative z-10">
-        <input
-          type="text"
+        <textarea
           name="content"
           id="content"
           value={post.content}
@@ -65,7 +88,22 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
           className="w-full bg-transparent border border-white-500 h-[8vh] p-3 mb-4 rounded-xl z-10"
           placeholder="What's on your Mind?"
         />
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <div>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={(e) => handleFileChange(e, setPost)}
+              style={{ display: "none" }}
+            />
+            <IconButton onClick={handleImageClick}>
+              <FontAwesomeIcon icon={faImage} />
+            </IconButton>
+            <IconButton>
+              <FontAwesomeIcon icon={faVideo} />
+            </IconButton>
+          </div>
           <Button
             type="submit"
             variant="contained"
@@ -76,8 +114,18 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
           </Button>
         </div>
       </form>
+      {hasValue(post.imageLink) && (
+        <ImagesWithCloseButton
+          imageLink={post.imageLink}
+          onRemove={handleRemoveImage}
+        />
+      )}
 
-      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} />
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={handleCloseSnackbar}
+      />
     </div>
   );
 };

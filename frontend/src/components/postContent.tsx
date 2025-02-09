@@ -24,12 +24,13 @@ const PostContent = forwardRef(({ post }: PostProps, ref) => {
   };
 
   return (
-    <div className="w-full h-[15vh]">
+    <div className="w-full">
       <textarea
         value={content}
         onChange={handlePostContent}
-        className="border border-red-600 bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl"
+        className="border border-white bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl mb-2"
       />
+      <img src={post.imageLink} alt="" className="rounded-xl" />
     </div>
   );
 });
