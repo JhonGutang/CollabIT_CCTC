@@ -59,3 +59,15 @@ body {
 .delete-image-button {
   background-color: rgba(0, 0, 0, 0.223) !important;
 }
+
+.profile-avatar {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.drawer-buttons {
+  height: 6vh !important;
+  margin-bottom: 10px !important;
+  display: flex;
+  justify-content: start !important;
+}
