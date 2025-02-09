@@ -6,14 +6,14 @@ const LeftDrawer = () => {
     <Container
       sx={{
         width: "25vw",
-        position: "relative", // Ensures proper stacking of absolute elements
+        position: "relative", 
       }}
       className="p-5 h-full"
     >
-      {/* Background with fade, placed behind everything */}
+
       <div
         className="absolute inset-0 bg-black opacity-40"
-        style={{ zIndex: -1 }} // Ensure it stays behind content
+        style={{ zIndex: -1 }} 
       ></div>
 
       <Card
@@ -37,7 +37,7 @@ const LeftDrawer = () => {
       <Button
         variant="contained"
         className="w-full text-start drawer-buttons"
-        style={{ position: "relative", zIndex: 1 }} // Buttons stay above the background
+        style={{ position: "relative", zIndex: 1 }} 
       >
         Create Post
       </Button>
