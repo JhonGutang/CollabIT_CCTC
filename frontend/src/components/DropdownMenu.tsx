@@ -16,6 +16,14 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ buttonIcon, menuItems, onCl
     setAnchorEl(event.currentTarget);
   };
 
+  const handleClose = () => {
+    setShowDropdown(false);
+    setAnchorEl(null);
+    onClose();
+  };
+
+
+
   return (
     <div className="relative">
       <Button onClick={toggleDropdown} className="p-2">
@@ -41,7 +49,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ buttonIcon, menuItems, onCl
         }}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index} onClick={item.onClick}>
+          <MenuItem key={index} onClick={() => {
+            item.onClick();
+            handleClose(); 
+          }}>
             {item.label}
           </MenuItem>
         ))}
