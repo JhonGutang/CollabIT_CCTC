@@ -1,22 +1,22 @@
-import Navbar from '@/components/Navbar';
-import { ReactNode } from 'react';
-import LeftDrawer from './components/LeftDrawer';
-import { Container } from '@mui/material';
+import Navbar from "@/components/Navbar";
+import { ReactNode } from "react";
+import LeftDrawer from "./components/LeftDrawer";
+import { Container } from "@mui/material";
+import PageAuthenticator from "./pageAuthenticator";
 interface BaseLayoutProps {
-  children: ReactNode; 
+  children: ReactNode;
 }
-
-
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
-
-    <div className='flex h-[100vh]'>
-      <div>
-        <LeftDrawer/>
+    <PageAuthenticator>
+      <div className="flex h-[100vh]">
+        <div>
+          <LeftDrawer />
+        </div>
+        <main className="h-full w-full">{children}</main>
       </div>
-      <main className='h-full w-full'>{children}</main>
-    </div>
+    </PageAuthenticator>
   );
 };
 

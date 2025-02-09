@@ -6,6 +6,7 @@ export interface User {
   email: string;
 }
 
+
 export interface isUserAuthenticated {
   username: string,
   password: string,
@@ -15,7 +16,7 @@ export interface isUserAuthenticated {
 export const createUser = async (userData: Partial<User>): Promise<User> => {
     const response = await axiosInstance.post<User>("/profiles/register/", userData);
     console.log('Form submitted:', userData);
-  return response.data;
+    return response.data;
 };
 
 export const loginUser = async (userData: Partial<isUserAuthenticated>): Promise<isUserAuthenticated> => {
