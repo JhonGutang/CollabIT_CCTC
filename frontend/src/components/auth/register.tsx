@@ -3,17 +3,46 @@
 import React, { useState } from 'react';
 import PasswordInput from '@/components/PasswordInput'; 
 import { createUser } from '@/services/userService';
+import { Button } from '@mui/material';
+import Snackbar from '@/components/Snackbar'; 
 
-export default function Login() {
+interface ToggleProps {
+  toggleHandler: (auth: string) => void;
+}
+
+const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('success'); // To differentiate message types
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleToggle = () => {
+    toggleHandler('login');
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUser(formData);
+    try {
+      await createUser(formData); 
+      setSnackbarMessage('Registration successful!');
+      setSnackbarType('success');
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        handleToggle()
+      }, 1500);
+    } catch (error) {
+      setSnackbarMessage('Registration failed. Please try again.');
+      setSnackbarType('error');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -54,15 +83,28 @@ export default function Login() {
             onChange={handleChange}
             required={true}
           />
-       
           <button
             type="submit"
             className="bg-green-600 text-white p-3 w-full rounded-full mt-7 hover:bg-green-800 focus:outline-none"
           >
             Register
           </button>
+          <Button onClick={handleToggle}>
+            Login
+          </Button>
         </form>
       </div>
+
+
+      <Snackbar
+        message={snackbarMessage}
+        open={snackbarOpen}
+        onClose={handleSnackbarClose}
+        autoHideDuration={5000}
+        position={{ vertical: 'top', horizontal: 'center' }}
+      />
     </div>
   );
-}
+};
+
+export default Register;

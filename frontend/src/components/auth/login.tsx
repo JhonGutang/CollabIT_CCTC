@@ -3,17 +3,30 @@
 import React, { useState } from 'react';
 import PasswordInput from '@/components/PasswordInput'; 
 import { loginUser } from '@/services/userService';
+import { Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
+// Define the prop types
+interface LoginProps {
+  toggleHandler: (auth: string) => void;
+}
 
-export default function Login() {
+const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
-
+  const router = useRouter()
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleToggle = () => {
+    toggleHandler('register')
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     loginUser(formData);
+    setTimeout(() => {
+      router.push('/home')
+    }, 1500);
   };
 
   return (
@@ -51,8 +64,13 @@ export default function Login() {
           >
             Login
           </button>
+          <Button onClick={handleToggle}>
+            Register
+          </Button>
         </form>
       </div>
     </div>
   );
-}
+};
+
+export default Login;
