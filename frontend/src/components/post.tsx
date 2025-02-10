@@ -14,20 +14,22 @@ import DropdownMenu from "./DropdownMenu";
 type Post = {
   id: number;
   userId: number;
+  username: string,
   content: string;
   imageLink: string;
   videoLink: string;
 };
 
+
 type PostProps = {
   post: Post;
+  userId: number | undefined;
 };
 
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post, userId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
-
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -87,12 +89,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
               alt="User"
             />
             <div>
-              <div className="font-semibold">User</div>
+              <div className="font-semibold">{post.username}</div>
               <div className="text-xs">2 mins ago</div>
             </div>
           </div>
           <div className="relative">
-            {isEdit ? (
+            {isEdit && (
               <div>
                 <button className="me-5" onClick={handleSaveContent}>
                   <FontAwesomeIcon icon={faFloppyDisk} />
@@ -101,13 +103,16 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   <FontAwesomeIcon icon={faXmark} />
                 </button>
               </div>
-            ) : (
-              <DropdownMenu
-                buttonIcon={<FontAwesomeIcon icon={faEllipsis} />}
-                menuItems={menuItems}
-                onClose={() => {}}
-              />
-            )}
+            ) }
+
+            {!isEdit && userId === post.userId && (
+                <DropdownMenu
+                  buttonIcon={<FontAwesomeIcon icon={faEllipsis} />}
+                  menuItems={menuItems}
+                  onClose={() => {}}
+                />
+              )  
+            }
           </div>
         </div>
 

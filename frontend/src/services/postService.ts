@@ -1,29 +1,30 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { AxiosError } from 'axios';
+import { getUserDataFromLocal } from "@/services/userService"; // Import the new function
 
 export interface Post {
   id: number;
   userId: number;
+  username: string;
   content: string;
   image?: File;
   imageLink: string;
   videoLink: string;
 }
 
-const token = localStorage.getItem('authToken');
 
 export const fetchPosts = async (): Promise<Post[]> => {
-  console.log(token);
+  const token = getUserDataFromLocal()?.authToken;
   try {
     const response = await axiosInstance.get("posts/", {
       headers: {
         Authorization: `Token ${token}`
       }
     });
-    console.log(response.data);
     return response.data.map((post: any) => ({
       id: post.id,
       userId: post.user_id,
+      username: post.username,
       content: post.content,
       imageLink: post.image_link,
       videoLink: post.video_link,
@@ -35,8 +36,10 @@ export const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export const submitPost = async (post: Partial<Post>) => {
+  const userId = getUserDataFromLocal()?.id;
+  const token = getUserDataFromLocal()?.authToken;
   const formData = new FormData();
-  formData.append('user_id', String(post.userId));
+  formData.append('user_id', String(userId));
   formData.append('content', post.content || '');
   if (post.image) {
     formData.append('image_link', post.image);
@@ -65,7 +68,7 @@ export const submitPost = async (post: Partial<Post>) => {
 };
 
 export const updatePost = async (post: Post) => {
-
+  const token = getUserDataFromLocal()?.authToken;
   const updatedPost = { ...post, image_link: undefined };
 
   await axiosInstance.patch(`posts/${post.id}/update/`, updatedPost, {
@@ -76,6 +79,7 @@ export const updatePost = async (post: Post) => {
 }
 
 export const deletePost = async (postId: number) => {
+  const token = getUserDataFromLocal()?.authToken;
   await axiosInstance.delete(`posts/${postId}/delete/`, {
     headers: {
       Authorization: `Token ${token}`

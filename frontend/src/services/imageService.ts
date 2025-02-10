@@ -13,12 +13,12 @@ export const handleImageClick = () => {
 export const handleFileChange = (
   e: React.ChangeEvent<HTMLInputElement>,
   setPost: React.Dispatch<
-    React.SetStateAction<{ userId: number; content: string; imageLink: string; videoLink: string }>
+    React.SetStateAction<{ content: string; image?: File; imageLink: string; videoLink: string }>
   >
 ) => {
   if (e.target.files && e.target.files[0]) {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
-    setPost((prevPost) => ({ ...prevPost, image:file, imageLink: imageUrl }));
+    setPost((prevPost) => ({ ...prevPost, image: file, imageLink: imageUrl }));
   }
 };

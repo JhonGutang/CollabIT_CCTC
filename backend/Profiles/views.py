@@ -21,7 +21,9 @@ class UserLoginView(generics.GenericAPIView):
             token, created = Token.objects.get_or_create(user=user)
             return Response({
                 "message": "Login successful",
-                "token": token.key 
+                "token": token.key,
+                "id": user.id,
+                "username": user.username
             }, status=status.HTTP_200_OK)
         else:
             return Response({
