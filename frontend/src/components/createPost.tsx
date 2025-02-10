@@ -13,7 +13,8 @@ import ImagesWithCloseButton from "./ImagesWithCloseButton";
 
 type Post = {
   id: number;
-  userId: number;
+  userId?: number;
+  username?: string;
   content: string;
   image?: File;
   imageLink: string;
@@ -31,13 +32,18 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     message: "",
   });
 
-  const [post, setPost] = useState({
-    userId: 12,
+  const [post, setPost] = useState<{
+    content: string;
+    image?: File;
+    imageLink: string;
+    videoLink: string;
+  }>({
     content: "",
     image: undefined,
     imageLink: "",
     videoLink: "",
   });
+  
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -53,9 +59,10 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     e.preventDefault();
     try {
       const newPost = await submitPost(post);
+      console.log(newPost);
       setSnackbar({ open: true, message: "Post submitted successfully!" });
       updatedPosts(newPost);
-      setPost({ userId: 12, content: "", image: undefined, imageLink: "", videoLink: "" });
+      setPost({ content: "", image: undefined, imageLink: "", videoLink: "" });
     } catch (error) {
       setSnackbar({
         open: true,
