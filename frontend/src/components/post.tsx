@@ -6,7 +6,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { deletePost, updatePost } from "@/services/postService";
-import { Button } from "@mui/material";
+import ActionButtons from "./ActionButtons";
 import PostContent from "./PostContent";
 import Snackbar from "./Snackbar";
 import DropdownMenu from "./DropdownMenu";
@@ -19,12 +19,14 @@ type Post = {
   imageLink: string;
   videoLink: string;
   user_id?: number;
+  reactionCount: number;
+  reactionId: number;
 };
 
 
 type PostProps = {
   post: Post;
-  userId: number | undefined;
+  userId: number;
 };
 
 const Post: React.FC<PostProps> = ({ post, userId }) => {
@@ -141,17 +143,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
             </div>
 
             {/* Reaction Buttons */}
-            <div className="flex text-sm w-full">
-              <Button variant="contained" className="reaction-button">
-                Fire
-              </Button>
-              <Button variant="contained" className="reaction-button w-[9vw]">
-                Comment
-              </Button>
-              <Button variant="contained" className="reaction-button w-[7vw]">
-                Share
-              </Button>
-            </div>
+            <ActionButtons userId={userId} postId={post.id} reactionCount={post.reactionCount} reactionId={post.reactionId} />
           </div>
         )}
       </div>
