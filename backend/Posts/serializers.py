@@ -1,14 +1,24 @@
 from rest_framework import serializers
-from .models import Posts
+from .models import Posts, Reactions
 from Profiles.models import Users  # Add this import
 
 class PostsSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user_id.username', read_only=True)  # Add this line
+    username = serializers.CharField(source='user_id.username', read_only=True)
+    reactions_count = serializers.SerializerMethodField()
+    reaction_id = serializers.SerializerMethodField()  # Add this field
 
     class Meta:
         model = Posts
         fields = '__all__'
-        extra_fields = ['username']  # Add this line
+        extra_fields = ['username', 'reactions_count', 'reaction_id']  # Remove 'is_reacted'
+
+    def get_reactions_count(self, obj):
+        return obj.reactions_set.count()
+
+    def get_reaction_id(self, obj):
+        user = self.context['request'].user
+        reaction = obj.reactions_set.filter(user_id=user.id).first()
+        return reaction.id if reaction else None 
 
     def validate(self, data):
         if not data.get('content') and not data.get('image_link') and not data.get('video_link'):
@@ -16,3 +26,8 @@ class PostsSerializer(serializers.ModelSerializer):
                 "required_field": "At least one of 'content', 'image_link', or 'video_link' must be provided."
             })
         return data
+
+class ReactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reactions
+        fields = '__all__'

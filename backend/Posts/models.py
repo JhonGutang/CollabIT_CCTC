@@ -33,4 +33,4 @@ class Replies(models.Model):
 
 class Reactions(models.Model):
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
-    comment_id = models.ForeignKey(Comments, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(Posts, on_delete=models.CASCADE, null=True, blank=True)
