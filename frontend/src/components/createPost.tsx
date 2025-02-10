@@ -59,6 +59,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     e.preventDefault();
     try {
       const newPost = await submitPost(post);
+      console.log(newPost);
       setSnackbar({ open: true, message: "Post submitted successfully!" });
       updatedPosts(newPost);
       setPost({ content: "", image: undefined, imageLink: "", videoLink: "" });

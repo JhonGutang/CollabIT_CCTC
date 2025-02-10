@@ -18,6 +18,7 @@ type Post = {
   content: string;
   imageLink: string;
   videoLink: string;
+  user_id?: number;
 };
 
 
@@ -105,7 +106,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
               </div>
             ) }
 
-            {!isEdit && userId === post.userId && (
+            {!isEdit && (userId === post.userId || userId === post.user_id) && (
                 <DropdownMenu
                   buttonIcon={<FontAwesomeIcon icon={faEllipsis} />}
                   menuItems={menuItems}

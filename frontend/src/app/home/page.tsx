@@ -24,6 +24,7 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   const handleUpdatePosts = (newPost: Post) => {
       setPosts((prevPosts) => [newPost, ...prevPosts]);
+      console.log(newPost);
   };
 
   useEffect(() => {
