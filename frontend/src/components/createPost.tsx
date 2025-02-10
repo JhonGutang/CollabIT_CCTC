@@ -19,6 +19,8 @@ type Post = {
   image?: File;
   imageLink: string;
   videoLink: string;
+  reactionCount?: number;
+  reactionId?: number;
 };
 
 type ChildProps = {
@@ -105,10 +107,10 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
               style={{ display: "none" }}
             />
             <IconButton onClick={handleImageClick}>
-              <FontAwesomeIcon icon={faImage} />
+              <FontAwesomeIcon color="white" icon={faImage} />
             </IconButton>
             <IconButton>
-              <FontAwesomeIcon icon={faVideo} />
+              <FontAwesomeIcon color="white" icon={faVideo} />
             </IconButton>
           </div>
           <Button

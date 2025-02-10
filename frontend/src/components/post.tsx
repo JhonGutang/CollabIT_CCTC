@@ -27,9 +27,10 @@ type Post = {
 type PostProps = {
   post: Post;
   userId: number;
+  deletedPost: (postId: number) => void;
 };
 
-const Post: React.FC<PostProps> = ({ post, userId }) => {
+const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
@@ -54,7 +55,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
   const handleDeletePost = async (postId: number) => {
     try {
       await deletePost(postId);
-      setSnackbar({ open: true, message: "Post deleted successfully!" });
+    deletedPost(post.id);
     } catch (error) {
       setSnackbar({
         open: true,
@@ -62,6 +63,7 @@ const Post: React.FC<PostProps> = ({ post, userId }) => {
       });
     }
   };
+
 
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });

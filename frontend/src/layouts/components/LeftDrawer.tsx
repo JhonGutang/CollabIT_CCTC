@@ -1,7 +1,30 @@
+'use client'
+
 import { Button, Container } from "@mui/material";
 import { Card, Avatar } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Snackbar from "@/components/Snackbar";
 
 const LeftDrawer = () => {
+  const router = useRouter();
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+  });
+
+  const logout = () => {
+    localStorage.removeItem("userData");
+    setSnackbar({ open: true, message: "Logged out successfully!" });
+    setTimeout(() => {
+      router.push("/auth");
+    }, 1500);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   return (
     <Container
       sx={{
@@ -59,9 +82,15 @@ const LeftDrawer = () => {
         variant="contained"
         className="w-full text-start drawer-buttons"
         style={{ position: "relative", zIndex: 1 }}
+        onClick={logout}
       >
-        Create Post
+        Logout
       </Button>
+      <Snackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={handleCloseSnackbar}
+      />
     </Container>
   );
 };

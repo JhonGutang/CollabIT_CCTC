@@ -9,12 +9,12 @@ interface BaseLayoutProps {
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
-    <PageAuthenticator>
-      <div className="flex h-[100vh]">
+        <PageAuthenticator>
+    <div className="flex ">
         <div>
           <LeftDrawer />
         </div>
-        <main className="h-full w-full">{children}</main>
+        <Container sx={{height: '100vh'}} className=" w-full overflow-y-scroll border p-5">{children}</Container>
       </div>
     </PageAuthenticator>
   );

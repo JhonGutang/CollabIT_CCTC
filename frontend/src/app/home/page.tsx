@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { fetchPosts } from "@/services/postService";
 import PostComponent from "@/components/Post";
 import CreatePost from "@/components/CreatePost";
-import { Container } from "@mui/material";
 import { getUserDataFromLocal } from "@/services/userService";
+import Snackbar from "@/components/Snackbar";
 
 interface Post {
   id: number;
@@ -23,9 +23,22 @@ interface Post {
 function HomePage({ Component, pageProps }: AppProps) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [userId, setUserId] = useState(0);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+  });
 
   const handleUpdatePosts = (newPost: Post) => {
-      setPosts((prevPosts) => [newPost, ...prevPosts]);
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  const handleDeletePost = (postId: number) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+    setSnackbar({ open: true, message: "Post deleted successfully!" });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   useEffect(() => {
@@ -41,16 +54,26 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   return (
     <BaseLayout>
-      <Container maxWidth="xl" className="flex flex-col items-start py-5 h-full overflow-y-scroll">
+      <div>
         <div>
-        <CreatePost updatedPosts={handleUpdatePosts} />
+          <CreatePost updatedPosts={handleUpdatePosts} />
         </div>
         {posts.map((post) => (
-            <div key={post.id}>
-                <PostComponent key={post.id} post={post} userId={userId} />
-            </div>
+          <div key={post.id}>
+            <PostComponent
+              key={post.id}
+              post={post}
+              userId={userId}
+              deletedPost={handleDeletePost}
+            />
+          </div>
         ))}
-      </Container>
+        <Snackbar
+          open={snackbar.open}
+          message={snackbar.message}
+          onClose={handleCloseSnackbar}
+        />
+      </div>
     </BaseLayout>
   );
 }

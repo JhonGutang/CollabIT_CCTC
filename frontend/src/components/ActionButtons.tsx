@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFire } from "@fortawesome/free-solid-svg-icons";
+import { faFire, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { reactingPost, removingReactionOnPost } from "@/services/postService";
 import React, { useEffect, useState } from "react";
 
@@ -61,11 +61,11 @@ const ActionButtons: React.FC<ReactionProps> = ({
         <FontAwesomeIcon className="me-2" icon={faFire} />
         {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
       </Button>
-      <Button variant="contained" className="reaction-button w-[9vw]">
-        Comment
+      <Button variant="contained" className="reaction-button">
+        <FontAwesomeIcon className="me-2" icon={faComment} />
       </Button>
-      <Button variant="contained" className="reaction-button w-[7vw]">
-        Share
+      <Button variant="contained" className="reaction-button">
+        <FontAwesomeIcon className="me-2" icon={faShare} />
       </Button>
     </div>
   );

@@ -6,6 +6,8 @@ import { loginUser, getUserDataFromLocal } from "@/services/userService";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import AuthLayout from "@/layouts/authLayout";
+import Snackbar from "@/components/Snackbar";
+
 interface LoginProps {
   toggleHandler: (auth: string) => void;
 }
@@ -15,6 +17,10 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const router = useRouter();
   const backgroundImage =
     "https://i.pinimg.com/736x/fb/7f/ec/fb7fec8ebd2caf9a96d39e6a9d1acaae.jpg";
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,25 +33,18 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     loginUser(formData);
+    setSnackbar({ open: true, message: "Logged in successfully!" });
     setTimeout(() => {
       console.log('data',  getUserDataFromLocal());
       router.push("/home");
     }, 1500);
   };
 
-  return (
-    // <div className="background h-screen flex items-center justify-center px-4">
-    //   <div className="bg-white rounded-lg w-full md:w-[70vw] h-auto md:h-[65vh] flex flex-col md:flex-row items-center justify-center shadow-xl overflow-hidden">
-    //     <div className="w-full md:flex-[3] h-40 md:h-full flex items-center justify-center overflow-hidden transition-all duration-300">
-    //       <img
-    //         src={backgroundImage}
-    //         alt="Auth Picture"
-    //         className="w-full h-full object-cover object-center"
-    //       />
-    //     </div>
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
 
-    //     {/* Form Container */}
-    //     <div className="w-full md:flex-[2] flex flex-col justify-center items-center p-6 md:p-10 transition-all duration-300">
+  return (
     <AuthLayout imageLink={backgroundImage}>
       <div className="text-black text-xl font-semibold mb-4">Login</div>
       <form
@@ -87,9 +86,11 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
           Register
         </Button>
       </form>
-      {/* </div>
-      </div>
-    </div> */}
+      <Snackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={handleCloseSnackbar}
+      />
     </AuthLayout>
   );
 };
