@@ -41,6 +41,14 @@ body {
   border-radius: 10px !important;
 }
 
+.active-reaction-button {
+  background-color: #C1B2FF !important;
+  min-width: 6vw;
+  height: 35px;
+  margin-right: 15px !important;
+  border-radius: 10px !important;
+}
+
 
 .custom-snackbar {
   background-color: green !important;

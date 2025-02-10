@@ -16,21 +16,23 @@ interface Post {
   content: string;
   imageLink: string;
   videoLink: string;
+  reactionCount: number;
+  reactionId: number;
 }
 
 function HomePage({ Component, pageProps }: AppProps) {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [userId, setUserId] = useState<number | undefined>(0);
+  const [userId, setUserId] = useState(0);
 
   const handleUpdatePosts = (newPost: Post) => {
       setPosts((prevPosts) => [newPost, ...prevPosts]);
-      console.log(newPost);
   };
 
   useEffect(() => {
     const getPosts = async () => {
       const data = await fetchPosts();
-      setUserId(getUserDataFromLocal()?.id);
+      const userId = getUserDataFromLocal()?.id || 0;
+      setUserId(userId);
       setPosts(data);
     };
 

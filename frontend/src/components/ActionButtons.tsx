@@ -1,0 +1,74 @@
+import { Button } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFire } from "@fortawesome/free-solid-svg-icons";
+import { reactingPost, removingReactionOnPost } from "@/services/postService";
+import React, { useEffect, useState } from "react";
+
+export interface ReactionProps {
+  postId: number;
+  userId: number;
+  reactionCount: number;
+  reactionId: number;
+}
+
+const ActionButtons: React.FC<ReactionProps> = ({
+  postId,
+  userId,
+  reactionCount,
+  reactionId,
+}) => {
+  const [newReactionid, setNewReactionId] = useState<number>(reactionId);
+  const [changingReactionCount, setChangingReactionCount] = useState<number>(
+    reactionCount || 0
+  );
+  const [isReacted, setIsReacted] = useState(newReactionid ? true : false);
+  const [initialRender, setInitialRender] = useState(true);
+
+  const handleReaction = () => {
+    setIsReacted(!isReacted);
+  };
+
+  useEffect(() => {
+    if (initialRender) {
+      setInitialRender(false);
+      return;
+    }
+
+    const handleAsyncReaction = async () => {
+      if (isReacted) {
+        const newId = await reactingPost(postId, userId);
+        setNewReactionId(newId);
+        setChangingReactionCount((prevCount) => prevCount + 1);
+      } else {
+        setNewReactionId((prevReactionId) => {
+          removingReactionOnPost(prevReactionId);
+          return prevReactionId;
+        });
+        setChangingReactionCount((prevCount) => prevCount - 1);
+      }
+    };
+
+    handleAsyncReaction();
+  }, [isReacted]);
+
+  return (
+    <div className="flex text-sm w-full">
+      <Button
+        variant="contained"
+        className={isReacted ? "active-reaction-button" : "reaction-button"}
+        onClick={handleReaction}
+      >
+        <FontAwesomeIcon className="me-2" icon={faFire} />
+        {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
+      </Button>
+      <Button variant="contained" className="reaction-button w-[9vw]">
+        Comment
+      </Button>
+      <Button variant="contained" className="reaction-button w-[7vw]">
+        Share
+      </Button>
+    </div>
+  );
+};
+
+export default ActionButtons;
