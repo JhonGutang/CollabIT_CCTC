@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import PostsSerializer
-from .models import Posts
+from .serializers import PostsSerializer, ReactionSerializer
+from .models import Posts, Reactions
 
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Posts.objects.all().order_by('-created_at')
@@ -22,11 +22,16 @@ class PostListCreateView(generics.ListCreateAPIView):
             raise serializers.ValidationError({"error": str(e)})
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, context={'request': request})  # Add context
         serializer.is_valid(raise_exception=True)
         post = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(PostsSerializer(post).data, status=status.HTTP_201_CREATED, headers=headers)
+    
+        return Response(
+            PostsSerializer(post, context={'request': request}).data,  # Add context here
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
 class PostUpdateView(generics.UpdateAPIView):
     queryset = Posts.objects.all()
@@ -65,4 +70,21 @@ class PostDeleteView(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         post = self.get_object()
         self.perform_destroy(post)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+class ReactionListCreateView(generics.ListCreateAPIView):
+    quweryset = Reactions.objects.all()
+    serializer_class = ReactionSerializer
+
+class ReactionDeleteView(generics.DestroyAPIView):
+    queryset = Reactions.objects.all()
+    serializer_class = ReactionSerializer
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+    def delete(self, request, *args, **kwargs):
+        reaction = self.get_object()
+        self.perform_destroy(reaction)
         return Response(status=status.HTTP_204_NO_CONTENT)
