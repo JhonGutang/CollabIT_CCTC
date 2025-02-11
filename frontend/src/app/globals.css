@@ -96,3 +96,32 @@ body {
   border: 1px solid white !important;
   border-radius: 20px;
 }
+
+
+/* Conversation Stylings */
+
+
+.message-input {
+  background-color: rgba(0, 0, 0, 0.557) !important;
+  /* width: 30vw !important; */
+  height: 50px;
+  padding: 0px 30px;
+  border-radius: 50px;
+}
+
+
+.users {
+  height: 70px !important;
+  display: flex;
+  align-items: center;
+  justify-content: start !important;
+  padding: 0px 20px;
+}
+
+.message-container {
+  background-color: rgba(255, 255, 255, 0.76);
+  padding: 15px !important;
+  min-width: auto !important;
+  color: black;
+  border-radius: 20px;
+}
