@@ -1,6 +1,7 @@
 import axiosInstance from "@/utils/axiosInstance";
 
 export interface User {
+  id: number;
   username: string;
   password: string;
   email: string;
@@ -49,4 +50,14 @@ export const loginUser = async (userData: Partial<isUserAuthenticated>): Promise
   const response = await axiosInstance.post<isUserAuthenticated>('/profiles/login/', userData);
   storeUserDataToLocal(response.data);
   return response.data; 
+}
+
+export const getAllUsers = async (): Promise<User[]> => {
+  const token = getUserDataFromLocal()?.authToken;
+  const response = await axiosInstance.get<User[]>('/profiles/', {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  });
+  return response.data;
 }
