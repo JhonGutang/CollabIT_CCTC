@@ -8,7 +8,11 @@ from rest_framework.authtoken.models import Token
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
-    
+
+    def list(self, request, *args, **kwargs):
+        current_user = request.user
+        queryset = self.get_queryset().exclude(id=current_user.id).values('id', 'username', 'email')
+        return Response(queryset, status=status.HTTP_200_OK)
 
 class UserLoginView(generics.GenericAPIView):
     serializer_class = UserSerializer

@@ -1,7 +1,7 @@
 from django.db import models
 from Profiles.models import Users
 import enum
-# Create your models here.
+
 
 class Types(enum.Enum):
     private = 'Private'
@@ -10,7 +10,7 @@ class Types(enum.Enum):
 class Conversations(models.Model):
        type = models.CharField(
         max_length=10,
-        choices=[(type.name, type.value) for type in Types],  # Convert enum to choices
+        choices=[(type.name, type.value) for type in Types], 
         default=Types.private.value,
     )
        
