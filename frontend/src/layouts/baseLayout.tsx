@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "./components/Navbar";
 import { ReactNode } from "react";
 import LeftDrawer from "./components/LeftDrawer";
 import { Container } from "@mui/material";
@@ -9,12 +9,15 @@ interface BaseLayoutProps {
 
 const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
-        <PageAuthenticator>
-    <div className="flex ">
+    <PageAuthenticator>
+      <Navbar />
+      <div className="flex ">
         <div>
           <LeftDrawer />
         </div>
-        <Container sx={{height: '100vh'}} className=" w-full overflow-y-scroll border p-5">{children}</Container>
+        <div className=" w-full  p-5 !important" style={{ height: "90vh", overflowY: "scroll" }}>
+          {children}
+        </div>
       </div>
     </PageAuthenticator>
   );

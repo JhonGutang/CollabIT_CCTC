@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
 
 :root {
   --background: #ffffff;
@@ -91,3 +90,9 @@ body {
   justify-content: start !important;
 }
 
+.search-bar {
+  width: 40vw !important;
+  height: 100%;
+  border: 1px solid white !important;
+  border-radius: 20px;
+}

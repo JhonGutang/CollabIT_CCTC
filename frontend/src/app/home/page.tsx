@@ -54,7 +54,6 @@ function HomePage({ Component, pageProps }: AppProps) {
 
   return (
     <BaseLayout>
-      <div>
         <div>
           <CreatePost updatedPosts={handleUpdatePosts} />
         </div>
@@ -73,7 +72,6 @@ function HomePage({ Component, pageProps }: AppProps) {
           message={snackbar.message}
           onClose={handleCloseSnackbar}
         />
-      </div>
     </BaseLayout>
   );
 }

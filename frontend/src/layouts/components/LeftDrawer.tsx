@@ -34,10 +34,10 @@ const LeftDrawer = () => {
       className="p-5 h-full"
     >
 
-      <div
+      {/* <div
         className="absolute inset-0 bg-black opacity-40"
         style={{ zIndex: -1 }} 
-      ></div>
+      ></div> */}
 
       <Card
         className="p-5 flex items-center mb-4 w-full"
