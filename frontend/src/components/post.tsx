@@ -157,9 +157,9 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
           </div>
         )}
       </div>
-
+      
         <Comments isCommentClicked={isCommentClicked} toggleComment={toggleComment} postId={post.id} />
-      {/* Reusable Snackbar */}
+      
       <Snackbar
         open={snackbar.open}
         message={snackbar.message}
