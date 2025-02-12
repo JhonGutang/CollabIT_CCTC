@@ -14,7 +14,7 @@ export const fetchCommentsByPostId = async (postId: number) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching comments:", error);
-    throw error; // Re-throw the error if necessary
+    throw error; 
   }
 };
 
