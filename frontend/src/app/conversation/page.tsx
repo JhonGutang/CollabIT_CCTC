@@ -1,8 +1,8 @@
 "use client";
 
-import UsersList from "@/components/UsersList";
+import UsersList from "@/components/conversation/UsersList";
 import { useState } from "react";
-import ConversationContainer from "@/components/Conversation";
+import ConversationContainer from "@/components/conversation/Conversation";
 import { createConversation, getMessages } from "@/services/conversationsService";
 export interface User {
   id: number;

@@ -3,7 +3,7 @@ import { submitPost } from "@/services/postService";
 import { Button, Container, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faVideo, faClose } from "@fortawesome/free-solid-svg-icons";
-import CustomSnackbar from "./Snackbar";
+import CustomSnackbar from "../Snackbar";
 import {
   handleFileChange,
   handleImageClick,

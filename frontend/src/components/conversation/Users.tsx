@@ -1,4 +1,4 @@
-import { Avatar, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import AvatarWithName from "./AvatarWithName";
 
 export interface User {

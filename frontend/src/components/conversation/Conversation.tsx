@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import AvatarWithName from "./AvatarWithName";
 import CreateMessage from "./CreateMessage";
 import MessageComponent from "./Message";
-
 export interface User {
   id: number;
   username: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import PasswordInput from "@/components/PasswordInput";
+import PasswordInput from "@/components/auth/PasswordInput";
 import { loginUser, getUserDataFromLocal } from "@/services/userService";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
