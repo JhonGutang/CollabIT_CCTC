@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from .models import Posts, Reactions, Comments
-from Profiles.models import Users  # Add this import
+from Profiles.models import Users
 
 class PostsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user_id.username', read_only=True)
     reactions_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
-    reaction_id = serializers.SerializerMethodField()  # Add this field
+    reaction_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Posts
