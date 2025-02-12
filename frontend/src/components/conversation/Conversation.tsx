@@ -36,7 +36,7 @@ const Conversation: React.FC<UserProps> = ({ user, messages }) => {
       <div>
         <AvatarWithName name={user.username} />
       </div>
-      <div className="h-full border overflow-y-scroll">
+      <div className="h-full overflow-y-scroll my-5 rounded-xl message-container py-5">
         <div className="flex-grow flex flex-col justify-end px-10 ">
           {messageList.map((message) => (
             <div key={message.id}>

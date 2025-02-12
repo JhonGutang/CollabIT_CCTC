@@ -4,6 +4,7 @@ import UsersList from "@/components/conversation/UsersList";
 import { useState } from "react";
 import ConversationContainer from "@/components/conversation/Conversation";
 import { createConversation, getMessages } from "@/services/conversationsService";
+import Fallback from "@/components/conversation/Fallback";
 export interface User {
   id: number;
   username: string;
@@ -28,16 +29,14 @@ const Conversation = () => {
 
   return (
     <div className="flex h-[100vh]">
-      <div className=" w-1/3 border">
+      <div className=" w-1/3 px-5 py-10">
         <UsersList currentUser={handleCurrentUser} />
       </div>
 
       {currentChat ? (
         <ConversationContainer user={currentChat} messages={messages}/>
       ) : (
-        <div className="w-full">
-          <div>Select User to Chat</div>
-        </div>
+       <Fallback/>
       )}
     </div>
   );

@@ -116,9 +116,15 @@ body {
   align-items: center;
   justify-content: start !important;
   padding: 0px 20px;
+  margin-bottom: 8px !important;
+  background-color: rgba(0, 0, 0, 0.400) !important;
 }
 
 .message-container {
+  background-color: rgba(0, 0, 0, 0.400);
+}
+
+.message {
   background-color: rgba(255, 255, 255, 0.76);
   padding: 15px !important;
   min-width: auto !important;

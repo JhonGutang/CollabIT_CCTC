@@ -1,7 +1,8 @@
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useState } from "react";
 import { storeMessage } from "@/services/conversationsService";
-
+import { faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export interface Message {
     id: number;
     sender_id: number;
@@ -22,14 +23,19 @@ const CreateMessage = ({ updateMessages }: MessageProps) => {
     }
 
     return ( 
-        <div className="flex w-full items-center justify-center">
+        <div className="flex gap-5 w-full items-start justify-center">
+            <IconButton>
+                <FontAwesomeIcon icon={faImage}></FontAwesomeIcon>
+            </IconButton>
             <input 
                 type="text" 
-                className="message-input me-3 w-2/3" 
+                className="message-input w-2/3" 
                 value={message} 
                 onChange={(e) => setMessage(e.target.value)} 
             />
-            <Button variant="contained" onClick={sendMessage}>Send</Button>
+            <IconButton onClick={sendMessage}>
+                <FontAwesomeIcon icon={faPaperPlane}/>
+            </IconButton>
         </div>
     );
 }

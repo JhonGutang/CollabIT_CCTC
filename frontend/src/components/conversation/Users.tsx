@@ -13,7 +13,7 @@ export interface UserProps {
 
 const Users: React.FC<UserProps> = ({ user }) => {
   return (
-    <Button className="border users w-full" variant="outlined" sx={{borderColor: 'white', color: 'white'}} >
+    <Button className="users w-full" sx={{color: 'white'}} >
         <AvatarWithName name={user.username} />
     </Button>
   );
