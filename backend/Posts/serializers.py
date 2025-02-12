@@ -11,7 +11,7 @@ class PostsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
         fields = '__all__'
-        extra_fields = ['username', 'reactions_count', 'comments_count' 'reaction_id']  # Remove 'is_reacted'
+        extra_fields = ['username', 'reactions_count', 'comments_count' 'reaction_id'] 
 
     def get_reactions_count(self, obj):
         return obj.reactions_set.count()
