@@ -67,6 +67,7 @@ function HomePage({ Component, pageProps }: AppProps) {
             />
           </div>
         ))}
+
         <Snackbar
           open={snackbar.open}
           message={snackbar.message}

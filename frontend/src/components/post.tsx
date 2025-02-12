@@ -10,6 +10,7 @@ import ActionButtons from "./post/ActionButtons";
 import PostContent from "./post/PostContent";
 import Snackbar from "./Snackbar";
 import DropdownMenu from "./post/DropdownMenu";
+import Comments from "./post/Comments";
 
 type Post = {
   id: number;
@@ -20,6 +21,7 @@ type Post = {
   videoLink: string;
   user_id?: number;
   reactionCount: number;
+  commentsCount: number;
   reactionId: number;
 };
 
@@ -31,6 +33,7 @@ type PostProps = {
 };
 
 const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
+  const [isCommentClicked, setIsCommentClicked] = useState(false)
   const [isEdit, setIsEdit] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
@@ -38,6 +41,8 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
     open: false,
     message: "",
   });
+
+
 
   const handleSaveContent = () => {
     if (postContentRef.current) {
@@ -52,6 +57,10 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
     setIsEdit((prev) => !prev);
   };
 
+  const toggleComment = () => {
+    setIsCommentClicked((prev) => !prev)
+  }
+
   const handleDeletePost = async (postId: number) => {
     try {
       await deletePost(postId);
@@ -63,7 +72,6 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
       });
     }
   };
-
 
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
@@ -145,12 +153,13 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
             </div>
 
             {/* Reaction Buttons */}
-            <ActionButtons userId={userId} postId={post.id} reactionCount={post.reactionCount} reactionId={post.reactionId} />
+            <ActionButtons userId={userId} postId={post.id} reactionCount={post.reactionCount} commentsCount={post.commentsCount} reactionId={post.reactionId} toggleComment={toggleComment} />
           </div>
         )}
       </div>
-
-      {/* Reusable Snackbar */}
+      
+        <Comments isCommentClicked={isCommentClicked} toggleComment={toggleComment} postId={post.id} />
+      
       <Snackbar
         open={snackbar.open}
         message={snackbar.message}
