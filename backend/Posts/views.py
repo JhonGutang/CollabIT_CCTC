@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import PostsSerializer, ReactionSerializer
-from .models import Posts, Reactions
+from .serializers import PostsSerializer, ReactionSerializer, CommentsSerializer
+from .models import Posts, Reactions, Comments
 
 class PostListCreateView(generics.ListCreateAPIView):
     queryset = Posts.objects.all().order_by('-created_at')
@@ -22,13 +22,13 @@ class PostListCreateView(generics.ListCreateAPIView):
             raise serializers.ValidationError({"error": str(e)})
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, context={'request': request})  # Add context
+        serializer = self.get_serializer(data=request.data, context={'request': request}) 
         serializer.is_valid(raise_exception=True)
         post = self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
     
         return Response(
-            PostsSerializer(post, context={'request': request}).data,  # Add context here
+            PostsSerializer(post, context={'request': request}).data,  
             status=status.HTTP_201_CREATED,
             headers=headers
         )
@@ -88,3 +88,26 @@ class ReactionDeleteView(generics.DestroyAPIView):
         reaction = self.get_object()
         self.perform_destroy(reaction)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+
+class CommentCreateView(generics.CreateAPIView):
+    serializer_class = CommentsSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        post_id = self.request.data.get('post_id')
+        
+        try:
+            post = Posts.objects.get(id=post_id)
+        except Posts.DoesNotExist:
+            raise serializers.ValidationError({"error": "Post not found"})
+
+        serializer.save(user_id=self.request.user, post_id=post)
+
+class CommentListView(generics.ListAPIView):
+    serializer_class = CommentsSerializer
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_id') 
+        return Comments.objects.filter(post_id=post_id).order_by('-id')  
