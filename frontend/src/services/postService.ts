@@ -11,6 +11,7 @@ export interface Post {
   imageLink: string;
   videoLink: string;
   reactionCount: number;
+  commentsCount: number;
   reactionId: number;
 }
 
@@ -30,6 +31,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
       imageLink: post.image_link,
       videoLink: post.video_link,
       reactionCount: post.reactions_count,
+      commentsCount: post.comments_count,
       reactionId: post.reaction_id,
     }));
   } catch (error) {

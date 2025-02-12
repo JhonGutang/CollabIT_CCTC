@@ -3,19 +3,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { reactingPost, removingReactionOnPost } from "@/services/postService";
 import React, { useEffect, useState } from "react";
+import Comments from "./Comments";
 
 export interface ReactionProps {
   postId: number;
   userId: number;
   reactionCount: number;
+  commentsCount: number;
   reactionId: number;
+  toggleComment: () => void;
 }
 
 const ActionButtons: React.FC<ReactionProps> = ({
   postId,
   userId,
   reactionCount,
+  commentsCount,
   reactionId,
+  toggleComment
 }) => {
   const [newReactionid, setNewReactionId] = useState<number>(reactionId);
   const [changingReactionCount, setChangingReactionCount] = useState<number>(
@@ -27,6 +32,10 @@ const ActionButtons: React.FC<ReactionProps> = ({
   const handleReaction = () => {
     setIsReacted(!isReacted);
   };
+
+  const handleCommentClicked = () => {
+    toggleComment()
+  }
 
   useEffect(() => {
     if (initialRender) {
@@ -61,13 +70,17 @@ const ActionButtons: React.FC<ReactionProps> = ({
         <FontAwesomeIcon className="me-2" icon={faFire} />
         {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
       </Button>
-      <Button variant="contained" className="reaction-button">
+      <Button variant="contained" className="reaction-button" onClick={handleCommentClicked}>
         <FontAwesomeIcon className="me-2" icon={faComment} />
+        <div>{commentsCount}</div>
       </Button>
       <Button variant="contained" className="reaction-button">
         <FontAwesomeIcon className="me-2" icon={faShare} />
       </Button>
+
     </div>
+
+
   );
 };
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import AvatarWithName from "./AvatarWithName";
-import CreateMessage from "./CreateMessage";
+import AvatarWithName from "../AvatarWithName";
+import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
+import { storeMessage } from "@/services/conversationsService";
 export interface User {
   id: number;
   username: string;
@@ -26,9 +27,9 @@ const Conversation: React.FC<UserProps> = ({ user, messages }) => {
     setMessageList(messages);
   }, [messages]);
 
-  const handleNewMessage = (message: Message) => {
-    console.log(message);
-    setMessageList([...messageList, message]);
+  const handleNewMessage = async(message: string) => {
+    const newMessage = await storeMessage(message);
+    setMessageList([...messageList, newMessage]);
   };
 
   return (
@@ -45,7 +46,7 @@ const Conversation: React.FC<UserProps> = ({ user, messages }) => {
           ))}
         </div>
       </div>
-        <CreateMessage updateMessages={handleNewMessage} />
+        <CreateContent createContent={handleNewMessage} location="conversation" />
     </div>
   );
 };

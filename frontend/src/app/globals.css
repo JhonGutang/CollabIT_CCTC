@@ -73,7 +73,6 @@ body {
 }
 
 
-
 .delete-image-button {
   background-color: rgba(0, 0, 0, 0.223) !important;
 }
@@ -95,6 +94,17 @@ body {
   height: 100%;
   border: 1px solid white !important;
   border-radius: 20px;
+}
+
+
+
+
+/* Comments Styling */
+
+.comment-close-icon {
+  position: absolute;
+  top: 1vh;
+  right: 2vw;
 }
 
 
