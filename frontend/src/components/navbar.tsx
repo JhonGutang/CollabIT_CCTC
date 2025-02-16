@@ -69,7 +69,7 @@ export default function Example() {
             </div>
           </div>
           <div>
-            <Link href="/login">Login</Link>
+            <Link href="/auth">Login</Link>
           </div>
         </div>
       </div>

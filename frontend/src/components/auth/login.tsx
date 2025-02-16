@@ -16,7 +16,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const router = useRouter();
   const backgroundImage =
-    "https://i.pinimg.com/736x/fb/7f/ec/fb7fec8ebd2caf9a96d39e6a9d1acaae.jpg";
+    "https://img.freepik.com/free-vector/corporate-meeting-employees-cartoon-characters-discussing-business-strategy-planning-further-actions-brainstorming-formal-communication-seminar-concept-illustration_335657-2035.jpg?t=st=1739714278~exp=1739717878~hmac=50d60b1df167134d89966143b12a2c3bc29e408032b2d19c86b905af74812d98&w=740";
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
     loginUser(formData);
     setSnackbar({ open: true, message: "Logged in successfully!" });
     setTimeout(() => {
-      console.log('data',  getUserDataFromLocal());
+      console.log("data", getUserDataFromLocal());
       router.push("/home");
     }, 1500);
   };
@@ -46,22 +46,26 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
 
   return (
     <AuthLayout imageLink={backgroundImage}>
-      <div className="text-black text-xl font-semibold mb-4">Login</div>
+      <div className="text-center mb-4">
+        <div className="text-black text-xl mb-4">Welcome Back!</div>
+        <div className="text-black font-bold">Sign in</div>
+        <div className="text-black text-sm custom-subheading">
+          Join the Discussion. Expand Your Knowledge.
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center w-full max-w-xs text-black text-sm"
       >
         <div className="w-full">
-          <label htmlFor="username" className="mb-1 block">
-            Username
-          </label>
           <input
             type="text"
             name="username"
             id="username"
             value={formData.username}
             onChange={handleChange}
-            className="border-2 border-black h-12 w-full p-2 px-4 mb-3 rounded-md"
+            className="border-2 h-12 w-full p-2 px-4 mb-3 custom-border-input"
+            placeholder="Username"
             required
           />
         </div>
@@ -71,20 +75,25 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
           onChange={handleChange}
           required={true}
         />
-        <div className="text-sm text-black mt-2 flex justify-end w-full">
+        <div className="text-sm text-black mt-2 mb-6 flex justify-end w-full">
           <button type="button" className="text-red-400">
             Forgot Password?
           </button>
         </div>
-        <button
+        <Button
           type="submit"
-          className="bg-green-600 text-white p-3 w-full rounded-full mt-7 hover:bg-green-800 focus:outline-none"
+          variant="contained"
+          className="text-white p-3 w-full custom-border-input h-[5vh]"
         >
-          Login
-        </button>
-        <Button onClick={handleToggle} className="mt-4">
-          Register
+          Sign In
         </Button>
+        <div className="text-sm flex mt-1">
+          <div className="me-2">
+          Don't have any account?
+
+          </div>
+          <div className="text-cyan-600 cursor-pointer" onClick={handleToggle}>Sign up Now!</div>
+        </div>
       </form>
       <Snackbar
         open={snackbar.open}
