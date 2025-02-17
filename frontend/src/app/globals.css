@@ -107,6 +107,9 @@ body {
   margin-bottom: 10px !important;
   display: flex;
   justify-content: start !important;
+  color: black !important;
+  font-size: 17px !important;
+  text-transform: capitalize !important;
 }
 
 .search-bar {

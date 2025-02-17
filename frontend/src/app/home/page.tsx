@@ -17,6 +17,7 @@ interface Post {
   imageLink: string;
   videoLink: string;
   reactionCount: number;
+  commentsCount: number,
   reactionId: number;
 }
 

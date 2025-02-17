@@ -89,8 +89,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
   ];
 
   return (
-    <div className="relative h-auto mb-5 w-[40vw] rounded-xl p-6">
-      <div className="absolute inset-0 bg-black opacity-40 rounded-xl z-0"></div>
+    <div className="relative h-auto mb-5 w-[40vw] rounded-xl p-6 text-black border-2">
       <div className="relative z-10">
         {/* User Profile */}
         <div className="flex items-center justify-between mb-4">
@@ -141,7 +140,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
               <div className="w-full mb-4">{editedContent}</div>
 
               {post.imageLink && (
-                <div className="w-full flex justify-center">
+                <div className="w-full flex justify-center border-2 rounded-xl">
                   <img
                     src={post.imageLink}
                     alt="Post image"
