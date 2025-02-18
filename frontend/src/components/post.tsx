@@ -11,11 +11,13 @@ import PostContent from "./post/PostContent";
 import Snackbar from "./Snackbar";
 import DropdownMenu from "./post/DropdownMenu";
 import Comments from "./post/Comments";
+import { Avatar } from "@mui/material";
 
 type Post = {
   id: number;
   userId: number;
   username: string,
+  avatarLink: string,
   content: string;
   imageLink: string;
   videoLink: string;
@@ -94,11 +96,10 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
         {/* User Profile */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <img
-              src="https://i.pinimg.com/736x/11/48/01/1148010bc6df885075a558384b3dbc6b.jpg"
-              className="rounded-full me-3"
-              width={50}
-              alt="User"
+            <Avatar
+              src={post.avatarLink}
+              sx={{width: '50px', height: '50px'}}
+              className="me-3"
             />
             <div>
               <div className="font-semibold">{post.username}</div>

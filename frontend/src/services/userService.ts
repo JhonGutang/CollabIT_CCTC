@@ -6,18 +6,11 @@ export interface User {
   password: string;
   email: string;
 }
-
 export interface isUserAuthenticated {
   id: number;
   username: string;
   password: string;
-  token: string;
-  authToken: string;
-}
-
-export interface UserData {
-  id: number;
-  username: string;
+  avatarLink?: string;
   token: string;
   authToken: string;
 }
@@ -25,17 +18,19 @@ export interface UserData {
 const userData = {
   id: 0,
   username: '',
+  avatarLink: null as string | null, 
   authToken: ''
 }
 
-const storeUserDataToLocal = (data: UserData ) => {
+const storeUserDataToLocal = (data: any) => {
   userData.id = data.id;
   userData.username = data.username;
+  userData.avatarLink = data.avatar_link ? `http://127.0.0.1:8000${data.avatar_link}` : null,
   userData.authToken = data.token;
   localStorage.setItem('userData', JSON.stringify(userData));
 }
 
-export const getUserDataFromLocal = (): UserData | null => {
+export const getUserDataFromLocal = (): isUserAuthenticated | null => {
   const storedData = localStorage.getItem('userData');
   return storedData ? JSON.parse(storedData) : null;
 }

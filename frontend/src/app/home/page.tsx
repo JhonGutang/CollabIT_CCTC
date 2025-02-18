@@ -13,6 +13,7 @@ interface Post {
   id: number;
   userId: number;
   username: string;
+  avatarLink: string,
   content: string;
   imageLink: string;
   videoLink: string;
@@ -45,6 +46,7 @@ function HomePage({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const getPosts = async () => {
       const data = await fetchPosts();
+      console.log(data);
       const userId = getUserDataFromLocal()?.id || 0;
       setUserId(userId);
       setPosts(data);

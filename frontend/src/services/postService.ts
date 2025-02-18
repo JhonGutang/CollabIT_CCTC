@@ -6,6 +6,7 @@ export interface Post {
   id: number;
   userId: number;
   username: string;
+  avatarLink: string;
   content: string;
   image?: File;
   imageLink: string;
@@ -27,6 +28,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
       id: post.id,
       userId: post.user_id,
       username: post.username,
+      avatarLink:  post.avatar_link ? `http://127.0.0.1:8000/media/${post.avatar_link}` : null,
       content: post.content,
       imageLink: post.image_link,
       videoLink: post.video_link,
