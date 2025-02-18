@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'corsheaders', 
     'Profiles.apps.ProfilesConfig',
     'Posts.apps.PostsConfig',
-    'Conversations.apps.ConversationsConfig'
+    'Conversations.apps.ConversationsConfig',
+    'Avatars.apps.AvatarsConfig'
 ]
 
 REST_FRAMEWORK = {

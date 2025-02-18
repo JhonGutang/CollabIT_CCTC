@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/profiles/', include('Profiles.urls')),
     path('api/posts/', include('Posts.urls')),
     path('api/conversations/', include('Conversations.urls')),
+    path('api/avatars/', include('Avatars.urls'))
 ]
 
 if settings.DEBUG:
