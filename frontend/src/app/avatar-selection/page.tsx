@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { Button, IconButton } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { fetchAvatars, attachAvatarToUser } from "@/services/avatarService";
-
+import { getUserDataFromLocal } from "@/services/userService";
+import { useRouter } from "next/navigation";
 export interface Avatar {
   id: number,
   name: string,
@@ -12,6 +13,7 @@ export interface Avatar {
 }
 
 const AvatarSelection = () => {
+  const router = useRouter()
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
   const [avatars, setAvatars] = useState<Avatar[]>([])
 
@@ -27,8 +29,16 @@ const AvatarSelection = () => {
       const avatars = await fetchAvatars()
       setAvatars(avatars);
     }
+
     
-    loadingAvatars()
+    if(getUserDataFromLocal()?.avatarLink){
+      router.push('/home')
+    } else {
+      loadingAvatars()
+
+    }
+
+    
   }, [])
   return (
     <div className="w-full h-[100vh] flex justify-center items-center">
