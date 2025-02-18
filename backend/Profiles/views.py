@@ -51,7 +51,7 @@ class UserUpdateView(generics.UpdateAPIView):
     
     def update(self, request, *args, **kwargs):
         user = self.get_object()
-        serializer = self.get_serializer(user, data=request.data, partial=True)  # `partial=True` allows partial updates
+        serializer = self.get_serializer(user, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
