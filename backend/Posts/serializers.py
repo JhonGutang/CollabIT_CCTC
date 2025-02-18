@@ -4,6 +4,7 @@ from Profiles.models import Users
 
 class PostsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user_id.username', read_only=True)
+    avatar_link = serializers.CharField(source='user_id.avatar.image_link', read_only=True)
     reactions_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
     reaction_id = serializers.SerializerMethodField()
@@ -11,7 +12,7 @@ class PostsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
         fields = '__all__'
-        extra_fields = ['username', 'reactions_count', 'comments_count' 'reaction_id'] 
+        extra_fields = ['username', 'avatar_link', 'reactions_count', 'comments_count' 'reaction_id'] 
 
     def get_reactions_count(self, obj):
         return obj.reactions_set.count()

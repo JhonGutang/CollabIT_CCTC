@@ -2,9 +2,11 @@ from rest_framework import serializers
 from .models import Users
 
 class UserSerializer(serializers.ModelSerializer):
+    avatar_link = serializers.CharField(source='avatar.image_link', read_only=True)
     class Meta:
         model = Users
         fields = '__all__'
+        extra_fields = ['avatar_link']
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
