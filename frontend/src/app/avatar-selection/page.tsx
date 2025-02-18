@@ -41,8 +41,8 @@ const AvatarSelection = () => {
               width: "140px",
               height: "140px",
               transition: "opacity 0.3s ease-in-out, transform 0.3s ease-in-out",
-              opacity: selectedAvatar ? 1 : 0, // Fade in/out when avatar changes
-              transform: selectedAvatar ? "scale(1)" : "scale(0.95)", // Smooth zoom effect
+              opacity: selectedAvatar ? 1 : 0,
+              transform: selectedAvatar ? "scale(1)" : "scale(0.95)", 
             }}
           />
           <div className="text-lg">User</div>
