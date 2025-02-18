@@ -13,6 +13,7 @@ interface Post {
   id: number;
   userId: number;
   username: string;
+  avatarLink: string,
   content: string;
   imageLink: string;
   videoLink: string;
