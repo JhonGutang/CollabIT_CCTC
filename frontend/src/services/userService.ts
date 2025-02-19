@@ -30,7 +30,16 @@ const storeUserDataToLocal = (data: any) => {
   localStorage.setItem('userData', JSON.stringify(userData));
 }
 
-export const getUserDataFromLocal = (): isUserAuthenticated | null => {
+export const updateAvatarLinkInLocal = (newAvatarLink: string | null) => {
+  const storedData = localStorage.getItem('userData');
+  if (storedData) {
+    const userData = JSON.parse(storedData);
+    userData.avatarLink = newAvatarLink ? `http://127.0.0.1:8000/media/${newAvatarLink}` : null;
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+};
+
+export const getUserDataFromLocal = (): any | null => {
   const storedData = localStorage.getItem('userData');
   return storedData ? JSON.parse(storedData) : null;
 }

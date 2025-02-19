@@ -22,4 +22,6 @@ export const attachAvatarToUser = async(avatarId: number) => {
         Authorization: `Token ${token}`
       }
     })
+
+    return response.data.data.avatar_link
   }

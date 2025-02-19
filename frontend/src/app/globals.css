@@ -44,24 +44,26 @@ body {
   object-fit: cover ; 
 }
 
-.custom-border-input {
+.custom-border-radius {
   border-radius: 20px !important;
 }
+
 
 .custom-subheading {
   font-size: 13px !important;
 }
 
 .reaction-button {
-  background-color: #02353C !important;
+  background-color: #388ddc59 !important;
   min-width: 6vw;
   height: 35px;
   margin-right: 15px !important;
   border-radius: 10px !important;
+  color: #176fc1 !important;
 }
 
 .active-reaction-button {
-  background-color: #C1B2FF !important;
+  background-color: #2a659c !important;
   min-width: 6vw;
   height: 35px;
   margin-right: 15px !important;
@@ -92,6 +94,12 @@ body {
   min-width: 20vw;
 }
 
+.post {
+  background-color: #B9D4F2 !important;
+  width: 40vw;
+  color: black;
+}
+
 
 .delete-image-button {
   background-color: rgba(0, 0, 0, 0.223) !important;
@@ -108,7 +116,7 @@ body {
   display: flex;
   justify-content: start !important;
   color: black !important;
-  font-size: 17px !important;
+  font-size: 16px !important;
   text-transform: capitalize !important;
 }
 

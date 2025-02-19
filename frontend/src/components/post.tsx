@@ -91,7 +91,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost }) => {
   ];
 
   return (
-    <div className="relative h-auto mb-5 w-[40vw] rounded-xl p-6 text-black border-2">
+    <div className="relative h-auto mb-5 custom-border-radius p-6 post border-2">
       <div className="relative z-10">
         {/* User Profile */}
         <div className="flex items-center justify-between mb-4">

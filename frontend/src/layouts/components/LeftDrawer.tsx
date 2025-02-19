@@ -46,7 +46,7 @@ const LeftDrawer = () => {
   return (
     <Container
       sx={{
-        width: "20vw",
+        width: "18vw",
         position: "relative",
         border: "1px solid black",
         borderRadius: '20px',
@@ -54,9 +54,9 @@ const LeftDrawer = () => {
       className=" h-full p-10"
     >
       <div className=" text-black h-auto mb-5 flex flex-col justify-center items-center px-5">
-        <Avatar sx={{ width: "130px", height: "130px" }} src={user?.avatarLink} />
-        <div className="text-2xl my-2">{user?.username}</div>
-        <Button variant="contained" fullWidth className="custom-border-input" sx={{textTransform: 'capitalize'}}>
+        <Avatar sx={{ width: "130px", height: "130px" }} className="border-2" src={user?.avatarLink} />
+        <div className="text-xl my-2">{user?.username}</div>
+        <Button variant="contained" fullWidth className="custom-border-radius" sx={{textTransform: 'capitalize', height: '35px', fontSize: '13px'}}>
           View Profile
         </Button>
       </div>
@@ -64,13 +64,11 @@ const LeftDrawer = () => {
       <div>
         <Button
           className="w-full text-start drawer-buttons"
-          style={{ position: "relative", zIndex: 1 }}
         >
           Create Post
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
-          style={{ position: "relative", zIndex: 1 }}
           onClick={ () => {router.push('/conversation')}}
         >
           <FontAwesomeIcon icon={faMessage} className="me-3"/>
@@ -78,14 +76,12 @@ const LeftDrawer = () => {
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
-          style={{ position: "relative", zIndex: 1 }}
         >
           <FontAwesomeIcon icon={faUserGroup} className="me-3"/>
           About Us
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
-          style={{ position: "relative", zIndex: 1 }}
           onClick={logout}
         >
           <FontAwesomeIcon icon={faRightFromBracket} className="me-3"/>

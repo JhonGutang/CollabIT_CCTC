@@ -25,7 +25,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ name, value, onChange, re
           id={name}
           value={value}
           onChange={onChange}
-          className="border-2 h-[50px] w-full p-2 px-4 custom-border-input"
+          className="border-2 h-[50px] w-full p-2 px-4 custom-border-radius"
           placeholder='Password'
           required={required}
         />

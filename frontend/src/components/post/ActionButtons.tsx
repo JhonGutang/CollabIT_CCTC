@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFire, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { reactingPost, removingReactionOnPost } from "@/services/postService";
 import React, { useEffect, useState } from "react";
-import Comments from "./Comments";
 
 export interface ReactionProps {
   postId: number;

@@ -63,7 +63,7 @@ const Hero = () => {
               onClick={redirectToAuth}
               variant="contained"
               sx={{ width: "15vw", height: '45px' }}
-              className="custom-border-input"
+              className="custom-border-radius"
             >
               Join now
             </Button>

@@ -35,8 +35,11 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
     loginUser(formData);
     setSnackbar({ open: true, message: "Logged in successfully!" });
     setTimeout(() => {
-      console.log("data", getUserDataFromLocal());
-      router.push("/home");
+      if(getUserDataFromLocal()?.avatarLink) {
+        router.push("/home");
+      } else {
+        router.push('/avatar-selection')
+      }
     }, 1500);
   };
 
@@ -64,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
             id="username"
             value={formData.username}
             onChange={handleChange}
-            className="border-2 h-12 w-full p-2 px-4 mb-3 custom-border-input"
+            className="border-2 h-12 w-full p-2 px-4 mb-3 custom-border-radius"
             placeholder="Username"
             required
           />
@@ -83,7 +86,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
         <Button
           type="submit"
           variant="contained"
-          className="text-white p-3 w-full custom-border-input h-[5vh]"
+          className="text-white p-3 w-full custom-border-radius h-[5vh]"
         >
           Sign In
         </Button>

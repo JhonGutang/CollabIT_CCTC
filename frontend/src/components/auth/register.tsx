@@ -73,7 +73,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
             value={formData.username}
             placeholder="Username"
             onChange={handleChange}
-            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-input"
+            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
             required
           />
         </div>
@@ -85,7 +85,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-input"
+            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
             required
           />
         </div>
@@ -102,7 +102,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
             marginTop: "20px",
             height: "5vh",
           }}
-          className="p-3 w-full custom-border-input"
+          className="p-3 w-full custom-border-radius"
         >
           Sign Up
         </Button>
