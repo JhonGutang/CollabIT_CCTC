@@ -24,13 +24,12 @@ export interface UserProps {
 const ConversationContainer: React.FC<UserProps> = ({ user, messages, sendMessage }) => {
   const [messageList, setMessageList] = useState<Message[]>(messages);
 
-  // Update the message list when new messages are received
   useEffect(() => {
     setMessageList(messages);
   }, [messages]);
 
   const handleNewMessage = async (message: string) => {
-    sendMessage(message); // Send message via WebSocket
+    sendMessage(message); 
   };
 
   return (
