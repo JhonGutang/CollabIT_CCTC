@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 import os
 import django
 
-# ✅ Force Django to initialize settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 django.setup()
 
