@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect } from "react";
 import AvatarWithName from "../AvatarWithName";
 import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
-import { storeMessage } from "@/services/conversationsService";
+
 export interface User {
   id: number;
   username: string;
   email: string;
 }
+
 export interface Message {
   id: number;
   sender_id: number;
@@ -18,18 +18,18 @@ export interface Message {
 export interface UserProps {
   user: User;
   messages: Message[];
+  sendMessage: (message: string) => void;
 }
 
-const Conversation: React.FC<UserProps> = ({ user, messages }) => {
-  const [messageList, setMessageList] = useState<Message[]>([]);
+const ConversationContainer: React.FC<UserProps> = ({ user, messages, sendMessage }) => {
+  const [messageList, setMessageList] = useState<Message[]>(messages);
 
   useEffect(() => {
     setMessageList(messages);
   }, [messages]);
 
-  const handleNewMessage = async(message: string) => {
-    const newMessage = await storeMessage(message);
-    setMessageList([...messageList, newMessage]);
+  const handleNewMessage = async (message: string) => {
+    sendMessage(message); 
   };
 
   return (
@@ -46,9 +46,9 @@ const Conversation: React.FC<UserProps> = ({ user, messages }) => {
           ))}
         </div>
       </div>
-        <CreateContent createContent={handleNewMessage} location="conversation" />
+      <CreateContent createContent={handleNewMessage} location="conversation" />
     </div>
   );
 };
 
-export default Conversation;
+export default ConversationContainer;
