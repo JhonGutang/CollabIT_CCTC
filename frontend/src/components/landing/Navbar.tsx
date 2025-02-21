@@ -4,8 +4,8 @@ const Navbar: React.FC = () => {
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
     if (section) {
-      const topOffset = section.offsetTop; // Get the section's position
-      window.scrollTo({ top: topOffset, behavior: "smooth" }); // Scroll smoothly
+      const topOffset = section.offsetTop;
+      window.scrollTo({ top: topOffset, behavior: "smooth" }); 
     }
   };
   
