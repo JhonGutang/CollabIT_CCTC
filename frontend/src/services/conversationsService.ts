@@ -36,20 +36,25 @@ export const createConversation = async (recipientId: number) => {
   }
 };
 
-export const storeMessage = async ( message: string) => {
+export const storeMessage = async (message: string) => {
   const token = getUserDataFromLocal()?.authToken;
   const conversationId = localStorage.getItem("conversationId");
   try {
-    const response = await axiosInstance.post('conversations/send-message/', {
-      conversation_id: conversationId,
-      message: message,
-    }, {
-      headers: {
-        Authorization: `Token ${token}`,
+    const response = await axiosInstance.post(
+      "conversations/send-message/",
+      {
+        conversation_id: conversationId,
+        message: message,
       },
-    });
-    return response.data
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
+    return response.data;
   } catch (error) {
     console.error("Error storing message:", error);
   }
-}
+};
+
