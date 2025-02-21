@@ -6,11 +6,11 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { deletePost, updatePost } from "@/services/postService";
-import ActionButtons from "./post/ActionButtons";
-import PostContent from "./post/PostContent";
-import Snackbar from "./Snackbar";
-import DropdownMenu from "./post/DropdownMenu";
-import Comments from "./post/Comments";
+import ActionButtons from "./ActionButtons";
+import PostContent from "./PostContent";
+import Snackbar from "../Snackbar";
+import DropdownMenu from "./DropdownMenu";
+import Comments from "./Comments";
 import { Avatar } from "@mui/material";
 
 type Post = {

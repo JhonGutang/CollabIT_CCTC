@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/baseLayout";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { fetchPosts } from "@/services/postService";
-import PostComponent from "@/components/Post";
+import PostComponent from "@/components/post/Post";
 import CreatePost from "@/components/post/CreatePost";
 import { getUserDataFromLocal } from "@/services/userService";
 import Snackbar from "@/components/Snackbar";
