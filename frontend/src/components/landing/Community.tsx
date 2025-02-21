@@ -10,12 +10,12 @@ const Community = ({ isHeroAlmostOut }: { isHeroAlmostOut: boolean }) => {
   return (
     <motion.div
       className="w-full h-screen background flex flex-col justify-center items-center gap-4 px-20"
-      initial={{ x: -150, opacity: 0 }} // Start off-screen to the left
-      animate={isHeroAlmostOut ? { x: 0, opacity: 1 } : {}} // Slide in to position
+      initial={{ x: -150, opacity: 0 }} 
+      animate={isHeroAlmostOut ? { x: 0, opacity: 1 } : {}} 
       transition={{
         type: "spring",
-        stiffness: 100, // Controls speed (higher = faster)
-        damping: 10, // Controls bounce effect (lower = more bounce)
+        stiffness: 100,
+        damping: 10, 
       }}
     >
       <div className="flex items-center gap-10 mb-10">
