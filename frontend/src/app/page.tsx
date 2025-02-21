@@ -13,7 +13,6 @@ export default function Home() {
     <div className="bg-white text-black overflow-auto">
       <Navbar />
 
-      {/* Assign IDs to sections for scrolling */}
       <div id="home" ref={heroRef}>
         <Hero />
       </div>
