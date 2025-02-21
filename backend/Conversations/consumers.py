@@ -9,7 +9,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """Authenticate user and add them to the correct conversation group."""
         user = self.scope["user"]
         
-        if isinstance(user, AnonymousUser):  # Ensure user is authenticated
+        if isinstance(user, AnonymousUser): 
             await self.close()
             return
 
@@ -19,7 +19,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         if not await sync_to_async(is_member.exists)():
-            await self.close()  # Close connection if user isn't part of the conversation
+            await self.close() 
             return
 
         self.room_group_name = f"conversation_{self.conversation_id}"
@@ -33,17 +33,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         message_text = data.get("message")
         user = self.scope["user"]
-
-        # Ensure message is not empty
+        
         if not message_text.strip():
             return
 
-        # Save message to database
         message = await sync_to_async(Messages.objects.create)(
             sender_id=user, conversation_id_id=self.conversation_id, message=message_text
         )
 
-        # Broadcast message to the conversation group
         await self.channel_layer.group_send(
             self.room_group_name,
             {
