@@ -21,6 +21,7 @@ class UsersManager(BaseUserManager):
 class Users(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(unique=True, max_length=255)
+    year_level = models.IntegerField(null=True, blank=True)
     avatar = models.ForeignKey(Avatars, on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
