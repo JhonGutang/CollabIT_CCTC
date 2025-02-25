@@ -97,3 +97,31 @@ export const getAllUsers = async (): Promise<User[]> => {
   });
   return response.data;
 };
+
+
+export const addToFriends = async (userId: number) => {
+  const token = getUserDataFromLocal()?.authToken
+  const response = await axiosInstance.post('/profiles/friend/', {
+    friend_id: userId
+  }, {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  })
+  console.log(response.data);
+  
+}
+
+export interface FriendsResponse {
+  friends: number[];
+}
+
+export const getAllFriendsID = async (): Promise<number[]> => {
+  const token = getUserDataFromLocal()?.authToken;
+  const response = await axiosInstance.get<FriendsResponse>('/profiles/friend/', {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  });
+  return response.data.friends;
+}
