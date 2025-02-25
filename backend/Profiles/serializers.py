@@ -45,13 +45,11 @@ class FriendSerializer(serializers.ModelSerializer):
 
     def get_friends(self, obj):
         user = self.context['request'].user
-        
-        # Get all friendships where the current user is either user or friend
+    
         friend_relationships = Friends.objects.filter(
             models.Q(user=user) | models.Q(friend=user)
         ).values_list('user_id', 'friend_id')
         
-        # Create a set to avoid duplicate IDs
         friend_ids = set()
         for user_id, friend_id in friend_relationships:
             friend_ids.add(friend_id if user_id == user.id else user_id)
