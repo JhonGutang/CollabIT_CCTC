@@ -53,7 +53,7 @@ class Friends(models.Model):
     created_at = models.DateTimeField(default=now)
 
     class Meta:
-        unique_together = ('user', 'friend')  # Prevent duplicate friendships
+        unique_together = ('user', 'friend')
 
     def __str__(self):
         return f"{self.user.username} is friends with {self.friend.username}"
