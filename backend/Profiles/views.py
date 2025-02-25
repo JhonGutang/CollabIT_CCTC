@@ -2,10 +2,11 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Users
-from .serializers import UserSerializer
+from .models import Users, Friends
+from .serializers import UserSerializer, FriendSerializer
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from django.db import models
 
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = Users.objects.all()
@@ -61,3 +62,46 @@ class UserUpdateView(generics.UpdateAPIView):
             }, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class FriendListCreateView(generics.ListCreateAPIView):
+    serializer_class = FriendSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Friends.objects.none()
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+    def list(self, request, *args, **kwargs):
+        serializer = self.get_serializer({})
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        friend_id = request.data.get('friend_id')
+        
+        try:
+            friend = Users.objects.exclude(id=request.user.id).get(id=friend_id)
+        except Users.DoesNotExist:
+            return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        friendship_exists = Friends.objects.filter(
+            (models.Q(user=request.user) & models.Q(friend=friend)) |
+            (models.Q(user=friend) & models.Q(friend=request.user))
+        ).exists()
+
+        if friendship_exists:
+            return Response({"message": "Friendship already exists"}, 
+                          status=status.HTTP_400_BAD_REQUEST)
+
+        friendship = Friends.objects.create(user=request.user, friend=friend)
+        serializer = self.get_serializer(None)
+        return Response({
+            "message": "Friend added successfully",
+            "data": serializer.data
+        }, status=status.HTTP_201_CREATED)
+
+

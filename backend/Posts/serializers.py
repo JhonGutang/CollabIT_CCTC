@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Posts, Reactions, Comments
-from Profiles.models import Users
+from django.db import models
 
 class PostsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user_id.username', read_only=True)
@@ -12,7 +12,7 @@ class PostsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
         fields = '__all__'
-        extra_fields = ['username', 'avatar_link', 'reactions_count', 'comments_count' 'reaction_id'] 
+        extra_fields = ['username', 'avatar_link', 'reactions_count', 'comments_count', 'reaction_id']
 
     def get_reactions_count(self, obj):
         return obj.reactions_set.count()
@@ -24,6 +24,7 @@ class PostsSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         reaction = obj.reactions_set.filter(user_id=user.id).first()
         return reaction.id if reaction else None 
+
 
     def validate(self, data):
         if not data.get('content') and not data.get('image_link') and not data.get('video_link'):
