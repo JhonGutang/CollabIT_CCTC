@@ -69,7 +69,6 @@ class FriendListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # This is needed for DRF but we don't actually use it
         return Friends.objects.none()
 
     def get_serializer_context(self):
@@ -78,7 +77,6 @@ class FriendListCreateView(generics.ListCreateAPIView):
         return context
 
     def list(self, request, *args, **kwargs):
-        # Pass an empty instance since we don't need actual Friends instance
         serializer = self.get_serializer({})
         return Response(serializer.data)
 
@@ -90,7 +88,6 @@ class FriendListCreateView(generics.ListCreateAPIView):
         except Users.DoesNotExist:
             return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Check if friendship already exists in either direction
         friendship_exists = Friends.objects.filter(
             (models.Q(user=request.user) & models.Q(friend=friend)) |
             (models.Q(user=friend) & models.Q(friend=request.user))
