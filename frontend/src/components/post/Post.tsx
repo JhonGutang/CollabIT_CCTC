@@ -14,6 +14,7 @@ import Snackbar from "../Snackbar";
 import DropdownMenu from "./DropdownMenu";
 import Comments from "./Comments";
 import { Avatar } from "@mui/material";
+import UserProfiles from "./UserProfiles";
 
 type Post = {
   id: number;
@@ -36,10 +37,16 @@ interface PostProps {
   deletedPost: (postId: number) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, userId, deletedPost, areFriends }) => {
+const Post: React.FC<PostProps> = ({
+  post,
+  userId,
+  deletedPost,
+  areFriends,
+}) => {
   const [isCommentClicked, setIsCommentClicked] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isFriend, setIsFriend] = useState(areFriends);
+  const [showProfile, setShowProfile] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
   const [snackbar, setSnackbar] = useState({
@@ -60,7 +67,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost, areFriends }) =>
         message: `You are now Friends with ${post.username}!`,
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       setSnackbar({
         open: true,
         message: "Failed to add friend. Please try again.",
@@ -114,16 +121,27 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost, areFriends }) =>
   ];
 
   return (
-    <div className="relative h-auto mb-5 custom-border-radius p-6 post border-2">
-      <div className="relative z-10">
+    <div className="relative h-auto mb-5 custom-border-radius p-6 post">
+      <div className="relative">
         {/* User Profile */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <Avatar
-              src={post.avatarLink}
-              sx={{ width: "50px", height: "50px" }}
-              className="me-3"
-            />
+            <div
+              onMouseEnter={() => setShowProfile(true)}
+              onMouseLeave={() => setShowProfile(false)}
+              className="relative"
+            >
+              <Avatar
+                src={post.avatarLink}
+                sx={{ width: "50px", height: "50px" }}
+                className="me-3 cursor-pointer"
+              />
+              {showProfile && (
+                <div className="absolute top-[60px] left-0 z-[9999]">
+                  <UserProfiles username={post.username} avatarLink={post.avatarLink}/>
+                </div>
+              )}
+            </div>
             <div>
               <div className="font-semibold">{post.username}</div>
               <div className="text-xs">2 mins ago</div>
@@ -149,7 +167,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost, areFriends }) =>
               />
             )}
 
-            {!isFriend && (
+            {(!isFriend || userId !== post.userId) && (
               <div
                 className="cursor-pointer me-3"
                 onClick={() => handleAddFriends(post.userId)}
@@ -169,7 +187,7 @@ const Post: React.FC<PostProps> = ({ post, userId, deletedPost, areFriends }) =>
               <div className="w-full mb-4">{editedContent}</div>
 
               {post.imageLink && (
-                <div className="w-full flex justify-center border-2 rounded-xl">
+                <div className="w-full flex justify-center rounded-xl">
                   <img
                     src={post.imageLink}
                     alt="Post image"

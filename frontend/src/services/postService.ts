@@ -63,6 +63,7 @@ export const submitPost = async (post: Partial<Post>) => {
     if (response.data && response.data.image_link) {
       response.data.imageLink = `${response.data.image_link}`;
     }
+    response.data.avatarLink = `http://127.0.0.1:8000/media/${response.data.avatar_link}`
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
