@@ -13,6 +13,9 @@ interface ToggleProps {
 const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
   const [formData, setFormData] = useState({
     username: "",
+    firstName: "",
+    lastName: "",
+    yearLevel: 0,
     email: "",
     password: "",
   });
@@ -20,20 +23,29 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
     "https://img.freepik.com/free-vector/teamwork-people-with-puzzle-pieces_24877-54950.jpg?t=st=1739714385~exp=1739717985~hmac=54cde3bf37f33e128f631bdbaa75daa8fbdc8292b6f2a42174a903dc5e24797d&w=740";
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [form, setForm] = useState(1);
   const [snackbarType, setSnackbarType] = useState<"success" | "error">(
     "success"
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const formToggle = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(form === 2) {
+      handleSubmit()
+    } else {
+      setForm(form + 1);
+    }
   };
 
   const handleToggle = () => {
     toggleHandler("login");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       await createUser(formData);
       setSnackbarMessage("Registration successful!");
@@ -43,6 +55,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
         handleToggle();
       }, 1500);
     } catch (error) {
+      console.error(error);
       setSnackbarMessage("Registration failed. Please try again.");
       setSnackbarType("error");
       setSnackbarOpen(true);
@@ -62,39 +75,82 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
         </div>
       </div>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={formToggle}
         className="flex flex-col items-center w-80 text-black text-sm"
       >
-        <div className="w-full">
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={formData.username}
-            placeholder="Username"
-            onChange={handleChange}
-            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
-            required
-          />
-        </div>
-        <div className="w-full">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
-            required
-          />
-        </div>
-        <PasswordInput
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required={true}
-        />
+        {form === 1 ? (
+          <div className="w-full">
+            <div className="w-full">
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                value={formData.firstName}
+                placeholder="First Name"
+                onChange={handleInputChange}
+                className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                value={formData.lastName}
+                placeholder="Last Name"
+                onChange={handleInputChange}
+                className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <input
+                type="number"
+                name="yearLevel"
+                id="yearLevel"
+                value={formData.yearLevel}
+                placeholder="Year level"
+                onChange={handleInputChange}
+                className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
+                required
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="w-full">
+            <div className="w-full">
+              <input
+                type="text"
+                name="username"
+                id="username"
+                value={formData.username}
+                placeholder="Username"
+                onChange={handleInputChange}
+                className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
+                required
+              />
+            </div>
+            <PasswordInput
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required={true}
+            />
+          </div>
+        )}
         <Button
           variant="contained"
           type="submit"
@@ -104,7 +160,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
           }}
           className="p-3 w-full custom-border-radius"
         >
-          Sign Up
+          {form === 1 ? "Next" : "Register"}
         </Button>
         <div className="text-sm flex mt-1">
           <div className="me-1">Already have an account?</div>
