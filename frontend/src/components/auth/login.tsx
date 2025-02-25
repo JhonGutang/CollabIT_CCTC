@@ -92,8 +92,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
         </Button>
         <div className="text-sm flex mt-1">
           <div className="me-2">
-          Don't have any account?
-
+            Don&apos;t have any account?
           </div>
           <div className="text-cyan-600 cursor-pointer" onClick={handleToggle}>Sign up Now!</div>
         </div>

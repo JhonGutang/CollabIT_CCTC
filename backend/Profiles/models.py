@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from Avatars.models import Avatars
 from django.utils import timezone
-
+from django.utils.timezone import now
 class UsersManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -20,6 +20,8 @@ class UsersManager(BaseUserManager):
 
 class Users(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
+    first_name = models.CharField(max_length=255, null=True )
+    last_name = models.CharField(max_length=255, null=True)
     email = models.EmailField(unique=True, max_length=255)
     year_level = models.IntegerField(null=True, blank=True)
     avatar = models.ForeignKey(Avatars, on_delete=models.SET_NULL, null=True, blank=True)
@@ -46,4 +48,13 @@ class Users(AbstractBaseUser):
         return self.is_admin
 
 class Friends(models.Model):
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="friends")
+    friend = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="friend_of")
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        unique_together = ('user', 'friend')
+
+    def __str__(self):
+        return f"{self.user.username} is friends with {self.friend.username}"
+
