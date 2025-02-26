@@ -124,7 +124,6 @@ export const getAllFriendsID = async (): Promise<number[]> => {
     }
   });
 
-  // ✅ Fix: Flatten the array to extract only the list of friend IDs
   return response.data.flatMap(obj => obj.friends);
 };
 
