@@ -14,8 +14,8 @@ class UserListCreateView(generics.ListCreateAPIView):
 
     def list(self, request, *args, **kwargs):
         current_user = request.user
-        friends = current_user.friends.all()  # ✅ Use ManyToManyField directly
-        queryset = list(friends) + [current_user]  # Include current user
+        friends = current_user.friends.all()
+        queryset = list(friends) + [current_user]  
         return Response(UserSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
 
 class UserLoginView(generics.GenericAPIView):
@@ -64,10 +64,10 @@ class UserUpdateView(generics.UpdateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class FriendListCreateView(generics.ListAPIView):  # ✅ Use ListAPIView for fetching friends
+class FriendListCreateView(generics.ListAPIView): 
     serializer_class = FriendSerializer 
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Users.objects.filter(id=self.request.user.id)  # ✅ Query only the authenticated user
+        return Users.objects.filter(id=self.request.user.id)  
