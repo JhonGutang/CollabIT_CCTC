@@ -118,10 +118,13 @@ export interface FriendsResponse {
 
 export const getAllFriendsID = async (): Promise<number[]> => {
   const token = getUserDataFromLocal()?.authToken;
-  const response = await axiosInstance.get<FriendsResponse>('/profiles/friend/', {
+  const response = await axiosInstance.get<{ friends: number[] }[]>('/profiles/friend/', {
     headers: {
       Authorization: `Token ${token}`
     }
   });
-  return response.data.friends;
-}
+
+  // ✅ Fix: Flatten the array to extract only the list of friend IDs
+  return response.data.flatMap(obj => obj.friends);
+};
+

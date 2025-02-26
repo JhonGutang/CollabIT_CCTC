@@ -20,7 +20,7 @@ class UsersManager(BaseUserManager):
 
 class Users(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
-    first_name = models.CharField(max_length=255, null=True )
+    first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     email = models.EmailField(unique=True, max_length=255)
     year_level = models.IntegerField(null=True, blank=True)
@@ -29,10 +29,12 @@ class Users(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    friends = models.ManyToManyField("self", symmetrical=True, blank=True)
+
     objects = UsersManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']  
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return self.username
@@ -46,15 +48,4 @@ class Users(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-
-class Friends(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="friends")
-    friend = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="friend_of")
-    created_at = models.DateTimeField(default=now)
-
-    class Meta:
-        unique_together = ('user', 'friend')
-
-    def __str__(self):
-        return f"{self.user.username} is friends with {self.friend.username}"
 
