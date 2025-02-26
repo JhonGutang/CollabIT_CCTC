@@ -13,8 +13,8 @@ import EditPostContent from "./EditPostContent";
 import Snackbar from "../Snackbar";
 import DropdownMenu from "./DropdownMenu";
 import Comments from "./Comments";
-import { Avatar } from "@mui/material";
 import UserProfiles from "./UserProfiles";
+import AvatarWithContents from "../AvatarWithContents";
 
 type Post = {
   id: number;
@@ -131,20 +131,17 @@ const Post: React.FC<PostProps> = ({
               onMouseLeave={() => setShowProfile(false)}
               className="relative"
             >
-              <Avatar
-                src={post.avatarLink}
-                sx={{ width: "50px", height: "50px" }}
-                className="me-3 cursor-pointer"
+              <AvatarWithContents
+                avatarLink={post.avatarLink}
+                size={50}
+                name={post.username}
+                time="2mins ago"
               />
               {showProfile && (
                 <div className="absolute top-[60px] left-0 z-[9999]">
                   <UserProfiles username={post.username} avatarLink={post.avatarLink}/>
                 </div>
               )}
-            </div>
-            <div>
-              <div className="font-semibold">{post.username}</div>
-              <div className="text-xs">2 mins ago</div>
             </div>
           </div>
           <div className="relative">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AvatarWithName from "../AvatarWithName";
+import AvatarWithName from "../AvatarWithContents";
 import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
 
