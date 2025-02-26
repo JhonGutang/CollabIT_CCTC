@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import AvatarWithName from "../AvatarWithName";
+import AvatarWithName from "../AvatarWithContents";
 
 export interface User {
   id: number;

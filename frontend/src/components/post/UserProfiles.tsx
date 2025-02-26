@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@mui/material";
-import AvatarWithName from "../AvatarWithName";
+import AvatarWithName from "../AvatarWithContents";
 import { motion } from "framer-motion";
 
 interface UserProfilesProps {

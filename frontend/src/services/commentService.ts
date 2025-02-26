@@ -10,8 +10,13 @@ export const fetchCommentsByPostId = async (postId: number) => {
       },
     });
 
-    console.log(response.data);
-    return response.data;
+    const modifiedData = response.data.map(({ avatar_link, ...rest }: any) => ({
+      ...rest, // Spread the remaining object properties
+      avatarLink: `http://127.0.0.1:8000/media/${avatar_link}`,
+    }));
+
+    console.log(modifiedData);
+    return modifiedData;
   } catch (error) {
     console.error("Error fetching comments:", error);
     throw error; 
@@ -34,6 +39,8 @@ export const createComment = async (comment: string, postId: number) => {
           },
         }
       );
+      response.data.avatarLink = `http://127.0.0.1:8000/media/${response.data.avatar_link}`
+      console.log(response.data);
       return response.data;
   } catch (error) {
     console.error (error)

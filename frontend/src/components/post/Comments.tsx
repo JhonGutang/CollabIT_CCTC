@@ -7,7 +7,7 @@ import {
   createComment,
   fetchCommentsByPostId,
 } from "@/services/commentService";
-import AvatarWithName from "../AvatarWithName";
+import AvatarWithContents from "../AvatarWithContents";
 
 export interface Post {
   id: number;
@@ -24,6 +24,13 @@ export interface Comment {
   username: string;
   content: string;
   image_link: string;
+  avatarLink: string;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  avatarLink: string | null;
 }
 
 export interface CommentProps {
@@ -82,7 +89,7 @@ const Comments: React.FC<CommentProps> = ({
           {/* Post Section */}
           <div className="flex-[65%] h-full flex justify-center items-center flex-col">
             <div className="w-[80%] rounded-xl p-10 bg-white flex flex-col justify-center">
-              <AvatarWithName
+              <AvatarWithContents
                 avatarLink={post.avatarLink}
                 name={post.username}
                 size={60}
@@ -106,14 +113,16 @@ const Comments: React.FC<CommentProps> = ({
             className="p-5 w-[40%] bg-white flex flex-col justify-end h-[90%] mb-4"
             style={{ borderRadius: "20px 20px 0px 0px" }}
           >
-            <div className="text-2xl mb-5">Comment Section</div>
+            <div className="text-xl mb-5">Comment Section</div>
             <div className="h-[90%] overflow-y-auto mb-4">
               {comments.length > 0 ? (
                 comments.map((comment) => (
-                  <div key={comment.id} className="mb-3">
-                    <AvatarWithName
-                      avatarLink={post.avatarLink}
-                      name={comment.content}
+                  <div key={comment.id} className="mb-6">
+                    <AvatarWithContents
+                    size={50}
+                      avatarLink={comment.avatarLink}
+                      name={comment.username}
+                      content={comment.content}
                     />
                   </div>
                 ))

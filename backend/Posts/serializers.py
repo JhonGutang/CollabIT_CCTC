@@ -39,7 +39,8 @@ class ReactionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class CommentsSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user_id.username', read_only=True)
+    avatar_link = serializers.CharField(source='user_id.avatar.image_link', read_only=True)
     class Meta:
         model = Comments
-        fields = ['id', 'user_id', 'username', 'post_id', 'content', 'image_link']
+        fields = ['id', 'user_id', 'username', 'post_id', 'content', 'image_link', 'avatar_link']
         read_only_fields = ['user_id']
