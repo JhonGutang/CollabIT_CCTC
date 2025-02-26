@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import Users
 
 class UserSerializer(serializers.ModelSerializer):
-    avatar_link = serializers.CharField(source='avatar.image_link', read_only=True)  # ✅ Fixed extra_fields issue
+    avatar_link = serializers.CharField(source='avatar.image_link', read_only=True) 
     
     class Meta:
         model = Users
-        fields = '__all__'  # ✅ Removed invalid `extra_fields`
+        fields = '__all__'
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -36,7 +36,7 @@ class FriendUserSerializer(serializers.ModelSerializer):
         return obj.avatar.image_link.url if obj.avatar and obj.avatar.image_link else None
 
 class FriendSerializer(serializers.ModelSerializer):
-    friends = serializers.PrimaryKeyRelatedField(many=True, read_only=True)  # ✅ Returns only friend IDs
+    friends = serializers.PrimaryKeyRelatedField(many=True, read_only=True) 
 
     class Meta:
         model = Users
