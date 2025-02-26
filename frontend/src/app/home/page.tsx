@@ -65,6 +65,7 @@ function HomePage() {
         return (
           <div key={post.id}>
             <PostComponent
+            postLocation="post"
               key={post.id}
               post={post}
               userId={userId}

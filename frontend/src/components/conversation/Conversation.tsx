@@ -46,7 +46,7 @@ const ConversationContainer: React.FC<UserProps> = ({ user, messages, sendMessag
           ))}
         </div>
       </div>
-      <CreateContent createContent={handleNewMessage} location="conversation" />
+      <CreateContent createContent={handleNewMessage} placeholder="Write a message" />
     </div>
   );
 };

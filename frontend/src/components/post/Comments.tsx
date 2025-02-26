@@ -121,7 +121,7 @@ const Comments: React.FC<CommentProps> = ({
                 <div className="text-center text-gray-400">No Comments Yet</div>
               )}
             </div>
-            <CreateContent createContent={sendComment} />
+            <CreateContent createContent={sendComment} placeholder="Write a comment"/>
           </div>
           <div className="px-3 py-2 h-full">
             <IconButton className="" onClick={handleCloseComment}>
