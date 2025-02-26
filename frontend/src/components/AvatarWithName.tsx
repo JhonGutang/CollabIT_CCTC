@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
     name: string;
-    size: number;
+    size?: number;
     flexDirection?: 'row' | 'col';
     avatarLink?: string,
 }

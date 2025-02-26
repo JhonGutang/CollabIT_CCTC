@@ -157,8 +157,8 @@ body {
 
 
 .message-input {
-  background-color: rgba(0, 0, 0, 0.557) !important;
   /* width: 30vw !important; */
+  border: 1px solid black;
   height: 50px;
   padding: 0px 30px;
   border-radius: 50px;

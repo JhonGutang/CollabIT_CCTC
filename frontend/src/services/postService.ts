@@ -43,37 +43,37 @@ export const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export const submitPost = async (post: Partial<Post>) => {
-  const userId = getUserDataFromLocal()?.id;
-  const token = getUserDataFromLocal()?.authToken;
+  const { id: userId, authToken: token } = getUserDataFromLocal() || {};
   const formData = new FormData();
+
   formData.append("user_id", String(userId));
   formData.append("content", post.content || "");
+  
   if (post.image) {
     formData.append("image_link", post.image);
   }
+  
   formData.append("video_link", post.videoLink || "");
 
   try {
-    const response = await axiosInstance.post("posts/", formData, {
+    const { data } = await axiosInstance.post("posts/", formData, {
       headers: {
         Authorization: `Token ${token}`,
         "Content-Type": "multipart/form-data",
       },
     });
-    if (response.data && response.data.image_link) {
-      response.data.imageLink = `${response.data.image_link}`;
-    }
-    response.data.avatarLink = `http://127.0.0.1:8000/media/${response.data.avatar_link}`
-    return response.data;
+
+    return {
+      ...data,
+      imageLink: data.image_link ? `${data.image_link}` : undefined,
+      avatarLink: `http://127.0.0.1:8000/media/${data.avatar_link}`,
+      userId: data.user_id,
+    };
   } catch (error) {
-    if (error instanceof AxiosError) {
-      console.error(
-        "Error fetching posts:",
-        error.response?.data.detail || error.message
-      );
-    } else {
-      console.error("An unexpected error occurred:", error);
-    }
+    const errorMessage = error instanceof AxiosError 
+      ? error.response?.data.detail || error.message 
+      : "An unexpected error occurred:";
+    console.error("Error submitting post:", errorMessage);
     return [];
   }
 };
