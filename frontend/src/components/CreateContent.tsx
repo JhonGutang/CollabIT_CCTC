@@ -17,7 +17,6 @@ const CreateContent = ({ createContent }: MessageProps) => {
     return ( 
         <div className="flex gap-5 w-full items-start justify-center">
             <div className="relative w-full">
-                {/* Input field with padding for button space */}
                 <input 
                     type="text" 
                     className="w-full pl-4 pr-12 py-2 border custom-border-radius focus:outline-none focus:ring-2 focus:ring-blue-500" 
@@ -25,8 +24,7 @@ const CreateContent = ({ createContent }: MessageProps) => {
                     placeholder="Write a comment"
                     onChange={(e) => setContent(e.target.value)} 
                 />
-
-                {/* Icon button inside input field */}
+                
                 <IconButton 
                     onClick={sendCreatedContent} 
                     className="!absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
