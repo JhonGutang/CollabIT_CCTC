@@ -1,40 +1,41 @@
 import { IconButton } from "@mui/material";
 import { useState } from "react";
-import { faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SendHorizontal } from "lucide-react";
 
 export interface MessageProps {
-    location: string,
     createContent: (message: string) => void;
 }
 
-const CreateContent = ({ location, createContent }: MessageProps) => {
+const CreateContent = ({ createContent }: MessageProps) => {
     const [content, setContent] = useState("");
 
-    const sendCreatedContent = async() => {
+    const sendCreatedContent = async () => {
         createContent(content);
         setContent("");
-    }
+    };
 
     return ( 
         <div className="flex gap-5 w-full items-start justify-center">
-            { location === 'conversation' && 
-            <IconButton>
-                <FontAwesomeIcon icon={faImage}></FontAwesomeIcon>
-            </IconButton>
+            <div className="relative w-full">
+                {/* Input field with padding for button space */}
+                <input 
+                    type="text" 
+                    className="w-full pl-4 pr-12 py-2 border custom-border-radius focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    value={content} 
+                    placeholder="Write a comment"
+                    onChange={(e) => setContent(e.target.value)} 
+                />
 
-            }
-            <input 
-                type="text" 
-                className="message-input w-2/3" 
-                value={content} 
-                onChange={(e) => setContent(e.target.value)} 
-            />
-            <IconButton onClick={sendCreatedContent}>
-                <FontAwesomeIcon icon={faPaperPlane}/>
-            </IconButton>
+                {/* Icon button inside input field */}
+                <IconButton 
+                    onClick={sendCreatedContent} 
+                    className="!absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                >
+                    <SendHorizontal size={20}/>
+                </IconButton>
+            </div>
         </div>
     );
 }
- 
+
 export default CreateContent;

@@ -9,7 +9,7 @@ import {
 import { deletePost, updatePost } from "@/services/postService";
 import { addToFriends } from "@/services/userService";
 import ActionButtons from "./ActionButtons";
-import PostContent from "./PostContent";
+import EditPostContent from "./EditPostContent";
 import Snackbar from "../Snackbar";
 import DropdownMenu from "./DropdownMenu";
 import Comments from "./Comments";
@@ -167,7 +167,7 @@ const Post: React.FC<PostProps> = ({
               />
             )}
 
-            {(!isFriend || userId !== post.userId) && (
+            {(!isFriend) && (
               <div
                 className="cursor-pointer me-3"
                 onClick={() => handleAddFriends(post.userId)}
@@ -180,7 +180,7 @@ const Post: React.FC<PostProps> = ({
 
         {/* Post Content */}
         {isEdit ? (
-          <PostContent ref={postContentRef} post={post} />
+          <EditPostContent ref={postContentRef} post={post} />
         ) : (
           <div>
             <div className="w-full flex-col items-center mb-7">
@@ -214,7 +214,7 @@ const Post: React.FC<PostProps> = ({
       <Comments
         isCommentClicked={isCommentClicked}
         toggleComment={toggleComment}
-        postId={post.id}
+        post={post}
       />
 
       <Snackbar
