@@ -78,20 +78,13 @@ const Conversation = () => {
       console.error("Error: Current user ID is undefined.");
       return;
     }
-  
-    const newMessage: Message = {
-      id: Date.now() + Math.random(),
-      sender_id: currentUser.id,
-      message: message.message || "",
-    };
+    
     try {
       sendMessage(message);
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
-  
-  
   
 
   const redirectToHomepage = () => {
