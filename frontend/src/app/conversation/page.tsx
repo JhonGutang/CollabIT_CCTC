@@ -10,7 +10,7 @@ import {
 import Fallback from "@/components/conversation/Fallback";
 import useWebSocket from "@/hooks/useWebSocket";
 import { House } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export interface User {
   id: number;
   username: string;
@@ -24,26 +24,46 @@ export interface Message {
 }
 
 const Conversation = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const chatUserId = searchParams.get("chatUserId"); // Extract chatUserId from URL
+
   const [currentChat, setCurrentChat] = useState<User | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
-  const {
-    messages: wsMessages,
-    sendMessage,
-    connectWebSocket,
-  } = useWebSocket();
+  const { messages: wsMessages, sendMessage, connectWebSocket } = useWebSocket();
 
   const handleCurrentUser = async (user: User) => {
     setCurrentChat(user);
-    await createConversation(user.id);
-    const resMessages = await getMessages();
+    const conversationId = await createConversation(user.id);
+    const resMessages = await getMessages(conversationId);
     setMessages(resMessages);
     connectWebSocket();
+
+
+    router.push(`/conversation?chatUserId=${user.id}`, { scroll: false });
   };
 
+  const handleUsersFetched = (users: User[]) => {
+    console.log("Users received in Conversation:", users);
+  
+    if (users.length === 0) return;
+  
+    const defaultUser = chatUserId
+      ? users.find((user) => user.id === Number(chatUserId)) || users[0]
+      : users[0];
+  
+    if (!currentChat || currentChat.id !== defaultUser.id) {
+      handleCurrentUser(defaultUser);
+    }
+  };
+  
+
+
+  
+
   const redirectToHomepage = () => {
-    router.push('home')
-  }
+    router.push("/home");
+  };
 
   useEffect(() => {
     if (wsMessages.length > 0) {
@@ -63,16 +83,16 @@ const Conversation = () => {
         <div className="flex items-center gap-2 mb-5 cursor-pointer" onClick={redirectToHomepage}>
           <House size={30} />
           <div>Home</div>
-        </div>
-        <UsersList currentUser={handleCurrentUser} />
+        </div> 
+        <UsersList
+          currentUser={handleCurrentUser}
+          location="conversation"
+          onUsersFetched={handleUsersFetched}
+        />
       </div>
 
       {currentChat ? (
-        <ConversationContainer
-          user={currentChat}
-          messages={messages}
-          sendMessage={sendMessage}
-        />
+        <ConversationContainer user={currentChat} messages={messages} sendMessage={sendMessage} />
       ) : (
         <Fallback />
       )}

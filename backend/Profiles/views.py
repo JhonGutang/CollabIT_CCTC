@@ -64,10 +64,22 @@ class UserUpdateView(generics.UpdateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class FriendListCreateView(generics.ListAPIView): 
-    serializer_class = FriendSerializer 
+class FriendListCreateView(generics.ListCreateAPIView):
+    serializer_class = FriendSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Users.objects.filter(id=self.request.user.id)  
+        return Users.objects.filter(id=self.request.user.id)
+
+    def create(self, request, *args, **kwargs):
+        user = request.user 
+        friend_id = request.data.get('friend_id')
+
+        try:
+            friend = Users.objects.get(id=friend_id) 
+        except Users.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        user.friends.add(friend)
+        return Response({"message": "Friend added successfully"}, status=status.HTTP_201_CREATED)

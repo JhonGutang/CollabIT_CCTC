@@ -10,6 +10,7 @@ export default function Home() {
   const { elementRef: heroRef, isIntersecting: isHeroAlmostOut } = useIntersection(0.5);
 
   return (
+    
     <div className="bg-white text-black overflow-auto">
       <Navbar />
 

@@ -1,10 +1,9 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { getUserDataFromLocal } from "./userService";
 
-export const getMessages = async () => { 
+export const getMessages = async (conversationId: number) => { 
   console.log("getMessages called");
   const token = getUserDataFromLocal()?.authToken;
-  const conversationId = localStorage.getItem("conversationId");
   try {
     const response = await axiosInstance.get(`conversations/${conversationId}/messages`, {
       headers: {
@@ -30,15 +29,15 @@ export const createConversation = async (recipientId: number) => {
       }
     );
     const id = response.data.conversation.id;
+    return id
     localStorage.setItem("conversationId", id);
   } catch (error) {
     console.error("Error creating conversation:", error);
   }
 };
 
-export const storeMessage = async (message: string) => {
+export const storeMessage = async (conversationId: number, message: string) => {
   const token = getUserDataFromLocal()?.authToken;
-  const conversationId = localStorage.getItem("conversationId");
   try {
     const response = await axiosInstance.post(
       "conversations/send-message/",
