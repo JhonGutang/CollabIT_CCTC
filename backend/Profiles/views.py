@@ -73,13 +73,13 @@ class FriendListCreateView(generics.ListCreateAPIView):
         return Users.objects.filter(id=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
-        user = request.user  # Get the logged-in user
-        friend_id = request.data.get('friend_id')  # Get the friend's user ID from the request
+        user = request.user 
+        friend_id = request.data.get('friend_id')
 
         try:
-            friend = Users.objects.get(id=friend_id)  # Fetch the friend user
+            friend = Users.objects.get(id=friend_id) 
         except Users.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        user.friends.add(friend)  # Add the friend relationship
+        user.friends.add(friend)
         return Response({"message": "Friend added successfully"}, status=status.HTTP_201_CREATED)
