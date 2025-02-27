@@ -34,22 +34,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """Receive messages from WebSocket, save to DB, and broadcast."""
         data = json.loads(text_data)
         message_text = data.get("message", "").strip()
-        image_data = data.get("image", None)  # Base64-encoded image
+        image_data = data.get("image", None) 
         user = self.scope["user"]
         
         if not message_text and not image_data:
-            return  # Ignore empty messages
+            return  
         
         image_link = None
         if image_data:
-            # Extract base64 and file extension
             format, imgstr = image_data.split(";base64,")
             ext = format.split("/")[-1]
             random_str = get_random_string(8)
             file_name = f"message_{user.id}_{self.conversation_id}_{random_str}.{ext}"
             file_path = os.path.join("messages/images", file_name)
 
-            # Save image to media folder
             full_path = os.path.join(settings.MEDIA_ROOT, file_path)
             with open(full_path, "wb") as f:
                 f.write(base64.b64decode(imgstr))
@@ -63,7 +61,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             image_link=image_link if image_link else None,
         )
 
-        # Broadcast message
         await self.channel_layer.group_send(
             self.room_group_name,
             {
