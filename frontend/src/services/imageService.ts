@@ -1,3 +1,10 @@
+
+export interface FileContent {
+  imageLink?: string;
+  image?: File;
+  videoLink?: string;
+}
+
 let fileInputRef: HTMLInputElement | null = null;
 
 export const setFileInputRef = (ref: HTMLInputElement | null) => {
@@ -10,15 +17,15 @@ export const handleImageClick = () => {
   }
 };
 
-export const handleFileChange = (
+export const fileChange = (
   e: React.ChangeEvent<HTMLInputElement>,
-  setPost: React.Dispatch<
-    React.SetStateAction<{ content: string; image?: File; imageLink: string; videoLink: string }>
-  >
 ) => {
   if (e.target.files && e.target.files[0]) {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
-    setPost((prevPost) => ({ ...prevPost, image: file, imageLink: imageUrl }));
+    return {
+      image: file,
+      imageLink: imageUrl
+    }
   }
 };

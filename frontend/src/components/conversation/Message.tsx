@@ -3,9 +3,10 @@ import { Avatar } from "@mui/material";
 import React from "react";
 
 export interface Message {
-  id: number;
-  sender_id: number;
+  id?: number;
+  sender_id?: number;
   message: string;
+  imageLink?: string;
 }
 
 export interface MessageProps {
@@ -17,9 +18,22 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   return (
     <div>
       {senderId === message.sender_id ? (
-        <div className="flex items-center justify-end mb-3">
-          <div className="me-3 message text-right">{message.message}</div>
-          <Avatar src="https://i.pinimg.com/236x/ff/d9/b4/ffd9b46366e14141790a80d4922485bf.jpg" />
+        <div className="flex items-start justify-end mb-3">
+          <div className="me-3 message ">
+            <div className="px-3">{message.message}</div>
+
+            {message.imageLink && (
+              <div className="px-3 py-2">
+                <img
+                  src={message.imageLink}
+                  alt=""
+                  className="rounded-xl"
+                  style={{ maxWidth: "350px", maxHeight: '400px' }}
+                />
+              </div>
+            )}
+          </div>
+          <Avatar src="https://i.pinimg.com/236x/ff/d9/b4/ffd9b46366e14141790a80d4922485bf.jpg" className="mt-2" />
         </div>
       ) : (
         <div className="flex items-center mb-3">
