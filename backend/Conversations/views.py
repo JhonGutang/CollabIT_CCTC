@@ -62,9 +62,6 @@ class MessageListCreateView(generics.ListCreateAPIView):
         return Messages.objects.filter(conversation_id=conversation_id)
 
     def perform_create(self, serializer):
-        """
-        Save the message with the authenticated user as the sender.
-        """
         conversation_id = self.request.data.get('conversation_id')
         message = self.request.data.get('message')
 
