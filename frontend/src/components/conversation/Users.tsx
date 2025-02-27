@@ -9,11 +9,12 @@ export interface User {
 
 export interface UserProps {
   user: User;
+  textColor: string
 }
 
-const Users: React.FC<UserProps> = ({ user }) => {
+const Users: React.FC<UserProps> = ({ user, textColor }) => {
   return (
-    <Button className="users w-full" sx={{color: 'white'}} >
+    <Button className="users w-full" sx={{ color:  textColor }}>
         <AvatarWithName name={user.username} />
     </Button>
   );
