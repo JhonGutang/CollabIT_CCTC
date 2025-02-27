@@ -10,8 +10,7 @@ import {
 import Fallback from "@/components/conversation/Fallback";
 import useWebSocket from "@/hooks/useWebSocket";
 import { House } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation"; // Import for URL handling
-
+import { useRouter, useSearchParams } from "next/navigation";
 export interface User {
   id: number;
   username: string;
