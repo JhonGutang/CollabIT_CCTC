@@ -47,8 +47,8 @@ const useWebSocket = () => {
           id: data.id,
           message: data.message,
           sender_id: data.sender_id,
-          image: data.image, // Assuming `data.image` is correct
-          imageLink: data.image_link, // Renaming `image_link` to `imageLink`
+          image: data.image, 
+          imageLink: data.image_link, 
           videoLink: data.videoLink,
         };
 
