@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { submitPost } from "@/services/postService";
-import { Button, Container, IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faVideo, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import CustomSnackbar from "../Snackbar";
-import {
-  handleFileChange,
-  handleImageClick,
-  setFileInputRef,
-} from "@/services/imageService";
 import ImagesWithCloseButton from "./ImagesWithCloseButton";
+import ImageUpload from "../ImageUpload";
+import { FileContent } from "@/services/imageService";
 
 type Post = {
   id: number;
@@ -23,6 +20,11 @@ type Post = {
   reactionId?: number;
 };
 
+export interface PostToSend extends FileContent {
+  content?: string;
+}
+
+
 type ChildProps = {
   updatedPosts: (data: Post) => void;
 };
@@ -34,24 +36,12 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     message: "",
   });
 
-  const [post, setPost] = useState<{
-    content: string;
-    image?: File;
-    imageLink: string;
-    videoLink: string;
-  }>({
+  const [post, setPost] = useState<PostToSend>({
     content: "",
     image: undefined,
     imageLink: "",
     videoLink: "",
   });
-  
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    setFileInputRef(fileInputRef.current);
-  }, []);
 
   const handlePost = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -78,8 +68,9 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   };
 
   const handleRemoveImage = () => {
-    setPost({ ...post, imageLink: "" });
+    setPost((prevPost) => ({ ...prevPost, imageLink: "" }));
   };
+  
 
   return (
     <div className="relative w-[40vw] mb-10 p-5 rounded-xl">
@@ -98,17 +89,8 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
           placeholder="What's on your Mind?"
         />
         <div className="flex justify-between">
-          <div>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={(e) => handleFileChange(e, setPost)}
-              style={{ display: "none" }}
-            />
-            <IconButton onClick={handleImageClick}>
-              <FontAwesomeIcon color="white" icon={faImage} />
-            </IconButton>
+          <div className="flex">
+            <ImageUpload setImage={setPost} />
             <IconButton>
               <FontAwesomeIcon color="white" icon={faVideo} />
             </IconButton>
@@ -124,17 +106,10 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
         </div>
       </form>
       {hasValue(post.imageLink) && (
-        <ImagesWithCloseButton
-          imageLink={post.imageLink}
-          onRemove={handleRemoveImage}
-        />
+        <ImagesWithCloseButton imageLink={post.imageLink ?? ""} onRemove={handleRemoveImage} />
       )}
 
-      <CustomSnackbar
-        open={snackbar.open}
-        message={snackbar.message}
-        onClose={handleCloseSnackbar}
-      />
+      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} />
     </div>
   );
 };
