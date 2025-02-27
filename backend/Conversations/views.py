@@ -1,16 +1,26 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.exceptions import ValidationError
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.views import APIView
+
 from .models import Conversations, Types, Conversation_Members, Messages
 from .serializers import ConversationsSerializer, MessagesSerializer
 from django.contrib.auth.models import User
 
-class CreateConversationView(APIView):
-    def post(self, request):
+
+class CreateConversationView(generics.CreateAPIView):
+    serializer_class = ConversationsSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
         type = request.data.get('type', Types.private.value)
         recipient_id = request.data.get('recipient_id')
         sender_id = request.user.id  
+
+        if not recipient_id:
+            return Response({"error": "Recipient ID is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         existing_conversation = Conversations.objects.filter(
             type=type,
@@ -20,52 +30,42 @@ class CreateConversationView(APIView):
         ).distinct()
 
         if existing_conversation.exists():
-            serializer = ConversationsSerializer(existing_conversation.first())
+            serializer = self.get_serializer(existing_conversation.first())
             return Response({'can_chat': True, 'conversation': serializer.data}, status=status.HTTP_200_OK)
 
-        conversation = Conversations(type=type)
-        conversation.save()
-        
-        Conversation_Members.objects.create(conversation_id=conversation, user_id_id=sender_id)
-        Conversation_Members.objects.create(conversation_id=conversation, user_id_id=recipient_id)
+        conversation = Conversations.objects.create(type=type)
 
-        serializer = ConversationsSerializer(conversation)
+        Conversation_Members.objects.bulk_create([
+            Conversation_Members(conversation_id=conversation, user_id_id=sender_id),
+            Conversation_Members(conversation_id=conversation, user_id_id=recipient_id),
+        ])
+
+        serializer = self.get_serializer(conversation)
         return Response({'can_chat': True, 'conversation': serializer.data}, status=status.HTTP_201_CREATED)
 
-class CreateAndListMessagesView(APIView):
-    def post(self, request):
-        sender_id = request.user.id
-        conversation_id = request.data.get('conversation_id')
-        message = request.data.get('message')
+
+class MessageListCreateView(generics.ListCreateAPIView):
+    serializer_class = MessagesSerializer
+    authentication_classes = [TokenAuthentication]  
+    permission_classes = [permissions.IsAuthenticated]  
+
+    def get_queryset(self):
+        """
+        Ensure only conversation members can view messages.
+        """
+        conversation_id = self.kwargs.get('conversation_id')
+        user_id = self.request.user.id
+
+        if not Conversation_Members.objects.filter(conversation_id=conversation_id, user_id=user_id).exists():
+            raise ValidationError({"error": "You are not a member of this conversation."})
+
+        return Messages.objects.filter(conversation_id=conversation_id)
+
+    def perform_create(self, serializer):
+        conversation_id = self.request.data.get('conversation_id')
+        message = self.request.data.get('message')
 
         if not conversation_id or not message:
-            return Response({'error': 'Conversation ID and message are required.'}, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError({"error": "Conversation ID and message are required."})
 
-        message_data = {
-            'sender_id': sender_id,
-            'conversation_id': conversation_id,
-            'message': message
-        }
-
-        serializer = MessagesSerializer(data=message_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, conversation_id):
-        user_id = request.user.id
-
-        is_member = Conversation_Members.objects.filter(
-            conversation_id=conversation_id,
-            user_id=user_id
-        ).exists()
-
-        if not is_member:
-            return Response({'error': 'You are not a member of this conversation.'}, status=status.HTTP_403_FORBIDDEN)
-
-        messages = Messages.objects.filter(conversation_id=conversation_id)
-        serializer = MessagesSerializer(messages, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
+        serializer.save(sender_id=self.request.user)
