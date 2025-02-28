@@ -3,6 +3,7 @@ import React from "react";
 
 type Props = {
   name: string;
+  id?: number;
   size?: number;
   time?: string;
   flexDirection?: "row" | "col";
@@ -18,15 +19,18 @@ const AvatarWithName: React.FC<Props> = ({
   time,
   content,
 }) => {
+
   return (
     <div
-      className={`flex cursor-pointer ${
+      className={`flex ${
         flexDirection === "col" ? "flex-col justify-center" : "items-center"
       }`}
     >
       <Avatar
         src={avatarLink}
-        className={flexDirection === "col" ? "mb-2" : "me-3"}
+        className={`cursor-pointer ${
+          flexDirection === "col" ? "mb-2" : "me-3"
+        }`}
         sx={{
           width: `${size}px`,
           height: `${size}px`,
@@ -36,10 +40,13 @@ const AvatarWithName: React.FC<Props> = ({
 
       {content ? (
         <div
-          className="border p-2 rounded-xl bg-blue-200 break-words"
-          style={{ minWidth: "14vw", maxWidth: "17vw", wordWrap: "break-word" }}
+          className="border p-2 rounded-xl bg-blue-200 break-words relative"
+          style={{ minWidth: "14vw", maxWidth: "16vw", wordWrap: "break-word" }}
         >
-          <div className="text-xs font-semibold">{name}</div>
+          <div className="flex justify-between items-center">
+            <div className="text-xs font-semibold">{name}</div>
+          </div>
+
           <div className="text-sm">{content}</div>
         </div>
       ) : (

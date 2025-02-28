@@ -1,7 +1,9 @@
 import { Button } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFire, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
-import { reactingPost, removingReactionOnPost } from "@/services/postService";
+import { Flame, MessageCircle, Share, Share2 } from "lucide-react";
+import {
+  addReactionToPost,
+  removeReactionFromPost,
+} from "@/services/postService";
 import React, { useEffect, useState } from "react";
 
 export interface ReactionProps {
@@ -19,7 +21,7 @@ const ActionButtons: React.FC<ReactionProps> = ({
   reactionCount,
   commentsCount,
   reactionId,
-  toggleComment
+  toggleComment,
 }) => {
   const [newReactionid, setNewReactionId] = useState<number>(reactionId);
   const [changingReactionCount, setChangingReactionCount] = useState<number>(
@@ -33,8 +35,8 @@ const ActionButtons: React.FC<ReactionProps> = ({
   };
 
   const handleCommentClicked = () => {
-    toggleComment()
-  }
+    toggleComment();
+  };
 
   useEffect(() => {
     if (initialRender) {
@@ -44,12 +46,12 @@ const ActionButtons: React.FC<ReactionProps> = ({
 
     const handleAsyncReaction = async () => {
       if (isReacted) {
-        const newId = await reactingPost(postId, userId);
+        const newId = await addReactionToPost(postId);
         setNewReactionId(newId);
         setChangingReactionCount((prevCount) => prevCount + 1);
       } else {
         setNewReactionId((prevReactionId) => {
-          removingReactionOnPost(prevReactionId);
+          removeReactionFromPost(prevReactionId);
           return prevReactionId;
         });
         setChangingReactionCount((prevCount) => prevCount - 1);
@@ -66,20 +68,28 @@ const ActionButtons: React.FC<ReactionProps> = ({
         className={isReacted ? "active-reaction-button" : "reaction-button"}
         onClick={handleReaction}
       >
-        <FontAwesomeIcon className="me-2" icon={faFire} />
-        {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
+        <div className="flex gap-1 items-center">
+          <Flame size={20} />
+          <div>
+            {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
+          </div>
+        </div>
       </Button>
-      <Button variant="contained" className="reaction-button" onClick={handleCommentClicked}>
-        <FontAwesomeIcon className="me-2" icon={faComment} />
+      <Button
+        variant="contained"
+        className="reaction-button"
+        onClick={handleCommentClicked}
+      >
+        <div className="flex gap-1 items-center">
+
+        <MessageCircle size={20} />
         <div>{commentsCount}</div>
+        </div>
       </Button>
       <Button variant="contained" className="reaction-button">
-        <FontAwesomeIcon className="me-2" icon={faShare} />
+        <Share2 size={20} />
       </Button>
-
     </div>
-
-
   );
 };
 
