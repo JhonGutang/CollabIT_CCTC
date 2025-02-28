@@ -21,6 +21,7 @@ const API_ENDPOINTS = {
   GET_MESSAGES: (id: number) => `conversations/${id}/messages`,
   CREATE_CONVERSATION: "conversations/create/",
   SEND_MESSAGE: "conversations/send-message/",
+  DELETE_MESSAGE: (messageId: number) => `conversations/messages/${messageId}/delete/`
 };
 
 
@@ -83,3 +84,12 @@ export const storeMessage = async (conversationId: number, message: MessageToSen
     throw new Error("Failed to send message.");
   }
 };
+
+
+
+export const deleteMessage = async (messageId: number) => {
+  const response = await axiosInstance.delete(API_ENDPOINTS.DELETE_MESSAGE(messageId), {
+    headers: getAuthHeaders()
+  })
+  console.log('Message Deleted Succesfully')
+}

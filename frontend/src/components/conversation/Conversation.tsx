@@ -5,6 +5,7 @@ import MessageComponent from "./Message";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
 import ImagesWithCloseButton from "../post/ImagesWithCloseButton";
+import CustomSnackbar from "../Snackbar";
 
 export interface User {
   id: number;
@@ -42,9 +43,28 @@ const ConversationContainer: React.FC<UserProps> = ({
     imageLink: "",
     videoLink: "",
   });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+  });
 
   const handleRemoveImage = () => {
     setMessage((prevPost) => ({ ...prevPost, imageLink: "" }));
+  };
+
+  const removeMessageFromList = (messageId: number) => {
+    setMessageList(prevMessages => prevMessages.filter(message => message.id !== messageId));
+    setSnackbar({
+      open: true,
+      message: "Message deleted successfully"
+    });
+  }
+
+  const handleSnackbarClose = () => {
+    setSnackbar({
+      ...snackbar,
+      open: false,
+    });
   };
 
   useEffect(() => {
@@ -71,7 +91,7 @@ const ConversationContainer: React.FC<UserProps> = ({
         <div className="flex-grow flex flex-col justify-end px-10">
           {messageList.map((message) => (
             <div key={message.id}>
-              <MessageComponent message={message} />
+              <MessageComponent message={message} removedMessage={removeMessageFromList} />
             </div>
           ))}
         </div>
@@ -92,6 +112,12 @@ const ConversationContainer: React.FC<UserProps> = ({
           placeholder="Write a message"
         />
       </div>
+      <CustomSnackbar
+        open={snackbar.open}
+        message={snackbar.message}
+        onClose={handleSnackbarClose}
+        position={{ vertical: "top", horizontal: "center" }}
+      />
     </div>
   );
 };
