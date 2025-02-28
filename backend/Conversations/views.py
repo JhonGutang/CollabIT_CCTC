@@ -69,3 +69,13 @@ class MessageListCreateView(generics.ListCreateAPIView):
             raise ValidationError({"error": "Conversation ID and message are required."})
 
         serializer.save(sender_id=self.request.user)
+class MessageDeleteView(generics.DestroyAPIView):
+    queryset = Messages.objects.all()
+    serializer_class = MessagesSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'id'
+    
+    def perform_destroy(self, instance):
+        return super().perform_destroy(instance)
+    
