@@ -11,7 +11,8 @@ urlpatterns = [
     path('react/', views.ReactionListCreateView.as_view()),
     path('react/<int:pk>', views.ReactionDeleteView.as_view()),
     
-     path('comments/create/', views.CommentCreateView.as_view()),
+    path('comments/create/', views.CommentCreateView.as_view()),
     path('comments/<int:post_id>/', views.CommentListView.as_view()),
+    path('comments/<int:id>/delete/', views.CommentDeleteView.as_view())
 ]
 

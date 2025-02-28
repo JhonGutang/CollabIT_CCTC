@@ -1,6 +1,6 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { AxiosError } from "axios";
-import { getUserDataFromLocal } from "@/services/userService"; // Import the new function
+import { getUserDataFromLocal } from "@/services/userService";
 
 export interface Post {
   id: number;
@@ -16,26 +16,44 @@ export interface Post {
   reactionId: number;
 }
 
+const getAuthToken = (): string | null => getUserDataFromLocal()?.authToken || null;
+const getUserId = (): number | null => getUserDataFromLocal()?.id || null;
+
+const getAuthHeaders = () => {
+  const token = getAuthToken();
+  if (!token) throw new Error("Authentication token is missing.");
+  return { Authorization: `Token ${token}` };
+};
+
+const API_ENDPOINTS = {
+  FETCH_POSTS: "posts/",
+  SUBMIT_POST: "posts/",
+  UPDATE_POST: (postId: number) => `posts/${postId}/update/`,
+  DELETE_POST: (postId: number) => `posts/${postId}/delete/`,
+  ADD_REACTION: "posts/react/",
+  REMOVE_REACTION: (reactionId: number) => `posts/react/${reactionId}`,
+};
+
+const formatPostResponse = (post: any): Post => ({
+  id: post.id,
+  userId: post.user_id,
+  username: post.username,
+  avatarLink: post.avatar_link ? `http://127.0.0.1:8000/media/${post.avatar_link}` : "",
+  content: post.content,
+  imageLink: post.image_link || "",
+  videoLink: post.video_link || "",
+  reactionCount: post.reactions_count,
+  commentsCount: post.comments_count,
+  reactionId: post.reaction_id,
+});
+
 export const fetchPosts = async (): Promise<Post[]> => {
-  const token = getUserDataFromLocal()?.authToken;
   try {
-    const response = await axiosInstance.get("posts/", {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
+    const response = await axiosInstance.get(API_ENDPOINTS.FETCH_POSTS, {
+      headers: getAuthHeaders(),
     });
-    return response.data.map((post: any) => ({
-      id: post.id,
-      userId: post.user_id,
-      username: post.username,
-      avatarLink:  post.avatar_link ? `http://127.0.0.1:8000/media/${post.avatar_link}` : null,
-      content: post.content,
-      imageLink: post.image_link,
-      videoLink: post.video_link,
-      reactionCount: post.reactions_count,
-      commentsCount: post.comments_count,
-      reactionId: post.reaction_id,
-    }));
+
+    return response.data.map(formatPostResponse);
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];
@@ -43,84 +61,83 @@ export const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export const submitPost = async (post: Partial<Post>) => {
-  const { id: userId, authToken: token } = getUserDataFromLocal() || {};
-  const formData = new FormData();
-
-  formData.append("user_id", String(userId));
-  formData.append("content", post.content || "");
-  
-  if (post.image) {
-    formData.append("image_link", post.image);
-  }
-  
-  formData.append("video_link", post.videoLink || "");
-
   try {
-    const { data } = await axiosInstance.post("posts/", formData, {
+    const userId = getUserId();
+    if (!userId) throw new Error("User ID is missing.");
+
+    const formData = new FormData();
+    formData.append("user_id", String(userId));
+    formData.append("content", post.content || "");
+    
+    if (post.image) formData.append("image_link", post.image);
+    if (post.videoLink) formData.append("video_link", post.videoLink);
+
+    const { data } = await axiosInstance.post(API_ENDPOINTS.SUBMIT_POST, formData, {
       headers: {
-        Authorization: `Token ${token}`,
+        ...getAuthHeaders(),
         "Content-Type": "multipart/form-data",
       },
     });
 
-    return {
-      ...data,
-      imageLink: data.image_link ? `${data.image_link}` : undefined,
-      avatarLink: `http://127.0.0.1:8000/media/${data.avatar_link}`,
-      userId: data.user_id,
-    };
+    return formatPostResponse(data);
   } catch (error) {
-    const errorMessage = error instanceof AxiosError 
-      ? error.response?.data.detail || error.message 
-      : "An unexpected error occurred:";
-    console.error("Error submitting post:", errorMessage);
-    return [];
+    handleAxiosError(error, "Error submitting post");
+    return null;
   }
 };
 
 export const updatePost = async (post: Post) => {
-  const token = getUserDataFromLocal()?.authToken;
-  const updatedPost = { ...post, image_link: undefined };
-
-  await axiosInstance.patch(`posts/${post.id}/update/`, updatedPost, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
-};
-
-export const deletePost = async (postId: number) => {
-  const token = getUserDataFromLocal()?.authToken;
-  await axiosInstance.delete(`posts/${postId}/delete/`, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
-};
-
-export const reactingPost = async (postId: number, userId: number) => {
-  const token = getUserDataFromLocal()?.authToken;
-  const reaction = {
-    post_id: postId,
-    user_id: userId,
-  };
   try {
-    const response = await axiosInstance.post("posts/react/", reaction, {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
+    await axiosInstance.patch(API_ENDPOINTS.UPDATE_POST(post.id), post, {
+      headers: getAuthHeaders(),
     });
-    return response.data.id;
+    console.log("Post updated successfully.");
   } catch (error) {
-    console.error("Error reacting post:", error);
+    handleAxiosError(error, "Error updating post");
   }
 };
 
-export const removingReactionOnPost = async (reactionId: number) => {
-  const token = getUserDataFromLocal()?.authToken;
-  await axiosInstance.delete(`posts/react/${reactionId}`, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  })
-}
+export const deletePost = async (postId: number) => {
+  try {
+    await axiosInstance.delete(API_ENDPOINTS.DELETE_POST(postId), {
+      headers: getAuthHeaders(),
+    });
+    console.log("Post deleted successfully.");
+  } catch (error) {
+    handleAxiosError(error, "Error deleting post");
+  }
+};
+
+export const addReactionToPost = async (postId: number) => {
+  try {
+    const userId = getUserId();
+    if (!userId) throw new Error("User ID is missing.");
+
+    const response = await axiosInstance.post(API_ENDPOINTS.ADD_REACTION, {
+      post_id: postId,
+      user_id: userId,
+    }, { headers: getAuthHeaders() });
+
+    return response.data.id;
+  } catch (error) {
+    handleAxiosError(error, "Error reacting to post");
+    return null;
+  }
+};
+
+export const removeReactionFromPost = async (reactionId: number) => {
+  try {
+    await axiosInstance.delete(API_ENDPOINTS.REMOVE_REACTION(reactionId), {
+      headers: getAuthHeaders(),
+    });
+    console.log("Reaction removed successfully.");
+  } catch (error) {
+    handleAxiosError(error, "Error removing reaction");
+  }
+};
+
+const handleAxiosError = (error: unknown, message: string) => {
+  const errorMessage =
+    error instanceof AxiosError ? error.response?.data.detail || error.message : "An unexpected error occurred.";
+  console.error(message, errorMessage);
+};

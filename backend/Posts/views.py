@@ -111,3 +111,11 @@ class CommentListView(generics.ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id') 
         return Comments.objects.filter(post_id=post_id).order_by('-id')  
+    
+class CommentDeleteView(generics.DestroyAPIView):
+    serializer_class = CommentsSerializer
+    queryset = Comments.objects.all()
+    lookup_field = 'id'
+    
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
