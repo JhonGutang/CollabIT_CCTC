@@ -48,10 +48,8 @@ const LeftDrawer = () => {
       sx={{
         width: "18vw",
         position: "relative",
-        border: "1px solid black",
-        borderRadius: '20px',
       }}
-      className=" h-full p-10"
+      className=" h-full p-10 custom-base-container"
     >
       <div className=" text-black h-auto mb-5 flex flex-col justify-center items-center px-5">
         <Avatar sx={{ width: "130px", height: "130px" }} className="border-2" src={user?.avatarLink} />

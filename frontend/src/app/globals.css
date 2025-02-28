@@ -10,7 +10,7 @@ html {
 
 
 :root {
-  --background: #ffffff;
+  --background: #F2F0EB;
   --foreground: #171717;
   --gradient-background: linear-gradient(to bottom, #02353C, #C1B2FF); /* New gradient background variable */
   --font-kulim-park: 'Kulim Park', sans-serif;
@@ -28,7 +28,7 @@ html {
 body {
   color: var(--foreground);
   background: var(--custom-background); 
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-kulim-park);
 }
 
 
@@ -36,8 +36,25 @@ body {
 .background {
   color: var(--foreground);
   background: var(--custom-background); 
-  font-family: var(--font-geist-sans);
+  font-family: var(--font-kulim-park);
 }
+
+
+.custom-background {
+  background-color: #F2F0EB;
+}
+
+.custom-base-container {
+  background-color: white !important;
+  color: black !important;
+  border-radius: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Added box-shadow */
+}
+
+.primary-buttons {
+  background-color: #388DDC !important
+}
+
 
 .auth-bg-image {
   width: 100%;
@@ -108,11 +125,7 @@ body {
   min-width: 20vw;
 }
 
-.post {
-  background-color: #B9D4F2 !important;
-  width: 40vw;
-  color: black;
-}
+
 
 
 .delete-image-button {

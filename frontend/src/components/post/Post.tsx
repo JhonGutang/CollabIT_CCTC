@@ -121,7 +121,7 @@ const Post: React.FC<PostProps> = ({
   ];
 
   return (
-    <div className="relative h-auto mb-5 custom-border-radius p-6 post">
+    <div className="relative h-auto mb-5 custom-base-container p-6">
       <div className="relative">
         {/* User Profile */}
         <div className="flex items-center justify-between mb-4">

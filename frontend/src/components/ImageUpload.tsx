@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { Image } from "lucide-react";
 import { fileChange, handleImageClick, setFileInputRef } from "@/services/imageService";
 import { MessageToSend } from "./conversation/Conversation";
 import { PostToSend } from "./post/CreatePost";
@@ -41,7 +40,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
         style={{ display: "none" }}
       />
       <IconButton onClick={handleImageClick}>
-        <FontAwesomeIcon color="white" icon={faImage} />
+        <Image color="black"/>
       </IconButton>
     </div>
   );

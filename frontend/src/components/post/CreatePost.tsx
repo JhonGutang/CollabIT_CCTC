@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { submitPost } from "@/services/postService";
 import { Button, IconButton } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { Video } from "lucide-react";
 import CustomSnackbar from "../Snackbar";
 import ImagesWithCloseButton from "./ImagesWithCloseButton";
 import ImageUpload from "../ImageUpload";
@@ -53,9 +52,10 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
       const newPost = await submitPost(post);
       console.log(newPost);
       setSnackbar({ open: true, message: "Post submitted successfully!" });
-      updatedPosts(newPost);
+      if(newPost) updatedPosts(newPost);
       setPost({ content: "", image: undefined, imageLink: "", videoLink: "" });
     } catch (error) {
+      console.error(error)
       setSnackbar({
         open: true,
         message: "Failed to submit post. Please try again.",
@@ -73,12 +73,10 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   
 
   return (
-    <div className="relative w-[40vw] mb-10 p-5 rounded-xl">
-      {/* Background opacity layer */}
-      <div className="absolute inset-0 bg-black opacity-20 rounded-xl z-0"></div>
+    <div className="relative w-full custom-base-container mb-8 p-5 rounded-xl">
 
       {/* Form content */}
-      <form onSubmit={handleSubmission} className="relative z-10">
+      <form onSubmit={handleSubmission}>
         <textarea
           name="content"
           id="content"
@@ -92,14 +90,13 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
           <div className="flex">
             <ImageUpload setImage={setPost} />
             <IconButton>
-              <FontAwesomeIcon color="white" icon={faVideo} />
+              <Video color="black"/>
             </IconButton>
           </div>
           <Button
             type="submit"
             variant="contained"
-            sx={{ backgroundColor: "#02353C" }}
-            className="w-[7vw] h-[4vh] rounded-xl z-10"
+            className="w-[7vw] h-[4vh] primary-buttons rounded-xl z-10"
           >
             Post
           </Button>
