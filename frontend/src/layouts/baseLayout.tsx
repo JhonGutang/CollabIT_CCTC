@@ -24,8 +24,8 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
 
   return (
     <PageAuthenticator>
-      <div className="bg-white h-[100vh]">
-        <div className="flex gap-5 py-5 px-4">
+      <div className="custom-background h-[100vh]">
+        <div className="flex gap-5 py-5 px-16">
           {!isMobile && (
             <div>
               <LeftDrawer />
@@ -34,12 +34,12 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
           <div className="w-full h-full">
             <Navbar />
             <div
-              className="w-full mt-4 p-5 flex gap-8"
+              className="w-full mt-4  flex justify-center gap-8"
               style={{ height: "83vh", overflowY: "scroll" }}
             >
-              <div>{children}</div>
+              <div className="w-[57%] py-3">{children}</div>
               {!isMobile && (
-                <div className="text-black w-full flex flex-col items-end justify-end gap-5 px-10 sticky top-0">
+                <div className="text-black w-80 flex flex-col items-end justify-end gap-5 sticky top-0 py-2">
                   <Announcement />
                   <Contacts />
                 </div>
