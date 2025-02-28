@@ -44,7 +44,6 @@ const Message: React.FC<MessageProps> = ({ message, removedMessage }) => {
     }
   };
 
-  // Attach and clean up event listener
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     document.addEventListener("contextmenu", handleClickOutside);
@@ -81,7 +80,6 @@ const Message: React.FC<MessageProps> = ({ message, removedMessage }) => {
         </div>
       )}
 
-      {/* Context Menu for Delete */}
       {contextMenu.visible && (
         <div
           className="absolute bg-white shadow-md rounded-md px-3 py-2"
