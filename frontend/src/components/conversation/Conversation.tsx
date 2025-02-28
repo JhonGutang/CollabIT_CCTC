@@ -4,6 +4,7 @@ import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
+import ImagesWithCloseButton from "../post/ImagesWithCloseButton";
 
 export interface User {
   id: number;
@@ -20,7 +21,7 @@ export interface Message {
 }
 
 export interface MessageToSend extends FileContent {
-  message?: string
+  message?: string;
 }
 
 export interface UserProps {
@@ -42,6 +43,10 @@ const ConversationContainer: React.FC<UserProps> = ({
     videoLink: "",
   });
 
+  const handleRemoveImage = () => {
+    setMessage((prevPost) => ({ ...prevPost, imageLink: "" }));
+  };
+
   useEffect(() => {
     setMessageList(messages);
   }, [messages]);
@@ -54,11 +59,8 @@ const ConversationContainer: React.FC<UserProps> = ({
       message: messageData,
     };
     sendMessage(newMessage);
-    setMessage({ message: "", image: undefined, imageLink: "", videoLink: "" }); 
+    setMessage({ message: "", image: undefined, imageLink: "", videoLink: "" });
   };
-
-
-
 
   return (
     <div className="w-full flex flex-col p-8 h-full">
@@ -74,9 +76,21 @@ const ConversationContainer: React.FC<UserProps> = ({
           ))}
         </div>
       </div>
+
+      {message.imageLink && (
+        <div className="border-2 w-full mb-2 p-3 rounded-xl">
+          <ImagesWithCloseButton
+            imageLink={message.imageLink}
+            onRemove={handleRemoveImage}
+          />
+        </div>
+      )}
       <div className="flex gap-2 items-center">
         <ImageUpload setImage={setMessage} />
-        <CreateContent createContent={handleNewMessage} placeholder="Write a message" />
+        <CreateContent
+          createContent={handleNewMessage}
+          placeholder="Write a message"
+        />
       </div>
     </div>
   );

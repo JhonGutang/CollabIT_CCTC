@@ -31,7 +31,7 @@ const CreateContent = ({ createContent, placeholder }: MessageProps) => {
                     value={content}
                     placeholder={placeholder}
                     onChange={(e) => setContent(e.target.value)}
-                    onKeyDown={handleKeyDown} // Added event listener for Enter key
+                    onKeyDown={handleKeyDown}
                 />
 
                 <IconButton

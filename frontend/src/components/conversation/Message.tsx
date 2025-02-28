@@ -22,7 +22,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
           <div className="me-3 message ">
             <div className="px-3">{message.message}</div>
 
-            {message.imageLink && (
+            {(message.imageLink && message.imageLink !== '')  && (
               <div className="px-3 py-2">
                 <img
                   src={message.imageLink}

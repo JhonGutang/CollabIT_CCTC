@@ -96,11 +96,12 @@ const Conversation = () => {
       const existingIds = new Set(prev.map((msg) => msg.id));
 
       const newMessages = wsMessages
-        .filter((msg) => !existingIds.has(msg.id))
-        .map((msg) => ({
-          ...msg,
-          imageLink: `http://127.0.0.1:8000/media/${msg.image_link}`, 
-        }));
+      .filter((msg) => !existingIds.has(msg.id))
+      .map(({ image_link, ...msg }) => ({
+        ...msg,
+        imageLink: image_link ? `http://127.0.0.1:8000/media/${image_link}` : null,
+      }));
+    
   
       console.log(newMessages);
       return [...prev, ...newMessages];
