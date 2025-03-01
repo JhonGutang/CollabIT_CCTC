@@ -49,6 +49,20 @@ export const createComment = async (comment: string, postId: number) => {
   }
 };
 
+export const updateComment = async (comment: { id: number; content: string }) => {
+  try {
+    const response = await axiosInstance.put(
+      `posts/comments/${comment.id}/update/`,
+      { content: comment.content },
+      { headers: getAuthHeaders() }
+    );
+    response.data.avatarLink = `http://127.0.0.1:8000/media/${response.data.avatar_link}`
+    return response
+  } catch (error) {
+    handleAxiosError(error, "Error updating comment");
+  }
+}
+
 export const deleteComment = async (commentId: number) => {
   const response = await axiosInstance.delete(API_ENDPOINTS.DELETE_COMMENT(commentId), {
     headers: getAuthHeaders()

@@ -4,7 +4,7 @@ import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
-import ImagesWithCloseButton from "../post/ImagesWithCloseButton";
+import ImagesWithCloseButton from "../ImagesWithCloseButton";
 import CustomSnackbar from "../Snackbar";
 
 export interface User {

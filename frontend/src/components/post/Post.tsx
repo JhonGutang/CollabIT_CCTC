@@ -12,7 +12,7 @@ import ActionButtons from "./ActionButtons";
 import EditPostContent from "./EditPostContent";
 import Snackbar from "../Snackbar";
 import DropdownMenu from "./DropdownMenu";
-import Comments from "./Comments";
+import Comments from "../comments/Main";
 import UserProfiles from "./UserProfiles";
 import AvatarWithContents from "../AvatarWithContents";
 

@@ -3,7 +3,7 @@ import { submitPost } from "@/services/postService";
 import { Button, IconButton } from "@mui/material";
 import { Video } from "lucide-react";
 import CustomSnackbar from "../Snackbar";
-import ImagesWithCloseButton from "./ImagesWithCloseButton";
+import ImagesWithCloseButton from "../ImagesWithCloseButton";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
 

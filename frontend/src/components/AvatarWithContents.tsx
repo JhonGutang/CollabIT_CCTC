@@ -1,5 +1,6 @@
 import { Avatar } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { Ellipsis } from "lucide-react";
 
 type Props = {
   name: string;
@@ -9,6 +10,7 @@ type Props = {
   flexDirection?: "row" | "col";
   avatarLink?: string;
   content?: string;
+  onMenuOpen?: () => void;
 };
 
 const AvatarWithName: React.FC<Props> = ({
@@ -18,13 +20,17 @@ const AvatarWithName: React.FC<Props> = ({
   avatarLink = "https://i.pinimg.com/236x/1c/f2/09/1cf20978bf4f2967c5e6083e6243965b.jpg",
   time,
   content,
+  onMenuOpen,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
       className={`flex ${
         flexDirection === "col" ? "flex-col justify-center" : "items-center"
       }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Avatar
         src={avatarLink}
@@ -41,13 +47,23 @@ const AvatarWithName: React.FC<Props> = ({
       {content ? (
         <div
           className="border p-2 rounded-xl bg-blue-200 break-words relative"
-          style={{ minWidth: "14vw", maxWidth: "16vw", wordWrap: "break-word" }}
+          style={{
+            minWidth: "14vw",
+            maxWidth: "20vw",
+            wordWrap: "break-word",
+          }}
         >
           <div className="flex justify-between items-center">
             <div className="text-xs font-semibold">{name}</div>
           </div>
-
-          <div className="text-sm">{content}</div>
+          <div className="flex justify-between">
+            <div className="text-sm" style={{maxWidth: '16vw', wordWrap: "break-word"}}>{content}</div>
+            {isHovered && (
+              <div className="ms-3 cursor-pointer" onClick={onMenuOpen}>
+                <Ellipsis size={18} />
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <div>
