@@ -1,9 +1,10 @@
-import UserProfiles from "@/components/post/UserProfiles";
+import EditComments from "../../components/comments/EditComments";
+
 
 const Sample = () => {
   return ( 
     <div className="flex justify-center items-center w-full h-screen">
-      <UserProfiles/>
+      <EditComments/>
     </div>
    );
 }
