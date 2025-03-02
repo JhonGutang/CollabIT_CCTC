@@ -15,8 +15,7 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const router = useRouter();
-  const backgroundImage =
-    "https://img.freepik.com/free-vector/corporate-meeting-employees-cartoon-characters-discussing-business-strategy-planning-further-actions-brainstorming-formal-communication-seminar-concept-illustration_335657-2035.jpg?t=st=1739714278~exp=1739717878~hmac=50d60b1df167134d89966143b12a2c3bc29e408032b2d19c86b905af74812d98&w=740";
+  const backgroundImage = "login_bg.png";
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",

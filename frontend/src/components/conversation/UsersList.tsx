@@ -45,7 +45,7 @@ const UsersList: React.FC<UserProp> = ({ currentUser, location, onUsersFetched }
     <div className="flex-2">
       {users.map((user) => (
         <div key={user.id} onClick={() => handleUserClick(user)} className="flex items-center pr-4">
-          <Users user={user} textColor={location === 'contacts' ? 'black' : 'white'} />
+          <Users user={user} textColor={'black'} />
           {location === 'contacts' && (
             <div className="cursor-pointer">
               <MessageSquareMore/>

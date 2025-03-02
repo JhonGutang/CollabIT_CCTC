@@ -1,13 +1,12 @@
 "use client";
 
 import { Button, Container } from "@mui/material";
-import { faUserGroup, faMessage, faRightFromBracket } from "@fortawesome/free-solid-svg-icons"; 
 import { Avatar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Snackbar from "@/components/Snackbar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getUserDataFromLocal, isUserAuthenticated } from "@/services/userService";
+import { LogOut, MessageCircleMore, SquarePenIcon, UsersRound } from "lucide-react";
 
 export interface User {
   id: number,
@@ -63,26 +62,27 @@ const LeftDrawer = () => {
         <Button
           className="w-full text-start drawer-buttons"
         >
+          <SquarePenIcon className="me-3"/>
           Create Post
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
           onClick={ () => {router.push('/conversation')}}
         >
-          <FontAwesomeIcon icon={faMessage} className="me-3"/>
+          <MessageCircleMore className="me-3"/>
           Conversations
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
         >
-          <FontAwesomeIcon icon={faUserGroup} className="me-3"/>
+          <UsersRound className="me-3"/>
           About Us
         </Button>
         <Button
           className="w-full text-start drawer-buttons"
           onClick={logout}
         >
-          <FontAwesomeIcon icon={faRightFromBracket} className="me-3"/>
+          <LogOut className="me-3"/>
           Logout
         </Button>
       </div>

@@ -16,7 +16,7 @@ const PostContent = forwardRef(({ post }: PostProps, ref) => {
   const [content, setContent] = useState(post.content);
 
   useImperativeHandle(ref, () => ({
-    getContent: () => content, 
+    getContent: () => content,
   }));
 
   const handlePostContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,11 +28,15 @@ const PostContent = forwardRef(({ post }: PostProps, ref) => {
       <textarea
         value={content}
         onChange={handlePostContent}
-        className="border border-white bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl mb-2"
+        className="border bg-transparent w-full h-full px-5 py-3 resize-none rounded-xl mb-2"
       />
-      <img src={post.imageLink} alt="" className="rounded-xl" />
+      {post.imageLink && (
+        <img src={post.imageLink} alt="" className="rounded-xl" />
+      )}
     </div>
   );
 });
+
+PostContent.displayName = "PostContent";
 
 export default PostContent;

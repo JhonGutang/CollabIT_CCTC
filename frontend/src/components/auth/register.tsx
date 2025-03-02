@@ -20,7 +20,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
     password: "",
   });
   const backgroundImage =
-    "https://img.freepik.com/free-vector/teamwork-people-with-puzzle-pieces_24877-54950.jpg?t=st=1739714385~exp=1739717985~hmac=54cde3bf37f33e128f631bdbaa75daa8fbdc8292b6f2a42174a903dc5e24797d&w=740";
+    "register_bg.png";
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [form, setForm] = useState(1);
@@ -110,10 +110,15 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
                 name="yearLevel"
                 id="yearLevel"
                 value={formData.yearLevel}
-                placeholder="Year level"
-                onChange={handleInputChange}
+                placeholder="Year level (1-4)"
+                onChange={(e) => {
+                  const value = Math.max(1, Math.min(4, Number(e.target.value)));
+                  setFormData({ ...formData, yearLevel: value });
+                }}
                 className="border-2 h-[50px] w-full p-2 px-4 mb-3 custom-border-radius"
                 required
+                min={1}
+                max={4}
               />
             </div>
             <div className="w-full">

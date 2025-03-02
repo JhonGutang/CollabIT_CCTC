@@ -78,7 +78,7 @@ const Hero = () => {
           transition={{ duration: 1 }} 
         >
           <img
-            src="https://img.freepik.com/free-vector/business-team-brainstorm-idea-lightbulb-from-jigsaw-working-team-collaboration-enterprise-cooperation-colleagues-mutual-assistance-concept-pinkish-coral-bluevector-isolated-illustration_335657-1651.jpg?t=st=1739883939~exp=1739887539~hmac=0b9bd6df334650b5f334d792122f042fa7e5a58ea27d2648daaedfe228ac2a5f&w=996"
+            src="hero_bg.png"
             alt="Team Collaboration"
           />
         </motion.div>

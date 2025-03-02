@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AvatarWithName from "../AvatarWithContents";
 import CreateContent from "../CreateContent";
 import MessageComponent from "./Message";
@@ -48,17 +48,21 @@ const ConversationContainer: React.FC<UserProps> = ({
     message: "",
   });
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   const handleRemoveImage = () => {
     setMessage((prevPost) => ({ ...prevPost, imageLink: "" }));
   };
 
   const removeMessageFromList = (messageId: number) => {
-    setMessageList(prevMessages => prevMessages.filter(message => message.id !== messageId));
+    setMessageList((prevMessages) =>
+      prevMessages.filter((message) => message.id !== messageId)
+    );
     setSnackbar({
       open: true,
-      message: "Message deleted successfully"
+      message: "Message deleted successfully",
     });
-  }
+  };
 
   const handleSnackbarClose = () => {
     setSnackbar({
@@ -70,6 +74,13 @@ const ConversationContainer: React.FC<UserProps> = ({
   useEffect(() => {
     setMessageList(messages);
   }, [messages]);
+
+  useEffect(() => {
+    // Auto-scroll to the bottom when messageList updates
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messageList]);
 
   const handleNewMessage = (messageData: string) => {
     console.log(messageData);
@@ -83,22 +94,24 @@ const ConversationContainer: React.FC<UserProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col p-8 h-full">
+    <div className="w-full flex flex-col p-8 h-full custom-base-container">
       <div>
         <AvatarWithName name={user.username} />
       </div>
-      <div className="h-full overflow-y-scroll my-5 rounded-xl message-container py-5">
-        <div className="flex-grow flex flex-col justify-end px-10">
+      <div className="h-full overflow-y-auto my-5 rounded-xl message-container p-5">
           {messageList.map((message) => (
             <div key={message.id}>
-              <MessageComponent message={message} removedMessage={removeMessageFromList} />
+              <MessageComponent
+                message={message}
+                removedMessage={removeMessageFromList}
+              />
             </div>
           ))}
-        </div>
+          <div ref={messagesEndRef} />
       </div>
 
       {message.imageLink && (
-        <div className="border-2 w-full mb-2 p-3 rounded-xl">
+        <div className="w-full mb-2 p-3 rounded-xl">
           <ImagesWithCloseButton
             imageLink={message.imageLink}
             onRemove={handleRemoveImage}

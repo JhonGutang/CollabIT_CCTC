@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { UserRoundPlus } from "lucide-react";
+import { Ellipsis, Save, UserRoundPlus, X } from "lucide-react";
 import {
   faEllipsis,
   faFloppyDisk,
@@ -147,18 +147,18 @@ const Post: React.FC<PostProps> = ({
           <div className="relative">
             {isEdit && (
               <div>
-                <button className="me-5" onClick={handleSaveContent}>
-                  <FontAwesomeIcon icon={faFloppyDisk} />
+                <button className="me-5 cursor-pointer" onClick={handleSaveContent}>
+                  <Save/>
                 </button>
-                <button onClick={toggleEdit}>
-                  <FontAwesomeIcon icon={faXmark} />
+                <button onClick={toggleEdit} className="cursor-pointer">
+                  <X/>
                 </button>
               </div>
             )}
 
             {!isEdit && (userId === post.userId || userId === post.user_id) && (
               <DropdownMenu
-                buttonIcon={<FontAwesomeIcon icon={faEllipsis} />}
+                buttonIcon={<Ellipsis />}
                 menuItems={menuItems}
                 onClose={() => {}}
               />

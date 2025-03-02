@@ -10,7 +10,7 @@ import {
 } from "@/services/conversationsService";
 import Fallback from "@/components/conversation/Fallback";
 import useWebSocket from "@/hooks/useWebSocket";
-import { House } from "lucide-react";
+import { ArrowBigLeft, House } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getUserDataFromLocal } from "@/services/userService";
 
@@ -110,11 +110,13 @@ const Conversation = () => {
   
 
   return (
-    <div className="flex h-[100vh]">
-      <div className="w-1/3 px-5 py-10">
-        <div className="flex items-center gap-2 mb-5 cursor-pointer" onClick={redirectToHomepage}>
-          <House size={30} />
-          <div>Home</div>
+    <div className="flex h-[100vh] custom-background px-10 py-5 gap-8">
+      <div className="w-1/4 px-5 py-7 custom-base-container">
+        <div className="mb-5 flex items-center gap-8">
+          <ArrowBigLeft onClick={redirectToHomepage} className="cursor-pointer"/>
+        <div className="text-2xl text-center">
+          Friend Lists
+        </div>
         </div>
         <UsersList
           currentUser={handleCurrentUser}
