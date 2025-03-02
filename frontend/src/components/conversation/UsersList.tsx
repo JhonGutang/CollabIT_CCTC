@@ -4,7 +4,7 @@ import { getAllUsers, getUserDataFromLocal } from "@/services/userService"; // â
 import React, { useEffect, useState } from "react";
 import Users from "./Users";
 import { useRouter } from "next/navigation";
-import { MessageSquareMore } from "lucide-react";
+import { MessageCircleMore } from "lucide-react";
 export interface User {
   id: number;
   username: string;
@@ -48,7 +48,7 @@ const UsersList: React.FC<UserProp> = ({ currentUser, location, onUsersFetched }
           <Users user={user} textColor={'black'} />
           {location === 'contacts' && (
             <div className="cursor-pointer">
-              <MessageSquareMore/>
+              <MessageCircleMore/>
             </div>
           )}
         </div>

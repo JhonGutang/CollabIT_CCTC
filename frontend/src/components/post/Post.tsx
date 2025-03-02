@@ -137,11 +137,11 @@ const Post: React.FC<PostProps> = ({
                 name={post.username}
                 time="2mins ago"
               />
-              {showProfile && (
+              {/* {showProfile && (
                 <div className="absolute top-[60px] left-0 z-[9999]">
                   <UserProfiles username={post.username} avatarLink={post.avatarLink}/>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <div className="relative">
