@@ -12,6 +12,13 @@ class ConversationMembersSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MessagesSerializer(serializers.ModelSerializer):
+    avatar_link = serializers.SerializerMethodField()
+
     class Meta:
         model = Messages
         fields = '__all__'
+
+    def get_avatar_link(self, obj):
+        if obj.sender_id and obj.sender_id.avatar:
+            return obj.sender_id.avatar.image_link.url if obj.sender_id.avatar.image_link else None
+        return None

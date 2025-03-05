@@ -27,12 +27,13 @@ export interface User {
   avatarLink: string | null;
 }
 
-interface LocalUserData {
+export interface LocalUserData {
   id: number;
   username: string;
   avatarLink: string | null;
   authToken: string;
 }
+
 
 
 const storeUserDataToLocal = (data: AuthResponse): void => {
@@ -78,10 +79,18 @@ export interface LoginCredentials {
   password: string;
 }
 
-export const loginUser = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-  const response = await axiosInstance.post<AuthResponse>('/profiles/login/', credentials);
-  storeUserDataToLocal(response.data);
-  return response.data;
+export const loginUser = async (credentials: LoginCredentials)  => {
+  try {
+    const response = await axiosInstance.post<AuthResponse>('/profiles/login/', credentials);
+    storeUserDataToLocal(response.data);
+    return {
+      open: true, message: "Logged in successfully!", state: "success"
+    }
+  } catch (error) {
+    return {
+      open: true, message: "Logged in failed!", state: "error"
+    }
+  }
 };
 
 export const getAllUsers = async (): Promise<User[]> => {
@@ -95,9 +104,16 @@ export const getAllUsers = async (): Promise<User[]> => {
       Authorization: `Token ${userData.authToken}`
     }
   });
-  return response.data;
-};
 
+  const transformedData = response.data.map(user => ({
+    ...user,
+    avatarLink: `http://127.0.0.1:8000/media/${user.avatar_link}`,
+    avatar_link: undefined // Remove the original avatar_link property
+  }));
+
+  console.log(transformedData);
+  return transformedData;
+};
 
 export const addToFriends = async (userId: number) => {
   const token = getUserDataFromLocal()?.authToken

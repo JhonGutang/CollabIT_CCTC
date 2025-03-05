@@ -33,6 +33,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
+    state: "",
   });
 
   const [post, setPost] = useState<PostToSend>({
@@ -51,7 +52,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
     try {
       const newPost = await submitPost(post);
       console.log(newPost);
-      setSnackbar({ open: true, message: "Post submitted successfully!" });
+      setSnackbar({ open: true, message: "Post submitted successfully!", state: 'success' });
       if(newPost) updatedPosts(newPost);
       setPost({ content: "", image: undefined, imageLink: "", videoLink: "" });
     } catch (error) {
@@ -59,6 +60,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
       setSnackbar({
         open: true,
         message: "Failed to submit post. Please try again.",
+        state: 'error'
       });
     }
   };
@@ -106,7 +108,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
         <ImagesWithCloseButton imageLink={post.imageLink ?? ""} onRemove={handleRemoveImage} />
       )}
 
-      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} />
+      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} color={snackbar.state} />
     </div>
   );
 };

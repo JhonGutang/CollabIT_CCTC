@@ -96,7 +96,7 @@ const ConversationContainer: React.FC<UserProps> = ({
   return (
     <div className="w-full flex flex-col p-8 h-full custom-base-container">
       <div>
-        <AvatarWithName name={user.username} />
+        <AvatarWithName name={user.username} avatarLink={user.avatarLink} />
       </div>
       <div className="h-full overflow-y-auto my-5 rounded-xl message-container p-5">
           {messageList.map((message) => (

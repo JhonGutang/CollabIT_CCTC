@@ -28,11 +28,10 @@ const API_ENDPOINTS = {
 const formatMessageResponse = (message: any) => ({
   ...message,
   imageLink: message.image_link, 
+  avatarLink: `http://127.0.0.1:8000${message.avatar_link}`
 });
 
 export const getMessages = async (conversationId: number) => {
-  console.log("getMessages called");
-
   try {
     const response = await axiosInstance.get(API_ENDPOINTS.GET_MESSAGES(conversationId), {
       headers: getAuthHeaders(),
@@ -77,6 +76,8 @@ export const storeMessage = async (conversationId: number, message: MessageToSen
         "Content-Type": "multipart/form-data",
       },
     });
+
+    console.log(response.data);
 
     return formatMessageResponse(response.data);
   } catch (error) {

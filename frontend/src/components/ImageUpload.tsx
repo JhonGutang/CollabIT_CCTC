@@ -14,7 +14,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setImage }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageData = fileChange(e)
-    console.log(imageData);
     if(imageData){
         setImage((prev) => ({
             ...prev,

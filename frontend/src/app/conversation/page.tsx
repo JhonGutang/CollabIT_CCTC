@@ -100,10 +100,9 @@ const Conversation = () => {
       .map(({ image_link, ...msg }) => ({
         ...msg,
         imageLink: image_link ? `http://127.0.0.1:8000/media/${image_link}` : null,
+        avatarLink: getUserDataFromLocal()?.avatarLink || "",
       }));
     
-  
-      console.log(newMessages);
       return [...prev, ...newMessages];
     });
   }, [wsMessages]);

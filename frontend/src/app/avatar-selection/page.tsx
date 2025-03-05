@@ -71,7 +71,7 @@ const AvatarSelection = () => {
           />
           <div className="text-lg">{user}</div>
         </div>
-        <div className="custom-border-radius border-2 w-full h-auto flex flex-wrap gap-3 p-5 mb-5">
+        <div className="custom-border-radius border-2 w-full h-auto flex justify-center flex-wrap gap-3 p-5 mb-5">
           {avatars.map((avatar) => (
             <IconButton
               key={avatar.id}

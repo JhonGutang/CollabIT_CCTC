@@ -19,6 +19,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
+    state: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,17 +30,20 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
     toggleHandler("register");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginUser(formData);
-    setSnackbar({ open: true, message: "Logged in successfully!" });
-    setTimeout(() => {
-      if(getUserDataFromLocal()?.avatarLink) {
-        router.push("/home");
-      } else {
-        router.push('/avatar-selection')
-      }
-    }, 1500);
+    const response = await loginUser(formData);
+    setSnackbar(response)
+    
+    if(response.state === 'success') {
+      setTimeout(() => {
+        if(getUserDataFromLocal()?.avatarLink) {
+          router.push("/home");
+        } else {
+          router.push('/avatar-selection')
+        }
+      }, 1500);
+    } 
   };
 
   const handleCloseSnackbar = () => {
@@ -100,6 +104,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
         open={snackbar.open}
         message={snackbar.message}
         onClose={handleCloseSnackbar}
+        color={snackbar.state}
       />
     </AuthLayout>
   );

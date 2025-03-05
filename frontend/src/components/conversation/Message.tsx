@@ -13,9 +13,10 @@ export interface Message {
 export interface MessageProps {
   message: Message;
   removedMessage: (messageId: number) => void
+  imageLink?: string;
 }
 
-const Message: React.FC<MessageProps> = ({ message, removedMessage }) => {
+const Message: React.FC<MessageProps> = ({ message, removedMessage, imageLink }) => {
   const senderId = getUserDataFromLocal()?.id;
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({
     x: 0,
@@ -71,11 +72,11 @@ const Message: React.FC<MessageProps> = ({ message, removedMessage }) => {
               </div>
             )}
           </div>
-          <Avatar src="https://i.pinimg.com/236x/ff/d9/b4/ffd9b46366e14141790a80d4922485bf.jpg" className="mt-2" />
+          <Avatar src={message.avatarLink} className="mt-2" />
         </div>
       ) : (
         <div className="flex items-center mb-3">
-          <Avatar src="https://i.pinimg.com/236x/98/cc/5f/98cc5f6b6c8c130b4f26af105e7bb21d.jpg" />
+          <Avatar src={message.avatarLink} />
           <div className="message ms-3">{message.message}</div>
         </div>
       )}
