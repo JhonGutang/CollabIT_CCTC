@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import PasswordInput from "@/components/auth/PasswordInput";
-import { createUser } from "@/services/userService";
+import { register } from "@/services/userService";
 import { Button } from "@mui/material";
 import Snackbar from "@/components/Snackbar";
 import AuthLayout from "@/layouts/authLayout";
@@ -47,7 +47,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
 
   const handleSubmit = async () => {
     try {
-      await createUser(formData);
+      await register(formData);
       setSnackbarMessage("Registration successful!");
       setSnackbarType("success");
       setSnackbarOpen(true);

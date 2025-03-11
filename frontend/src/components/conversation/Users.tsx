@@ -14,7 +14,6 @@ export interface UserProps {
 }
 
 const Users: React.FC<UserProps> = ({ user, textColor }) => {
-  console.log(user);
   return (
     <Button className="users w-full" sx={{ color:  textColor }}>
         <AvatarWithName name={user.username} avatarLink={user.avatarLink} />
