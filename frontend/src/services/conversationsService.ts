@@ -79,8 +79,13 @@ export const storeMessage = async (conversationId: number, message: MessageToSen
     formData.append("conversation_id", conversationId.toString());
     formData.append("message", message.message);
     
-    message.image && formData.append("image_link", message.image);
-    message.videoLink && formData.append("video", message.videoLink);
+    if (message.image) {
+      formData.append("image_link", message.image);
+    }
+    
+    if (message.videoLink) {
+      formData.append("video", message.videoLink);
+    }
 
     const response = await axiosInstance.post(API_ENDPOINTS.SEND_MESSAGE, formData, {
       headers: {

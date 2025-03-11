@@ -16,6 +16,19 @@ export interface Post {
   reactionId: number;
 }
 
+interface RawPost {
+  id: number;
+  user_id: number;
+  username: string;
+  avatar_link?: string;
+  content: string;
+  image_link?: string;
+  video_link?: string;
+  reactions_count: number;
+  comments_count: number;
+  reaction_id: number;
+}
+
 const getAuthToken = (): string | null => getUserDataFromLocal()?.authToken || null;
 const getUserId = (): number | null => getUserDataFromLocal()?.id || null;
 
@@ -34,7 +47,7 @@ const API_ENDPOINTS = {
   REMOVE_REACTION: (reactionId: number) => `posts/react/${reactionId}`,
 };
 
-const formatPostResponse = (post: any): Post => ({
+const formatPostResponse = (post: RawPost): Post => ({
   id: post.id,
   userId: post.user_id,
   username: post.username,
