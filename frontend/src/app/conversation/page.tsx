@@ -17,12 +17,14 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  avatarLink: string;
 }
 
 export interface Message {
   id: number;
   sender_id: number;
   message: string;
+  avatarLink: string;
 }
 
 const Conversation = () => {
