@@ -20,18 +20,21 @@ const AvatarSelection = () => {
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState("success | error");
 
   const addAvatarToUser = async() => {
     if (selectedAvatar) {
       const newAvatar = await attachAvatarToUser(selectedAvatar.id);
       console.log(newAvatar);
       updateAvatarLinkInLocal(newAvatar)
+      setSnackbarType("success");
       setSnackbarMessage("Avatar saved successfully! 🎉");
       setSnackbarOpen(true);
       setTimeout(() => {
         router.push('/home')
       }, 1500);
     } else {
+      setSnackbarType("error");
       setSnackbarMessage("Please select an avatar first.");
       setSnackbarOpen(true);
     }
@@ -104,6 +107,7 @@ const AvatarSelection = () => {
         </div>
       </div>
       <CustomSnackbar
+        color={snackbarType}
         message={snackbarMessage}
         open={snackbarOpen}
         onClose={() => setSnackbarOpen(false)}
