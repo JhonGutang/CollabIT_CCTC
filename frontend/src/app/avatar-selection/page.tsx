@@ -16,7 +16,7 @@ export interface Avatar {
 const AvatarSelection = () => {
   const router = useRouter();
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<string | undefined>(undefined);
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
