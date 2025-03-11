@@ -11,6 +11,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  avatarLink: string;
 }
 
 export interface Message {
@@ -19,6 +20,7 @@ export interface Message {
   message: string;
   imageLink?: string;
   videoLink?: string;
+  avatarLink: string;
 }
 
 export interface MessageToSend extends FileContent {
@@ -46,6 +48,7 @@ const ConversationContainer: React.FC<UserProps> = ({
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
+    type: "success | error",
   });
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -61,6 +64,7 @@ const ConversationContainer: React.FC<UserProps> = ({
     setSnackbar({
       open: true,
       message: "Message deleted successfully",
+      type: "success",
     });
   };
 
@@ -82,8 +86,6 @@ const ConversationContainer: React.FC<UserProps> = ({
   }, [messageList]);
 
   const handleNewMessage = (messageData: string) => {
-    console.log(messageData);
-
     const newMessage: MessageToSend = {
       ...message,
       message: messageData,
@@ -125,6 +127,7 @@ const ConversationContainer: React.FC<UserProps> = ({
         />
       </div>
       <CustomSnackbar
+        color={snackbar.type}
         open={snackbar.open}
         message={snackbar.message}
         onClose={handleSnackbarClose}

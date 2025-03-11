@@ -7,7 +7,7 @@ import { updateComment } from "@/services/commentService";
 
 type EditCommentsProps = {
   comment: { id: number; content: string } | null;
-  updateLocally: (comment: Comment) => void;
+  updateLocally?: (comment: Comment) => void;
   onClose: () => void;
 };
 
@@ -21,7 +21,7 @@ const EditComments: React.FC<EditCommentsProps> = ({ comment, onClose, updateLoc
   const handleSave = async () => {
     if (comment) {
       const response = await updateComment({ id: comment.id, content });
-      if(response) updateLocally(response.data)
+      if(updateLocally && response) updateLocally(response.data)
       onClose();
     }
   };

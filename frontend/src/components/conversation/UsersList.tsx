@@ -9,6 +9,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  avatarLink: string;
 }
 
 export interface UserProp {

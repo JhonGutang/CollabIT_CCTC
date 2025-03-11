@@ -81,7 +81,7 @@ const Comments: React.FC<CommentProps> = ({
   const handleAddComment = async (comment: string) => {
     try {
       const newComment = await createComment(comment, post.id);
-      setComments((prev) => [newComment, ...prev]);
+      if(newComment) setComments((prev) => [newComment, ...prev]);
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -136,6 +136,7 @@ const Comments: React.FC<CommentProps> = ({
   return (
     <div>
       <CustomSnackbar
+        color="success"
         message={snackbar.message}
         open={snackbar.open}
         onClose={() => setSnackbar({ ...snackbar, open: false })}

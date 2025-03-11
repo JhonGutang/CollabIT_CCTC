@@ -19,7 +19,6 @@ interface CommentSectionProps {
 const CommentSection: React.FC<CommentSectionProps> = ({
   comments,
   onAddComment,
-  editingCommentId,
   onDeleteComment,
   updateLocally,
 }) => {
@@ -79,7 +78,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({
                   size={50}
                   avatarLink={comment.avatarLink}
                   name={comment.username}
-                  isEditing={editingCommentId === comment.id}
                   content={comment.content}
                   id={comment.id}
                   onMenuOpen={(event) => handleMenuOpen(event, comment.id)}

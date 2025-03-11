@@ -10,7 +10,7 @@ type Props = {
   flexDirection?: "row" | "col";
   avatarLink?: string;
   content?: string;
-  onMenuOpen?: () => void;
+  onMenuOpen?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const AvatarWithName: React.FC<Props> = ({
@@ -59,9 +59,9 @@ const AvatarWithName: React.FC<Props> = ({
           <div className="flex justify-between">
             <div className="text-sm" style={{maxWidth: '16vw', wordWrap: "break-word"}}>{content}</div>
             {isHovered && (
-              <div className="ms-3 cursor-pointer" onClick={onMenuOpen}>
+              <button className="ms-3 cursor-pointer" onClick={onMenuOpen}>
                 <Ellipsis size={18} />
-              </div>
+              </button>
             )}
           </div>
         </div>

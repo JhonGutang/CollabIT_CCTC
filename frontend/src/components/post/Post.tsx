@@ -206,6 +206,7 @@ const Post: React.FC<PostProps> = ({
       />
 
       <Snackbar
+      color=""
         open={snackbar.open}
         message={snackbar.message}
         onClose={handleCloseSnackbar}

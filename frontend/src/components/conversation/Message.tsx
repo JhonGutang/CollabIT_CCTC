@@ -8,6 +8,7 @@ export interface Message {
   sender_id?: number;
   message: string;
   imageLink?: string;
+  avatarLink: string;
 }
 
 export interface MessageProps {
