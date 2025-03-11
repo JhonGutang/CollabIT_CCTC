@@ -35,13 +35,20 @@ function HomePage() {
   useEffect(() => {
     const getPosts = async () => {
       const data = await fetchPosts();
-      const userId = getUserDataFromLocal()?.id || 0;
+  
+      // Ensure localStorage is accessed only on the client side
+      let userId = 0;
+      if (typeof window !== "undefined") {
+        userId = getUserDataFromLocal()?.id || 0;
+      }
+  
       setUserId(userId);
       setPosts(data);
+  
       const friends = await getAllFriendsID();
       setFriendsIDs(friends);
     };
-
+  
     getPosts();
   }, []);
 

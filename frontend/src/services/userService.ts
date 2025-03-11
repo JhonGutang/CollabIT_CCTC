@@ -1,3 +1,5 @@
+"use client";
+
 import axiosInstance from "@/utils/axiosInstance";
 
 export interface UserCandidate {
@@ -58,7 +60,8 @@ export const updateAvatarLinkInLocal = (newAvatarLink: string | null): void => {
 };
 
 export const getUserDataFromLocal = (): LocalUserData | null => {
-  const storedData = localStorage.getItem('userData');
+  if (typeof window === "undefined") return null; // Ensure it only runs in the browser
+  const storedData = localStorage.getItem("userData");
   return storedData ? JSON.parse(storedData) : null;
 };
 

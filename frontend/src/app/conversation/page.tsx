@@ -42,10 +42,7 @@ const Conversation = () => {
       const resMessages = await getMessages(getConversationId);
       setMessages(resMessages);
       setConversationId(getConversationId);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("conversationId", getConversationId.toString());
-      }
-      
+
       connectWebSocket();
 
       router.push(`/conversation?chatUserId=${user.id}`, { scroll: false });
@@ -87,6 +84,13 @@ const Conversation = () => {
   const redirectToHomepage = () => {
     router.push("/home");
   };
+
+  useEffect(() => {
+    if (conversationId && typeof window !== "undefined") {
+      localStorage.setItem("conversationId", conversationId.toString());
+    }
+  }, [conversationId]);
+
 
   useEffect(() => {
     setMessages((prev) => {
