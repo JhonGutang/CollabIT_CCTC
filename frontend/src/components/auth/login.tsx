@@ -13,9 +13,14 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
+  const ROUTES = {
+    HOME: "/home",
+    AVATAR_SELECTION: "/avatar-selection",
+  };
   const [formData, setFormData] = useState({ username: "", password: "" });
   const router = useRouter();
   const backgroundImage = "login_bg.png";
+  const getUserAvatarLink = () => getUserDataFromLocal()?.avatarLink || "";
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -26,24 +31,26 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleToggle = () => {
+  const handleAuthFormToggle = () => {
     toggleHandler("register");
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await loginUser(formData);
-    setSnackbar(response)
-    
-    if(response.state === 'success') {
+    setSnackbar(response);
+    if (response.state === "success") {
       setTimeout(() => {
-        if(getUserDataFromLocal()?.avatarLink) {
-          router.push("/home");
-        } else {
-          router.push('/avatar-selection')
-        }
+      redirectToAppropriatePage();
       }, 1500);
-    } 
+    }
+  };
+
+
+  const redirectToAppropriatePage = () => {
+    const hasAvatar = Boolean(getUserAvatarLink().trim());
+    const destination = hasAvatar ? ROUTES.HOME : ROUTES.AVATAR_SELECTION;
+    router.push(destination);
   };
 
   const handleCloseSnackbar = () => {
@@ -60,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
         </div>
       </div>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitForm}
         className="flex flex-col items-center w-full max-w-xs text-black text-sm"
       >
         <div className="w-full">
@@ -94,10 +101,13 @@ const Login: React.FC<LoginProps> = ({ toggleHandler }) => {
           Sign In
         </Button>
         <div className="text-sm flex mt-1">
-          <div className="me-2">
-            Don&apos;t have any account?
+          <div className="me-2">Don&apos;t have any account?</div>
+          <div
+            className="text-cyan-600 cursor-pointer"
+            onClick={handleAuthFormToggle}
+          >
+            Sign up Now!
           </div>
-          <div className="text-cyan-600 cursor-pointer" onClick={handleToggle}>Sign up Now!</div>
         </div>
       </form>
       <Snackbar

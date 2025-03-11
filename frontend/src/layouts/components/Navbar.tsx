@@ -1,4 +1,3 @@
-import { Avatar, TextField } from "@mui/material";
 
 const Navbar = () => {
   return (

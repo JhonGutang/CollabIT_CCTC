@@ -34,13 +34,14 @@ export interface LocalUserData {
   authToken: string;
 }
 
+const AVATARLINK = (link: string) => `http://127.0.0.1:8000${link}`
 
 
 const storeUserDataToLocal = (data: AuthResponse): void => {
   const localData: LocalUserData = {
     id: data.id,
     username: data.username,
-    avatarLink: data.avatar_link ? `http://127.0.0.1:8000${data.avatar_link}` : null,
+    avatarLink: data.avatar_link ? AVATARLINK(data.avatar_link) : null,
     authToken: data.token
   };
   localStorage.setItem('userData', JSON.stringify(localData));
@@ -69,9 +70,14 @@ export const createUser = async (userData: Partial<UserCandidate>): Promise<User
     last_name: userData.lastName, 
     year_level: userData.yearLevel
   };
-  
-  const response = await axiosInstance.post<UserCandidate>("/profiles/register/", dataToSubmit);
-  return response.data;
+  try {
+    const response = await axiosInstance.post<UserCandidate>("/profiles/register/", dataToSubmit);
+    return response.data;
+
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to create user');
+  }
 };
 
 export interface LoginCredentials {
@@ -108,10 +114,8 @@ export const getAllUsers = async (): Promise<User[]> => {
   const transformedData = response.data.map(user => ({
     ...user,
     avatarLink: `http://127.0.0.1:8000/media/${user.avatar_link}`,
-    avatar_link: undefined // Remove the original avatar_link property
+    avatar_link: undefined 
   }));
-
-  console.log(transformedData);
   return transformedData;
 };
 
@@ -124,8 +128,7 @@ export const addToFriends = async (userId: number) => {
       Authorization: `Token ${token}`
     }
   })
-  console.log(response.data);
-  
+
 }
 
 export interface FriendsResponse {

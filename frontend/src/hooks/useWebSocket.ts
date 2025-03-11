@@ -43,15 +43,6 @@ const useWebSocket = () => {
       try {
         const data: Message = JSON.parse(event.data);
 
-        const formattedMessage: Message = {
-          id: data.id,
-          message: data.message,
-          sender_id: data.sender_id,
-          image: data.image, 
-          imageLink: data.image_link, 
-          videoLink: data.videoLink,
-        };
-
         setMessages((prev) =>
           prev.some((msg) => msg.id === data.id) ? prev : [...prev, data]
         );

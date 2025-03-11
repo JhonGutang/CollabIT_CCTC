@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { Flame, MessageCircle, Share, Share2 } from "lucide-react";
+import { Flame, MessageCircle, Share2 } from "lucide-react";
 import {
   addReactionToPost,
   removeReactionFromPost,
@@ -17,7 +17,6 @@ export interface ReactionProps {
 
 const ActionButtons: React.FC<ReactionProps> = ({
   postId,
-  userId,
   reactionCount,
   commentsCount,
   reactionId,

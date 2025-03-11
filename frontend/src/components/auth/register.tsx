@@ -179,6 +179,7 @@ const Register: React.FC<ToggleProps> = ({ toggleHandler }) => {
         open={snackbarOpen}
         onClose={handleSnackbarClose}
         autoHideDuration={5000}
+        color={snackbarType}
         position={{ vertical: "top", horizontal: "center" }}
       />
     </AuthLayout>

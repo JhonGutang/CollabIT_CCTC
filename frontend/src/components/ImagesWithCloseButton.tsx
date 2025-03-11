@@ -1,6 +1,6 @@
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton, Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import React from "react";
 
 export interface ImageProps {

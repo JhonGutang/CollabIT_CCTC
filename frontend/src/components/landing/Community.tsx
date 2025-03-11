@@ -35,17 +35,17 @@ const Community = ({ isHeroAlmostOut }: { isHeroAlmostOut: boolean }) => {
         <div className="text-3xl">Welcome to the CollabIT CCTC Community!</div>
 
         <div className="text-lg">
-          CollabIT CCTC is more than just a platform—it’s a thriving community
+          CollabIT CCTC is more than just a platform—it&apos;s a thriving community
           where IT students from Consolatrix College of Toledo City come
           together to share ideas, exchange knowledge, and grow in the world of
-          technology. Whether you're posting insights, exploring the latest tech
+          technology. Whether you&apos;re posting insights, exploring the latest tech
           trends, or collaborating with fellow students through our chat system,
           you'll always find support and inspiration from like-minded peers.
         </div>
 
         <div className="font-bold text-xl">
           Join us in building a space where learning meets innovation, and where
-          every student’s voice matters. Let’s connect, create, and
+          every student&apos;s voice matters. Let&apos;s connect, create, and
           innovate—together! 🚀
         </div>
       </div>

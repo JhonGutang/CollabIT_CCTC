@@ -6,11 +6,10 @@ import ConversationContainer, { MessageToSend } from "@/components/conversation/
 import {
   createConversation,
   getMessages,
-  storeMessage
 } from "@/services/conversationsService";
 import Fallback from "@/components/conversation/Fallback";
 import useWebSocket from "@/hooks/useWebSocket";
-import { ArrowBigLeft, House } from "lucide-react";
+import { ArrowBigLeft } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getUserDataFromLocal } from "@/services/userService";
 

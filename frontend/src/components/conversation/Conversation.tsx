@@ -76,7 +76,6 @@ const ConversationContainer: React.FC<UserProps> = ({
   }, [messages]);
 
   useEffect(() => {
-    // Auto-scroll to the bottom when messageList updates
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }

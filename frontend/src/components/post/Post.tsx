@@ -1,11 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ellipsis, Save, UserRoundPlus, X } from "lucide-react";
-import {
-  faEllipsis,
-  faFloppyDisk,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
 import { deletePost, updatePost } from "@/services/postService";
 import { addToFriends } from "@/services/userService";
 import ActionButtons from "./ActionButtons";
@@ -13,7 +7,6 @@ import EditPostContent from "./EditPostContent";
 import Snackbar from "../Snackbar";
 import DropdownMenu from "./DropdownMenu";
 import Comments from "../comments/Main";
-import UserProfiles from "./UserProfiles";
 import AvatarWithContents from "../AvatarWithContents";
 
 type Post = {
@@ -46,7 +39,7 @@ const Post: React.FC<PostProps> = ({
   const [isCommentClicked, setIsCommentClicked] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isFriend, setIsFriend] = useState(areFriends);
-  const [showProfile, setShowProfile] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
   const postContentRef = useRef<{ getContent: () => string }>(null);
   const [snackbar, setSnackbar] = useState({
@@ -127,8 +120,6 @@ const Post: React.FC<PostProps> = ({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <div
-              onMouseEnter={() => setShowProfile(true)}
-              onMouseLeave={() => setShowProfile(false)}
               className="relative"
             >
               <AvatarWithContents

@@ -16,7 +16,7 @@ export interface MessageProps {
   imageLink?: string;
 }
 
-const Message: React.FC<MessageProps> = ({ message, removedMessage, imageLink }) => {
+const Message: React.FC<MessageProps> = ({ message, removedMessage }) => {
   const senderId = getUserDataFromLocal()?.id;
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean }>({
     x: 0,
