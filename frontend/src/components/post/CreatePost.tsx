@@ -6,18 +6,7 @@ import CustomSnackbar from "../Snackbar";
 import ImagesWithCloseButton from "../ImagesWithCloseButton";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
-
-type Post = {
-  id: number;
-  userId?: number;
-  username?: string;
-  content: string;
-  image?: File;
-  imageLink: string;
-  videoLink: string;
-  reactionCount?: number;
-  reactionId?: number;
-};
+import { Post } from "@/services/postService";
 
 export interface PostToSend extends FileContent {
   content?: string;

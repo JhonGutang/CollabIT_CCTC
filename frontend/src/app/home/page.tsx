@@ -7,19 +7,7 @@ import PostComponent from "@/components/post/Post";
 import CreatePost from "@/components/post/CreatePost";
 import { getAllFriendsID, getUserDataFromLocal } from "@/services/userService";
 import Snackbar from "@/components/Snackbar";
-
-interface Post {
-  id: number;
-  userId: number;
-  username: string;
-  avatarLink: string;
-  content: string;
-  imageLink: string;
-  videoLink: string;
-  reactionCount: number;
-  commentsCount: number;
-  reactionId: number;
-}
+import { Post } from "@/services/postService";
 
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -28,6 +16,7 @@ function HomePage() {
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
+    type: "",
   });
 
   const handleUpdatePosts = (newPost: Post) => {
@@ -36,7 +25,7 @@ function HomePage() {
 
   const handleDeletePost = (postId: number) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-    setSnackbar({ open: true, message: "Post deleted successfully!" });
+    setSnackbar({ open: true, message: "Post deleted successfully!", type: "success" });
   };
 
   const handleCloseSnackbar = () => {
@@ -76,6 +65,7 @@ function HomePage() {
       })}
 
       <Snackbar
+        color={snackbar.type}
         open={snackbar.open}
         message={snackbar.message}
         onClose={handleCloseSnackbar}
