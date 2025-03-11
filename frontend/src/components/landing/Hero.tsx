@@ -10,15 +10,27 @@ const Hero = () => {
   };
 
   return (
-    <div className="h-[70vh] flex overflow-hidden">
-      <div className="h-full w-2/3 flex flex-col gap-5 justify-center items-center">
+    <div className="lg:h-[100vh] h-[100vh] justify-center flex flex-col lg:flex-row-reverse lg:flex-nowrap">
+        <div className="lg:h-full w-full flex lg:items-center">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 1 }} 
+        >
+          <img
+            src="hero_bg.png"
+            alt="Team Collaboration"
+          />
+        </motion.div>
+      </div>
+      <div className="lg:h-full lg:w-2/3 flex flex-col gap-5 justify-center items-center px-10">
         <div>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="text-3xl flex gap-2">
+            <div className="lg:text-3xl flex gap-2 font-bold justify-center">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -47,13 +59,13 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 1 }}
           >
-            <div className="text-gray-600">
+            <div className="text-gray-600 lg:text-lg text-sm text-center">
               Empowering IT Students to Build, Share & Inspire!
             </div>
           </motion.div>
         </div>
 
-        <div className="w-90">
+        <div className="lg:w-100">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -62,8 +74,7 @@ const Hero = () => {
             <Button
               onClick={redirectToAuth}
               variant="contained"
-              sx={{ width: "15vw", height: '45px' }}
-              className="custom-border-radius"
+              className="custom-border-radius lg:w-[13vw] w-[50vw]"
             >
               Join now
             </Button>
@@ -71,18 +82,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="h-full w-full flex">
-        <motion.div
-          initial={{ opacity: 0, x: 50 }} 
-          animate={{ opacity: 1, x: 0 }} 
-          transition={{ duration: 1 }} 
-        >
-          <img
-            src="hero_bg.png"
-            alt="Team Collaboration"
-          />
-        </motion.div>
-      </div>
+    
     </div>
   );
 };
