@@ -17,27 +17,26 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    handleResize(); 
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <PageAuthenticator>
-      <div className="custom-background h-[100vh]">
-        <div className="flex gap-5 py-5 px-16">
+      <div className="custom-background h-[100vh] ">
+        <div className="flex gap-5 py-5 lg:px-16">
           {!isMobile && (
             <div>
               <LeftDrawer />
             </div>
           )}
-          <div className="w-full h-full">
+          <div className="w-full h-full px-10">
             <Navbar />
             <div
-              className="w-full mt-4  flex justify-center gap-8"
-              style={{ height: "83vh", overflowY: "scroll" }}
+              className="w-full  mt-4  flex justify-center gap-8 overflow-y-auto h-[81vh]"
             >
-              <div className="w-[57%] py-3">{children}</div>
+              <div className="lg:w-[57%] border-black p-3 w-full">{children}</div>
               {!isMobile && (
                 <div className="text-black w-80 flex flex-col items-end justify-end gap-5 sticky top-0 py-2">
                   <Announcement />
