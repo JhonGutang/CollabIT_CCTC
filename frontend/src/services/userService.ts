@@ -93,6 +93,7 @@ export const loginUser = async (credentials: LoginCredentials)  => {
       open: true, message: "Logged in successfully!", state: "success"
     }
   } catch (error) {
+    console.error(error)
     return {
       open: true, message: "Logged in failed!", state: "error"
     }
@@ -121,7 +122,7 @@ export const getAllUsers = async (): Promise<User[]> => {
 
 export const addToFriends = async (userId: number) => {
   const token = getUserDataFromLocal()?.authToken
-  const response = await axiosInstance.post('/profiles/friend/', {
+  await axiosInstance.post('/profiles/friend/', {
     friend_id: userId
   }, {
     headers: {

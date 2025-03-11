@@ -4,6 +4,18 @@ import { getUserDataFromLocal } from "./userService";
 
 const getAuthToken = (): string | null => getUserDataFromLocal()?.authToken || null;
 
+
+interface Comment {
+  id: number;
+  user_id: number;
+  username: string;
+  post_id: number;
+  avatar_link: string;
+  image_link: string;
+  content: string;
+
+}
+
 const getAuthHeaders = () => {
   const token = getAuthToken();
   if (!token) throw new Error("Authentication token is missing.");
@@ -16,7 +28,7 @@ const API_ENDPOINTS = {
   DELETE_COMMENT: (commentId: number) => `posts/comments/${commentId}/delete/`
 };
 
-const formatCommentResponse = (comment: any) => ({
+const formatCommentResponse = (comment: Comment) => ({
   ...comment,
   avatarLink: comment.avatar_link ? `http://127.0.0.1:8000/media/${comment.avatar_link}` : "",
 });

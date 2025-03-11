@@ -6,6 +6,18 @@ interface MessageToSend extends FileContent {
   message: string;
 }
 
+interface Message {
+  id: number;
+  sender_id: number;
+  conversation_id: number;
+  message: string;
+  image_link: string;
+  video_link: string;
+  created_at: string;
+  updated_at: string;
+  avatar_link: string;
+}
+
 const getAuthToken = (): string | null => getUserDataFromLocal()?.authToken || null;
 const getUserId = (): number | null => getUserDataFromLocal()?.id || null;
 
@@ -25,7 +37,7 @@ const API_ENDPOINTS = {
 };
 
 
-const formatMessageResponse = (message: any) => ({
+const formatMessageResponse = (message: Message) => ({
   ...message,
   imageLink: message.image_link, 
   avatarLink: `http://127.0.0.1:8000${message.avatar_link}`
@@ -77,8 +89,6 @@ export const storeMessage = async (conversationId: number, message: MessageToSen
       },
     });
 
-    console.log(response.data);
-
     return formatMessageResponse(response.data);
   } catch (error) {
     console.error("Error storing message:", error);
@@ -89,7 +99,7 @@ export const storeMessage = async (conversationId: number, message: MessageToSen
 
 
 export const deleteMessage = async (messageId: number) => {
-  const response = await axiosInstance.delete(API_ENDPOINTS.DELETE_MESSAGE(messageId), {
+  await axiosInstance.delete(API_ENDPOINTS.DELETE_MESSAGE(messageId), {
     headers: getAuthHeaders()
   })
   console.log('Message Deleted Succesfully')

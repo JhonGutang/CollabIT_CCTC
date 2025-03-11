@@ -40,7 +40,7 @@ const Community = ({ isHeroAlmostOut }: { isHeroAlmostOut: boolean }) => {
           together to share ideas, exchange knowledge, and grow in the world of
           technology. Whether you&apos;re posting insights, exploring the latest tech
           trends, or collaborating with fellow students through our chat system,
-          you'll always find support and inspiration from like-minded peers.
+          you&apos;ll always find support and inspiration from like-minded peers.
         </div>
 
         <div className="font-bold text-xl">
