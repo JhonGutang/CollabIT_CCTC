@@ -42,9 +42,10 @@ const Conversation = () => {
       const resMessages = await getMessages(getConversationId);
       setMessages(resMessages);
       setConversationId(getConversationId);
-
-      localStorage.setItem("conversationId", getConversationId.toString());
-
+      if (typeof window !== "undefined") {
+        localStorage.setItem("conversationId", getConversationId.toString());
+      }
+      
       connectWebSocket();
 
       router.push(`/conversation?chatUserId=${user.id}`, { scroll: false });
