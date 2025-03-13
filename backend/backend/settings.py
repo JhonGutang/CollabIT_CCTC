@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
     ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Update with your Next.js URL
+    "https://collab-it-cctc.vercel.app",  # Update with your Next.js URL
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
