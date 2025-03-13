@@ -23,7 +23,7 @@ const getAuthHeaders = (): { Authorization: string } | undefined => {
 
 
 export const getUserDataFromLocal = (): LocalUserData | null => {
-  if (typeof window === "undefined") return null;
+  // if (typeof window === "undefined") return null;
   
   const storedData = localStorage.getItem("userData");
   return storedData ? JSON.parse(storedData) : null;

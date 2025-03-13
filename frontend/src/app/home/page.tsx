@@ -36,11 +36,10 @@ function HomePage() {
     const getPosts = async () => {
       const data = await fetchPosts();
   
-      // Ensure localStorage is accessed only on the client side
+
       let userId = 0;
-      if (typeof window !== "undefined") {
-        userId = getUserDataFromLocal()?.id || 0;
-      }
+      userId = getUserDataFromLocal()?.id || 0;
+
   
       setUserId(userId);
       setPosts(data);
