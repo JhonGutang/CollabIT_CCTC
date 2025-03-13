@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-1f2o+6p87fi^vp*)a$oj(i1pj#(ab&7lf7!x^eqk=vd=zh5%-s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["collabit-cctc.onrender.com"]
+ALLOWED_HOSTS = [
+    "collabit-cctc.onrender.com",
+    "https://collabit-cctc.onrender.com"
+    ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Update with your Next.js URL
