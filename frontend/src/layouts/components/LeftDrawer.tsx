@@ -5,7 +5,8 @@ import { Avatar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Snackbar from "@/components/Snackbar";
-import { getUserDataFromLocal, LocalUserData } from "@/services/userService";
+import { getUserDataFromLocal } from "@/services/userService";
+import { LocalUserData } from "@/types/user";
 import {
   LogOut,
   MessageCircleMore,

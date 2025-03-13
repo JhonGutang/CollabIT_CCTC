@@ -30,7 +30,7 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="lg:text-3xl flex gap-2 font-bold justify-center">
+            <div className="lg:text-3xl flex gap-2 font-bold justify-center lg:justify-start">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

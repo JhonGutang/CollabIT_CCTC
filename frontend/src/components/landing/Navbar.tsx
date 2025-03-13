@@ -1,16 +1,22 @@
+'use client'
+
 import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Home, Boxes, Users  } from "lucide-react";
 const Navbar: React.FC = () => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
-
-  const updateMedia = () => {
-    setIsDesktop(window.innerWidth > 768);
-  };
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("resize", updateMedia);
-    return () => window.removeEventListener("resize", updateMedia);
+    if (typeof window !== "undefined") {
+      setIsDesktop(window.innerWidth > 768);
+  
+      const updateMedia = () => {
+        setIsDesktop(window.innerWidth > 768);
+      };
+  
+      window.addEventListener("resize", updateMedia);
+      return () => window.removeEventListener("resize", updateMedia);
+    }
   }, []);
 
   const scrollToSection = (id: string) => {

@@ -23,6 +23,8 @@ const getAuthHeaders = (): { Authorization: string } | undefined => {
 
 
 export const getUserDataFromLocal = (): LocalUserData | null => {
+  if (typeof window === "undefined") return null;
+  
   const storedData = localStorage.getItem("userData");
   return storedData ? JSON.parse(storedData) : null;
 };
@@ -91,7 +93,7 @@ export const getAllUsers = async (): Promise<User[]> => {
     const response = await axiosInstance.get<User[]>("/profiles/", { headers });
     return response.data.map(user => ({
       ...user,
-      avatarLink: transformAvatarLink(user.avatar_link),
+      avatarLink: transformAvatarLink(user.avatar_link) ?? "",
       avatar_link: undefined, 
     }));
   } catch (error) {

@@ -29,7 +29,7 @@ export interface UserCandidate {
     lastName: string;
     yearLevel: number;
     email: string;
-    avatarLink: string | null;
+    avatarLink: string;
     avatar_link?: string;
   }
 

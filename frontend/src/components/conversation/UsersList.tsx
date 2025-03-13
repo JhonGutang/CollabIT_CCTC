@@ -3,14 +3,10 @@
 import { getAllUsers, getUserDataFromLocal } from "@/services/userService"; // ✅ Import user data function
 import React, { useEffect, useState } from "react";
 import Users from "./Users";
+import { User } from '@/types/user'
 import { useRouter } from "next/navigation";
 import { MessageCircleMore } from "lucide-react";
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  avatarLink: string;
-}
+
 
 export interface UserProp {
   currentUser?: (user: User) => void;

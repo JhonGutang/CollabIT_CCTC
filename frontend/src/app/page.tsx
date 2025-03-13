@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { useIntersection } from "@/hooks/useIntersection";
 import AboutUs from "@/components/landing/AboutUs";
 import Community from "@/components/landing/Community";

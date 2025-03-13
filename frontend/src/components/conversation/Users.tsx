@@ -1,12 +1,6 @@
 import { Button } from "@mui/material";
 import AvatarWithName from "../AvatarWithContents";
-
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  avatarLink?: string;
-}
+import { User } from '@/types/user'
 
 export interface UserProps {
   user: User;
