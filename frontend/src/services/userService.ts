@@ -8,7 +8,7 @@ import {
 } from "@/types/user";
 
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "https://collabit-cctc.onrender.com";
 const AVATAR_BASE_PATH = "/media/";
 
 
@@ -23,8 +23,7 @@ const getAuthHeaders = (): { Authorization: string } | undefined => {
 
 
 export const getUserDataFromLocal = (): LocalUserData | null => {
-  // if (typeof window === "undefined") return null;
-  
+  if (typeof localStorage === "undefined") return null;
   const storedData = localStorage.getItem("userData");
   return storedData ? JSON.parse(storedData) : null;
 };
@@ -33,7 +32,7 @@ const storeUserDataToLocal = (data: LoginResponse): void => {
   const localData: LocalUserData = {
     id: data.id,
     username: data.username,
-    avatarLink: `http://127.0.0.1:8000${data.avatar_link}`,
+    avatarLink: data.avatar_link ? `https://collabit-cctc.onrender.com${data.avatar_link}` : "",
     authToken: data.token,
   };
   localStorage.setItem("userData", JSON.stringify(localData));

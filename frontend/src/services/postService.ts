@@ -51,7 +51,7 @@ const formatPostResponse = (post: RawPost): Post => ({
   id: post.id,
   userId: post.user_id,
   username: post.username,
-  avatarLink: post.avatar_link ? `http://127.0.0.1:8000/media/${post.avatar_link}` : "",
+  avatarLink: post.avatar_link ? `https://collabit-cctc.onrender.com/media/${post.avatar_link}` : "",
   content: post.content,
   imageLink: post.image_link || "",
   videoLink: post.video_link || "",
