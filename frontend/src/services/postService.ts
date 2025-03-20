@@ -1,33 +1,8 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { AxiosError } from "axios";
 import { getUserDataFromLocal } from "@/services/userService";
-import useCommentCountStore from "@/stores/commentStore";
-export interface Post {
-  id: number;
-  userId: number;
-  username: string;
-  avatarLink: string;
-  content: string;
-  image?: File;
-  imageLink: string;
-  videoLink: string;
-  reactionCount: number;
-  commentsCount: number;
-  reactionId: number;
-}
+import { Post, RawPost, NewPost } from "@/types/post";
 
-interface RawPost {
-  id: number;
-  user_id: number;
-  username: string;
-  avatar_link?: string;
-  content: string;
-  image_link?: string;
-  video_link?: string;
-  reactions_count: number;
-  comments_count: number;
-  reaction_id: number;
-}
 
 const getAuthToken = (): string | null => getUserDataFromLocal()?.authToken || null;
 const getUserId = (): number | null => getUserDataFromLocal()?.id || null;
@@ -73,7 +48,7 @@ export const fetchPosts = async (): Promise<Post[]> => {
   }
 };
 
-export const submitPost = async (post: Partial<Post>) => {
+export const submitPost = async (post: Partial<NewPost>) => {
   try {
     const userId = getUserId();
     if (!userId) throw new Error("User ID is missing.");
@@ -83,7 +58,6 @@ export const submitPost = async (post: Partial<Post>) => {
     formData.append("content", post.content || "");
     
     if (post.image) formData.append("image_link", post.image);
-    if (post.videoLink) formData.append("video_link", post.videoLink);
 
     const { data } = await axiosInstance.post(API_ENDPOINTS.SUBMIT_POST, formData, {
       headers: {

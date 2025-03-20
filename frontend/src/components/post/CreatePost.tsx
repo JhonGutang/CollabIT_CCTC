@@ -6,12 +6,11 @@ import CustomSnackbar from "../Snackbar";
 import ImagesWithCloseButton from "../ImagesWithCloseButton";
 import ImageUpload from "../ImageUpload";
 import { FileContent } from "@/services/imageService";
-import { Post } from "@/services/postService";
+import { Post } from "@/types/post";
 
 export interface PostToSend extends FileContent {
   content?: string;
 }
-
 
 type ChildProps = {
   updatedPosts: (data: Post) => void;

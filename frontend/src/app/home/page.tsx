@@ -8,7 +8,8 @@ import CreatePost from "@/components/post/CreatePost";
 import { getAllFriendsID, getUserDataFromLocal } from "@/services/userService";
 import Snackbar from "@/components/Snackbar";
 import { Post } from "@/services/postService";
-import useCommentCountStore from "@/stores/commentStore";
+
+
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [userId, setUserId] = useState(0);
@@ -18,8 +19,6 @@ function HomePage() {
     message: "",
     type: "",
   });
-
-  const setCommentCount = useCommentCountStore((state) => state.setCommentCount);
 
   const handleUpdatePosts = (newPost: Post) => {
     setPosts((prevPosts) => [newPost, ...prevPosts]);
@@ -37,7 +36,6 @@ function HomePage() {
   useEffect(() => {
     const getPosts = async () => {
       const data = await fetchPosts();
-      setCommentCount(data.commentsCount)
 
       let userId = 0;
       userId = getUserDataFromLocal()?.id || 0;
