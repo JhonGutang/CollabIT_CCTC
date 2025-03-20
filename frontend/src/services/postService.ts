@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { AxiosError } from "axios";
 import { getUserDataFromLocal } from "@/services/userService";
-
+import useCommentCountStore from "@/stores/commentStore";
 export interface Post {
   id: number;
   userId: number;
@@ -51,7 +51,7 @@ const formatPostResponse = (post: RawPost): Post => ({
   id: post.id,
   userId: post.user_id,
   username: post.username,
-  avatarLink: post.avatar_link ? `https://collabit-cctc.onrender.com/media/${post.avatar_link}` : "",
+  avatarLink: post.avatar_link ? `http://127.0.0.1:8000/media/${post.avatar_link}` : "",
   content: post.content,
   imageLink: post.image_link || "",
   videoLink: post.video_link || "",
@@ -65,8 +65,8 @@ export const fetchPosts = async (): Promise<Post[]> => {
     const response = await axiosInstance.get(API_ENDPOINTS.FETCH_POSTS, {
       headers: getAuthHeaders(),
     });
-
-    return response.data.map(formatPostResponse);
+    const formattedPost = response.data.map(formatPostResponse);
+    return formattedPost
   } catch (error) {
     console.error("Error fetching posts:", error);
     return [];

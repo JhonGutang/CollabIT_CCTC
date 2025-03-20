@@ -8,7 +8,7 @@ const Community = ({ isHeroAlmostOut }: { isHeroAlmostOut: boolean }) => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
     };
-
+    handleResize()
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

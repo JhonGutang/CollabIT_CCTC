@@ -36,6 +36,7 @@ const Post: React.FC<PostProps> = ({
   deletedPost,
   areFriends,
 }) => {
+
   const [isCommentClicked, setIsCommentClicked] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isFriend, setIsFriend] = useState(areFriends);
@@ -46,6 +47,8 @@ const Post: React.FC<PostProps> = ({
     open: false,
     message: "",
   });
+
+
 
   useEffect(() => {
     setIsFriend(areFriends);

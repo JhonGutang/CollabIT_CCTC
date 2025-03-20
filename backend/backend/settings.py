@@ -27,11 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "collabit-cctc.onrender.com",
-    "https://collabit-cctc.onrender.com"
+    "https://collabit-cctc.onrender.com",
+    '127.0.0.1'
     ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://collab-it-cctc.vercel.app",  # Update with your Next.js URL
+    "https://collab-it-cctc.vercel.app",
+    'http://localhost:3000'
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

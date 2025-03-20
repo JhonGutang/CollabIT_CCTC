@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { Flame, MessageCircle, Share2 } from "lucide-react";
+import useCommentCountStore from "@/stores/commentStore";
 import {
   addReactionToPost,
   removeReactionFromPost,
@@ -22,13 +23,13 @@ const ActionButtons: React.FC<ReactionProps> = ({
   reactionId,
   toggleComment,
 }) => {
+  const commentCount = useCommentCountStore((state) => state.commentCount);
   const [newReactionid, setNewReactionId] = useState<number>(reactionId);
   const [changingReactionCount, setChangingReactionCount] = useState<number>(
     reactionCount || 0
   );
   const [isReacted, setIsReacted] = useState(newReactionid ? true : false);
   const [initialRender, setInitialRender] = useState(true);
-
   const handleReaction = () => {
     setIsReacted(!isReacted);
   };
@@ -82,7 +83,7 @@ const ActionButtons: React.FC<ReactionProps> = ({
         <div className="flex gap-1 items-center">
 
         <MessageCircle size={20} />
-        <div>{commentsCount}</div>
+        <div>{commentCount}</div>
         </div>
       </Button>
       <Button variant="contained" className="reaction-button">
