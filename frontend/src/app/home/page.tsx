@@ -7,7 +7,7 @@ import PostComponent from "@/components/post/Post";
 import CreatePost from "@/components/post/CreatePost";
 import { getAllFriendsID, getUserDataFromLocal } from "@/services/userService";
 import Snackbar from "@/components/Snackbar";
-import { Post } from "@/services/postService";
+import { Post } from "@/types/post";
 
 
 function HomePage() {

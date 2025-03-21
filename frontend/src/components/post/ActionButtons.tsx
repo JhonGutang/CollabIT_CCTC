@@ -1,12 +1,10 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { Flame, MessageCircle, Share2 } from "lucide-react";
-import useCommentCountStore from "@/stores/commentStore";
+import React, { useEffect, useState } from "react";
 import {
   addReactionToPost,
   removeReactionFromPost,
 } from "@/services/postService";
-import React, { useEffect, useState } from "react";
-
 export interface ReactionProps {
   postId: number;
   userId: number;
@@ -23,67 +21,71 @@ const ActionButtons: React.FC<ReactionProps> = ({
   reactionId,
   toggleComment,
 }) => {
-  const commentCount = useCommentCountStore((state) => state.commentCount);
-  const [newReactionid, setNewReactionId] = useState<number>(reactionId);
-  const [changingReactionCount, setChangingReactionCount] = useState<number>(
-    reactionCount || 0
-  );
-  const [isReacted, setIsReacted] = useState(newReactionid ? true : false);
-  const [initialRender, setInitialRender] = useState(true);
-  const handleReaction = () => {
-    setIsReacted(!isReacted);
+  const [isReacted, setIsReacted] = useState(reactionId ? true : false);
+  const [initialCount, setInitialCount] = useState(reactionCount);
+  const [currentReactionId, setCurrentReactionId] = useState(reactionId);
+  const [hasToggled, setHasToggled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleReactionToggle = () => {
+    setIsReacted((prev) => {
+      const newValue = !prev;
+      setHasToggled(true);
+      return newValue;
+    });
   };
 
-  const handleCommentClicked = () => {
-    toggleComment();
+  const loadingState = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   };
 
   useEffect(() => {
-    if (initialRender) {
-      setInitialRender(false);
-      return;
-    }
+    if (!hasToggled) return;
 
-    const handleAsyncReaction = async () => {
+    const isReactionRequest = async () => {
+      setLoading(true);
       if (isReacted) {
-        const newId = await addReactionToPost(postId);
-        setNewReactionId(newId);
-        setChangingReactionCount((prevCount) => prevCount + 1);
+        const newReactionId = await addReactionToPost(postId);
+        setCurrentReactionId(newReactionId);
+        setInitialCount((prev) => (prev += 1));
       } else {
-        setNewReactionId((prevReactionId) => {
-          removeReactionFromPost(prevReactionId);
-          return prevReactionId;
-        });
-        setChangingReactionCount((prevCount) => prevCount - 1);
+        removeReactionFromPost(currentReactionId);
+        setInitialCount((prev) => (prev -= 1));
       }
+      loadingState();
     };
 
-    handleAsyncReaction();
-  }, [isReacted]);
+    isReactionRequest();
+  }, [isReacted, hasToggled]);
 
   return (
     <div className="flex text-sm w-full">
       <Button
         variant="contained"
         className={isReacted ? "active-reaction-button" : "reaction-button"}
-        onClick={handleReaction}
+        onClick={handleReactionToggle}
       >
         <div className="flex gap-1 items-center">
-          <Flame size={20} />
-          <div>
-            {changingReactionCount !== 0 && <div>{changingReactionCount}</div>}
-          </div>
+          {loading ? (
+            <CircularProgress size={20} />
+          ) : (
+            <>
+              <Flame size={20} />
+              {initialCount !== 0 && <div>{initialCount}</div>}
+            </>
+          )}
         </div>
       </Button>
       <Button
         variant="contained"
         className="reaction-button"
-        onClick={handleCommentClicked}
+        onClick={toggleComment}
       >
         <div className="flex gap-1 items-center">
-
-        <MessageCircle size={20} />
-        <div>{commentCount}</div>
+          <MessageCircle size={20} />
+          <div>{commentsCount}</div>
         </div>
       </Button>
       <Button variant="contained" className="reaction-button">

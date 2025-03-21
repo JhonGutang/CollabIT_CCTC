@@ -1,61 +1,26 @@
 import React, { useState } from "react";
-import { submitPost } from "@/services/postService";
 import { Button, IconButton } from "@mui/material";
 import { Video } from "lucide-react";
 import CustomSnackbar from "../Snackbar";
 import ImagesWithCloseButton from "../ImagesWithCloseButton";
 import ImageUpload from "../ImageUpload";
-import { FileContent } from "@/services/imageService";
-import { Post } from "@/types/post";
+import { Post, PostToSend } from "@/types/post";
+import { usePostActions } from "@/hooks/usePostActions";
 
-export interface PostToSend extends FileContent {
-  content?: string;
-}
-
-type ChildProps = {
+interface ChildProps {
   updatedPosts: (data: Post) => void;
 };
 
 const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
   const hasValue = (value?: string) => value?.trim() !== "";
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    state: "",
-  });
-
-  const [post, setPost] = useState<PostToSend>({
+  const [newPost, setPost] = useState<PostToSend>({
     content: "",
     image: undefined,
     imageLink: "",
     videoLink: "",
   });
 
-  const handlePost = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const newPost = await submitPost(post);
-      console.log(newPost);
-      setSnackbar({ open: true, message: "Post submitted successfully!", state: 'success' });
-      if(newPost) updatedPosts(newPost);
-      setPost({ content: "", image: undefined, imageLink: "", videoLink: "" });
-    } catch (error) {
-      console.error(error)
-      setSnackbar({
-        open: true,
-        message: "Failed to submit post. Please try again.",
-        state: 'error'
-      });
-    }
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
+  const { handleSubmission, handlePost, snackbar, handleCloseSnackbar } = usePostActions({newPost, setPost, updatedPosts});
 
   const handleRemoveImage = () => {
     setPost((prevPost) => ({ ...prevPost, imageLink: "" }));
@@ -70,7 +35,7 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
         <textarea
           name="content"
           id="content"
-          value={post.content}
+          value={newPost.content}
           onChange={handlePost}
           autoComplete="false"
           className="w-full bg-transparent border border-white-500 h-[8vh] p-3 mb-4 rounded-xl z-10"
@@ -92,11 +57,11 @@ const CreatePost: React.FC<ChildProps> = ({ updatedPosts }) => {
           </Button>
         </div>
       </form>
-      {hasValue(post.imageLink) && (
-        <ImagesWithCloseButton imageLink={post.imageLink ?? ""} onRemove={handleRemoveImage} />
+      {hasValue(newPost.imageLink) && (
+        <ImagesWithCloseButton imageLink={newPost.imageLink ?? ""} onRemove={handleRemoveImage} />
       )}
 
-      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} color={snackbar.state} />
+      <CustomSnackbar open={snackbar.open} message={snackbar.message} onClose={handleCloseSnackbar} color={snackbar.type} />
     </div>
   );
 };

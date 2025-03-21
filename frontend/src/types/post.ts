@@ -1,3 +1,4 @@
+import { FileContent } from "@/services/imageService";
 
 export interface Post {
   id: number;
@@ -30,3 +31,9 @@ export interface RawPost {
   comments_count: number;
   reaction_id: number;
 }
+
+
+export interface PostToSend extends FileContent {
+  content?: string;
+}
+
